@@ -78,7 +78,7 @@ export default function Hero() {
       </div>
 
       {/* Right Carousel Area (Sliding) */}
-      <div className="w-full lg:w-1/2 h-[50vh] lg:h-full min-h-[400px] lg:min-h-0 relative overflow-hidden">
+      <div className="w-full lg:w-1/2 h-[50vh] lg:h-full min-h-[400px] lg:min-h-0 relative overflow-hidden z-20 bg-cream">
         <AnimatePresence initial={false}>
           <motion.div
             key={currentState}

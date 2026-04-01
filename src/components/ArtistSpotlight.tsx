@@ -25,7 +25,7 @@ export default function ArtistSpotlight() {
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="w-full lg:w-1/2 h-[400px] sm:h-[500px] lg:h-full relative overflow-hidden"
+        className="w-full lg:w-1/2 h-[400px] sm:h-[500px] lg:h-full relative overflow-hidden z-20 bg-ivory"
       >
         <motion.img 
           src="/Jocelyn%20Maria%20Headshot1.jpg" 
