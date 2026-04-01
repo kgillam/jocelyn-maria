@@ -41,7 +41,7 @@ export default function FloatingOrderButton() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-ink/50 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 sm:px-12 pointer-events-auto"
+            className="fixed inset-0 z-[100] bg-ink/50 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 sm:px-12 pointer-events-auto"
             onClick={() => setIsOpen(false)}
           >
             {/* Modal Content */}
@@ -51,23 +51,23 @@ export default function FloatingOrderButton() {
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ duration: 0.3 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-ivory w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+              className="bg-ivory w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
             >
               {/* Header */}
-              <div className="bg-sage/10 p-6 relative flex-shrink-0">
+              <div className="bg-sage/10 p-4 md:p-6 relative flex-shrink-0">
                 <button 
                   onClick={() => setIsOpen(false)}
-                  className="absolute top-6 right-6 text-ink hover:text-olive transition-colors"
+                  className="absolute top-4 right-4 md:top-6 md:right-6 text-ink hover:text-olive transition-colors"
                 >
-                  <X className="w-6 h-6" strokeWidth={1.5} />
+                  <X className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
                 </button>
-                <h2 className="font-serif text-2xl text-ink text-center tracking-wide">Custom Commission</h2>
-                <p className="text-center font-sans text-xs text-ink/70 mt-2 uppercase tracking-widest">Submit a direct request</p>
+                <h2 className="font-serif text-xl md:text-2xl text-ink text-center tracking-wide">Custom Commission</h2>
+                <p className="text-center font-sans text-[10px] md:text-xs text-ink/70 mt-1 md:mt-2 uppercase tracking-widest">Submit a direct request</p>
               </div>
 
               {/* Form Body - Scrollable */}
-              <div className="p-8 overflow-y-auto custom-scrollbar">
-                <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="p-5 md:p-8 overflow-y-auto custom-scrollbar">
+                <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                   
                   {/* Name */}
                   <div>
@@ -76,7 +76,7 @@ export default function FloatingOrderButton() {
                       id="name"
                       placeholder="Your Full Name"
                       required
-                      className="w-full bg-transparent border-b border-sage/40 px-0 py-3 font-sans text-sm text-ink focus:outline-none focus:border-olive transition-colors placeholder:text-ink/40"
+                      className="w-full bg-transparent border-b border-sage/40 px-0 py-2 md:py-3 font-sans text-sm text-ink focus:outline-none focus:border-olive transition-colors placeholder:text-ink/40"
                     />
                   </div>
 
@@ -87,17 +87,17 @@ export default function FloatingOrderButton() {
                       id="phone"
                       placeholder="Phone Number"
                       required
-                      className="w-full bg-transparent border-b border-sage/40 px-0 py-3 font-sans text-sm text-ink focus:outline-none focus:border-olive transition-colors placeholder:text-ink/40"
+                      className="w-full bg-transparent border-b border-sage/40 px-0 py-2 md:py-3 font-sans text-sm text-ink focus:outline-none focus:border-olive transition-colors placeholder:text-ink/40"
                     />
                   </div>
 
                   {/* Grid for Dropdowns */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                     {/* Order Type */}
                     <div>
                       <select 
                         required
-                        className="w-full bg-transparent border-b border-sage/40 px-0 py-3 font-sans text-sm text-ink focus:outline-none focus:border-olive transition-colors appearance-none cursor-pointer"
+                        className="w-full bg-transparent border-b border-sage/40 px-0 py-2 md:py-3 font-sans text-sm text-ink focus:outline-none focus:border-olive transition-colors appearance-none cursor-pointer"
                         defaultValue=""
                       >
                         <option value="" disabled className="text-ink/40">Select Order Type</option>
@@ -113,7 +113,7 @@ export default function FloatingOrderButton() {
                     <div>
                       <select 
                         required
-                        className="w-full bg-transparent border-b border-sage/40 px-0 py-3 font-sans text-sm text-ink focus:outline-none focus:border-olive transition-colors appearance-none cursor-pointer"
+                        className="w-full bg-transparent border-b border-sage/40 px-0 py-2 md:py-3 font-sans text-sm text-ink focus:outline-none focus:border-olive transition-colors appearance-none cursor-pointer"
                         defaultValue=""
                       >
                         <option value="" disabled className="text-ink/40">Select Canvas Size</option>
@@ -126,27 +126,27 @@ export default function FloatingOrderButton() {
                   </div>
 
                   {/* Image Upload Area */}
-                  <div className="mt-6">
-                    <p className="font-sans text-xs uppercase tracking-widest text-ink/70 mb-3 block">Reference Photo</p>
-                    <label className="border border-dashed border-sage/60 rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:border-olive hover:bg-sage/5 transition-colors group">
-                      <div className="w-12 h-12 bg-cream rounded-full flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform">
+                  <div className="mt-4 md:mt-6">
+                    <p className="font-sans text-[10px] md:text-xs uppercase tracking-widest text-ink/70 mb-2 block">Reference Photo</p>
+                    <label className="border border-dashed border-sage/60 rounded-xl p-4 md:p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:border-olive hover:bg-sage/5 transition-colors group">
+                      <div className="w-10 h-10 md:w-12 md:h-12 bg-cream rounded-full flex items-center justify-center mb-2 md:mb-4 shadow-sm group-hover:scale-110 transition-transform">
                         <UploadCloud className="w-5 h-5 text-olive" strokeWidth={1.5} />
                       </div>
-                      <span className="font-sans text-sm text-ink/80 block mb-1">Click to upload your image</span>
-                      <span className="font-sans text-xs text-ink/50">PNG, JPG up to 10MB</span>
+                      <span className="font-sans text-xs md:text-sm text-ink/80 block mb-1">Click to upload your image</span>
+                      <span className="font-sans text-[10px] md:text-xs text-ink/50">PNG, JPG up to 10MB</span>
                       <input type="file" className="hidden" accept="image/*" />
                     </label>
                   </div>
 
                   {/* Submit */}
-                  <div className="pt-4">
+                  <div className="pt-2 md:pt-4">
                     <button 
                       type="submit"
-                      className="w-full bg-ink text-ivory py-4 uppercase font-serif tracking-widest text-sm hover:bg-olive transition-colors hover:shadow-lg"
+                      className="w-full bg-ink text-ivory py-3 md:py-4 uppercase font-serif tracking-widest text-xs md:text-sm hover:bg-olive transition-colors hover:shadow-lg"
                     >
                       Send Request
                     </button>
-                    <p className="text-center font-sans text-[10px] text-ink/50 mt-4">We will review your request and reach out shortly to confirm details and pricing.</p>
+                    <p className="text-center font-sans text-[10px] text-ink/50 mt-3 md:mt-4">We will review your request and reach out shortly to confirm details and pricing.</p>
                   </div>
                 </form>
               </div>
