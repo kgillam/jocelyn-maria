@@ -35,6 +35,7 @@ export default function Navbar() {
   ];
 
   return (
+    <>
     <motion.header 
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -93,6 +94,8 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+    </motion.header>
 
       {/* Global Slide-Out Menu */}
       <AnimatePresence>
@@ -158,6 +161,6 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
-    </motion.header>
+    </>
   );
 }
