@@ -100,7 +100,7 @@ function ProductCard({ product }: { product: Product; key?: React.Key }) {
         
         {/* Navigation Arrows */}
         {product.images.length > 1 && (
-          <div className="absolute inset-0 flex items-center justify-between px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+          <div className="absolute inset-0 flex items-center justify-between px-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 z-10">
             <button 
               onClick={handlePrev} 
               className="bg-white/80 hover:bg-white text-ink rounded-full p-1.5 shadow-sm transition-colors"
@@ -118,7 +118,7 @@ function ProductCard({ product }: { product: Product; key?: React.Key }) {
 
         {/* Dots */}
         {product.images.length > 1 && (
-          <div className="absolute bottom-16 left-0 right-0 flex justify-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+          <div className="absolute bottom-16 left-0 right-0 flex justify-center gap-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 z-10">
             {product.images.map((_, idx) => (
               <div 
                 key={idx} 

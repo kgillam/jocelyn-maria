@@ -51,7 +51,7 @@ export default function Navbar() {
           
           {/* Left: Global Hamburger Menu */}
           <div className="flex items-center w-1/4">
-            <button onClick={() => setMobileMenuOpen(true)} className="hover:text-olive transition-colors text-ink cursor-pointer drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+            <button onClick={() => setMobileMenuOpen(true)} className="relative z-[60] hover:text-olive transition-colors text-ink cursor-pointer drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
               <Menu className="w-6 h-6" />
             </button>
           </div>
@@ -75,11 +75,8 @@ export default function Navbar() {
           </div>
 
           {/* Right: Icons */}
-          <div className="flex items-center justify-end w-1/4 space-x-4 lg:space-x-6">
-            <button className="flex flex-col items-center group cursor-pointer drop-shadow-sm">
-              <Search className={`w-5 h-5 group-hover:text-olive transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`} strokeWidth={1.5} />
-              <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`}>Search</span>
-            </button>
+          <div className="flex items-center justify-end w-1/4 space-x-4 lg:space-x-6 relative z-[60]">
+
             <button className="flex flex-col items-center group cursor-pointer drop-shadow-sm">
               <User className={`w-5 h-5 group-hover:text-olive transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`} strokeWidth={1.5} />
               <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`}>Account</span>
