@@ -61,16 +61,19 @@ type Product = typeof allProducts[0];
 
 function ProductCard({ product }: { product: Product; key?: React.Key }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
+    setDirection(-1);
     setCurrentImageIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1));
   };
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
+    setDirection(1);
     setCurrentImageIndex((prev) => (prev === product.images.length - 1 ? 0 : prev + 1));
   };
 
@@ -84,16 +87,22 @@ function ProductCard({ product }: { product: Product; key?: React.Key }) {
       transition={{ duration: 0.4 }}
       className="group cursor-pointer flex flex-col"
     >
-      <div className="relative aspect-[4/3] mb-4">
-        <AnimatePresence mode="wait">
+      <div className="relative aspect-[4/3] mb-4 overflow-hidden rounded-sm">
+        <AnimatePresence initial={false} custom={direction}>
           <motion.img 
             key={currentImageIndex}
             src={product.images[currentImageIndex]} 
             alt={`${product.title} ${currentImageIndex + 1}`} 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            custom={direction}
+            variants={{
+              enter: (dir: number) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
+              center: { x: 0, opacity: 1 },
+              exit: (dir: number) => ({ x: dir < 0 ? '100%' : '-100%', opacity: 0 })
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ type: "tween", duration: 0.4, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 drop-shadow-lg"
           />
         </AnimatePresence>
