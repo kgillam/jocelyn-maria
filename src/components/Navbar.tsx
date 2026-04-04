@@ -37,10 +37,10 @@ export default function Navbar() {
   return (
     <>
     <motion.header 
-      initial={{ opacity: 0, y: -20 }}
+      initial={{ opacity: 0, y: -100 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.5, delay: 2.2, ease: "easeInOut" }}
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-cream/95 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}
+      transition={{ duration: 2.0, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed w-full top-0 z-50 transition-colors duration-500 ${isScrolled ? 'bg-cream/95 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}
     >
       {/* Top Banner */}
       <div className="bg-sage text-ivory text-center py-2 text-xs tracking-widest font-serif uppercase">
