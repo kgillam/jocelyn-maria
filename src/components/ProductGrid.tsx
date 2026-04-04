@@ -26,7 +26,7 @@ const allProducts = [
       '/watercolorwhitehome.png'
     ],
     category: 'Watercolor Houses',
-    type: 'Custom House Portraits'
+    type: 'Custom'
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ const allProducts = [
       '/portraitmom&kidsreading.png'
     ],
     category: 'Portraits',
-    type: 'Custom Portrait'
+    type: 'Custom'
   },
   {
     id: 4,
