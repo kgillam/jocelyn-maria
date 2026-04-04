@@ -48,8 +48,8 @@ export const allProducts = [
     title: "Custom Portraits",
     price: '$30.00',
     images: [
-      '/momanddaughterportrait.png',
       '/girlsontripportrait.png',
+      '/momanddaughterportrait.png',
       '/girlsatcampportrait.png',
       '/girlsatpromportrait.png',
       '/momandgirlsportrait.png',
