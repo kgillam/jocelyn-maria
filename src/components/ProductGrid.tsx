@@ -156,11 +156,27 @@ function ProductCard({ product }: { product: Product; key?: React.Key }) {
 }
 
 export default function ProductGrid() {
-  const [selectedCategory, setSelectedCategory] = useState('All Shop');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['All Shop']);
 
-  const filteredProducts = selectedCategory === 'All Shop' 
+  const toggleCategory = (item: string) => {
+    if (item === 'All Shop') {
+      setSelectedCategories(['All Shop']);
+    } else {
+      setSelectedCategories(prev => {
+        const withoutAll = prev.filter(c => c !== 'All Shop');
+        if (withoutAll.includes(item)) {
+          const curr = withoutAll.filter(c => c !== item);
+          return curr.length === 0 ? ['All Shop'] : curr;
+        } else {
+          return [...withoutAll, item];
+        }
+      });
+    }
+  };
+
+  const filteredProducts = selectedCategories.includes('All Shop') 
     ? allProducts 
-    : allProducts.filter(p => p.category === selectedCategory);
+    : allProducts.filter(p => selectedCategories.includes(p.category));
 
   return (
     <section className="py-24 bg-cream" id="collection">
@@ -191,17 +207,17 @@ export default function ProductGrid() {
                     <label key={item} className="flex items-center space-x-3 cursor-pointer group">
                       <div className="relative flex items-center justify-center">
                         <input 
-                          type="radio" 
+                          type="checkbox" 
                           name="category"
-                          checked={selectedCategory === item}
-                          onChange={() => setSelectedCategory(item)}
+                          checked={selectedCategories.includes(item)}
+                          onChange={() => toggleCategory(item)}
                           className="peer sr-only" 
                         />
-                        <div className="w-4 h-4 border border-sage/60 rounded-full bg-transparent peer-checked:border-olive peer-checked:bg-olive transition-colors flex items-center justify-center">
-                          <div className="w-1.5 h-1.5 bg-white rounded-full opacity-0 peer-checked:opacity-100 transition-opacity" />
+                        <div className="w-4 h-4 border border-sage/60 rounded-sm bg-transparent peer-checked:border-olive peer-checked:bg-olive transition-colors flex items-center justify-center">
+                          <div className="w-2 h-2 bg-white rounded-sm opacity-0 peer-checked:opacity-100 transition-opacity" />
                         </div>
                       </div>
-                      <span className={`text-sm font-sans transition-colors ${selectedCategory === item ? 'text-olive font-medium' : 'text-ink/70 group-hover:text-ink'}`}>
+                      <span className={`text-sm font-sans transition-colors ${selectedCategories.includes(item) ? 'text-olive font-medium' : 'text-ink/70 group-hover:text-ink'}`}>
                         {item}
                       </span>
                     </label>
