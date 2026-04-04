@@ -15,23 +15,12 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Originals', href: '#' },
-    { 
-      name: 'Prints', 
-      href: '#',
-      dropdown: ['Giclee', 'Open Edition', 'Framed']
-    },
-    { 
-      name: 'Cards & Gifts', 
-      href: '#',
-      dropdown: ['Notecards', 'Holiday Cards', 'Custom Stationery']
-    },
-    { 
-      name: 'Commissions', 
-      href: '#',
-      dropdown: ['House Portraits', 'Custom Requests']
-    },
-    { name: 'About & Contact', href: '#' },
+    { name: 'Home', href: '#' },
+    { name: 'Meet The Artist', href: '#' },
+    { name: 'Shop', href: '#' },
+    { name: 'Custom Commissions', href: '#' },
+    { name: 'Gallery', href: '#' },
+    { name: 'Contact', href: '#' },
   ];
 
   return (
@@ -136,15 +125,6 @@ export default function Navbar() {
                       <a href={link.href} className="block font-serif text-lg tracking-wider uppercase text-ink hover:text-olive transition-colors">
                         {link.name}
                       </a>
-                      {link.dropdown && (
-                        <div className="pl-4 mt-3 space-y-3 border-l-2 border-sage/30">
-                          {link.dropdown.map((item) => (
-                            <a key={item} href="#" className="block font-sans text-sm tracking-wide text-ink/70 hover:text-olive transition-colors">
-                              {item}
-                            </a>
-                          ))}
-                        </div>
-                      )}
                     </div>
                   ))}
                 </div>
