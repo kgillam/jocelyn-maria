@@ -45,7 +45,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 3.3, ease: "easeOut" }}
+          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
           className="w-full flex justify-center"
         >
           <motion.div 
@@ -58,7 +58,8 @@ export default function Hero() {
             className="w-20 md:w-24 h-auto opacity-50 mb-2"
           />
           
-          <img 
+          <motion.img 
+            layoutId="signature"
             src="/jocelynmariasignature.png" 
             alt="Jocelyn Maria" 
             className="w-[75%] sm:w-[85%] md:w-[80%] h-auto object-contain opacity-90 my-2 origin-center"
