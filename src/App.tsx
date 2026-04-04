@@ -5,6 +5,8 @@ import Footer from './components/Footer';
 import FloatingOrderButton from './components/FloatingOrderButton';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
+import Contact from './pages/Contact';
+import Gallery from './pages/Gallery';
 
 export default function App() {
   return (
@@ -14,6 +16,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
         <Footer />
         <FloatingOrderButton />

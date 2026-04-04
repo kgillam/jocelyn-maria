@@ -3,33 +3,33 @@ export const allProducts = [
     id: 1,
     title: "Blueberry Botanical Card",
     price: '$8.00',
-    images: ['/cardblueberry.png'],
+    images: ['/cardblueberryproduct.png?v=4'],
     category: 'Cards',
-    type: 'Notecard'
+    type: 'Greeting Card'
   },
   {
     id: 101,
     title: "Lavender Botanical Card",
     price: '$8.00',
-    images: ['/cardlavender.png'],
+    images: ['/cardlavenderproduct.png?v=4'],
     category: 'Cards',
-    type: 'Notecard'
+    type: 'Greeting Card'
   },
   {
     id: 102,
     title: "Margaritas Card",
     price: '$8.00',
-    images: ['/cardmargaritas.png'],
+    images: ['/cardmargaritasproduct.png?v=4'],
     category: 'Cards',
-    type: 'Notecard'
+    type: 'Greeting Card'
   },
   {
     id: 103,
     title: "Mother's Day Card",
     price: '$8.00',
-    images: ['/cardmothersday.png'],
+    images: ['/cardmothersdayproduct.png?v=4'],
     category: 'Cards',
-    type: 'Notecard'
+    type: 'Greeting Card'
   },
   {
     id: 2,
@@ -48,12 +48,12 @@ export const allProducts = [
     title: "Custom Portraits",
     price: '$30.00',
     images: [
-      '/portraitgirlsontrip.png',
-      '/portrait mom&daughter.png',
-      '/portraitgirlscamp.png',
-      '/portraitgirlsatprom.png',
-      '/portraitmom&daughters.png',
-      '/portraitmom&kidsreading.png'
+      '/momanddaughterportrait.png',
+      '/girlsontripportrait.png',
+      '/girlsatcampportrait.png',
+      '/girlsatpromportrait.png',
+      '/momandgirlsportrait.png',
+      '/momandkidsreadingportrait.png'
     ],
     category: 'Portraits',
     type: 'Custom'

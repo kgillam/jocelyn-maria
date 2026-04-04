@@ -7,7 +7,7 @@ export default function Footer() {
 
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-8">
 
           {/* Brand Column */}
           <div className="lg:col-span-1">
@@ -53,15 +53,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-serif text-lg text-ink mb-6 uppercase tracking-wider">Wholesale</h4>
-            <ul className="space-y-3 font-serif text-ink/80">
-              <li><a href="#" className="hover:text-olive transition-colors">Apply</a></li>
-              <li><a href="#" className="hover:text-olive transition-colors">Login</a></li>
-              <li><a href="#" className="hover:text-olive transition-colors uppercase tracking-widest text-xs">Stockists</a></li>
-              <li><a href="#" className="hover:text-olive transition-colors">Holiday Bulk Ordering</a></li>
-            </ul>
-          </div>
+
         </div>
       </div>
 

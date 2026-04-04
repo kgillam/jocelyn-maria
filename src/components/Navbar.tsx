@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Search, User, ShoppingCart, ChevronDown, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+  
+  const iconColorClass = isHomePage ? (isScrolled ? 'text-ink' : 'text-ink md:text-white') : 'text-ink';
+  const shadowClass = isHomePage ? 'drop-shadow-sm' : '';
+  const menuShadowClass = isHomePage ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : '';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,11 +23,11 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Meet The Artist', href: '/' },
     { name: 'Shop', href: '/shop' },
     { name: 'Custom Commissions', href: '/' },
-    { name: 'Gallery', href: '/' },
-    { name: 'Contact', href: '/' },
+    { name: 'Meet The Artist', href: '/' },
+    { name: 'Gallery', href: '/gallery' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -42,7 +48,7 @@ export default function Navbar() {
 
             {/* Left: Global Hamburger Menu */}
             <div className="flex items-center w-1/4">
-              <button onClick={() => setMobileMenuOpen(true)} className="relative z-[60] hover:text-olive transition-colors text-ink cursor-pointer drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+              <button onClick={() => setMobileMenuOpen(true)} className={`relative z-[60] hover:text-olive transition-colors text-ink cursor-pointer ${menuShadowClass}`}>
                 <Menu className="w-6 h-6" />
               </button>
             </div>
@@ -67,18 +73,18 @@ export default function Navbar() {
             {/* Right: Icons */}
             <div className="flex items-center justify-end w-1/4 space-x-4 lg:space-x-6 relative z-[60]">
 
-              <button className="flex flex-col items-center group cursor-pointer drop-shadow-sm">
-                <User className={`w-5 h-5 group-hover:text-olive transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`} strokeWidth={1.5} />
-                <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`}>Account</span>
+              <button className={`flex flex-col items-center group cursor-pointer ${shadowClass}`}>
+                <User className={`w-5 h-5 group-hover:text-olive transition-colors ${iconColorClass}`} strokeWidth={1.5} />
+                <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${iconColorClass}`}>Account</span>
               </button>
-              <button className="flex flex-col items-center group relative cursor-pointer drop-shadow-sm">
+              <button className={`flex flex-col items-center group relative cursor-pointer ${shadowClass}`}>
                 <div className="relative">
-                  <ShoppingCart className={`w-5 h-5 group-hover:text-olive transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`} strokeWidth={1.5} />
+                  <ShoppingCart className={`w-5 h-5 group-hover:text-olive transition-colors ${iconColorClass}`} strokeWidth={1.5} />
                   <span className="absolute -top-1 -right-2 bg-blush text-ink text-[9px] font-bold px-1.5 py-0.5 rounded-full z-10">
                     3
                   </span>
                 </div>
-                <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`}>Cart</span>
+                <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${iconColorClass}`}>Cart</span>
               </button>
             </div>
           </div>
