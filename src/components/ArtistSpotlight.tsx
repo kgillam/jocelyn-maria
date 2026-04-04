@@ -44,13 +44,9 @@ export default function ArtistSpotlight() {
         className="w-full lg:w-1/2 flex flex-col justify-center px-8 sm:px-16 lg:px-24 py-16 lg:py-0 text-center z-10"
       >
         <motion.div style={{ opacity: textOpacity, y: textY }} className="max-w-xl mx-auto flex flex-col items-center text-center">
-          <span className="font-serif tracking-[0.2em] uppercase text-xs text-olive/80 mb-4 block">
+          <span className="font-serif tracking-[0.2em] uppercase text-xs text-olive/80 mb-8 block">
             Artist Spotlight
           </span>
-          
-          <div className="mb-8 flex justify-center mt-2">
-            <img src="/jocelynmariasignature.png" alt="Jocelyn Maria" className="h-16 md:h-20 lg:h-24 w-auto object-contain drop-shadow-sm opacity-90" />
-          </div>
 
           <div className="space-y-6 font-sans text-ink/70 leading-relaxed mb-10 text-sm md:text-base px-2">
             <p>
