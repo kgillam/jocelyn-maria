@@ -2,13 +2,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-sage: #8A9A86;
-  --color-olive: #5A6B54;
+  --color-sage: #0a0248;
+  --color-olive: #0a0248;
   --color-blush: #E2C4C0;
   --color-cream: #F5F2EB;
   --color-ivory: #FFFFF0;
   --color-gold: #D4AF37;
-  --color-ink: #2C3528;
+  --color-ink: #0a0248;
 
   --font-serif: 'Cormorant Garamond', serif;
   --font-sans: 'Inter', sans-serif;

@@ -4,12 +4,22 @@ import { Camera, Palette, Maximize, CheckCircle2, User } from 'lucide-react';
 
 export default function CustomCommissions() {
   const [step, setStep] = useState(1);
-
-  const galleryImages = [
+  const [images, setImages] = useState([
     '/watercolorredbrickhome.png',
     '/watercolorbrickhome.png',
     '/watercolorwhitehome.png'
-  ];
+  ]);
+
+  const handleImageSwap = (clickedIndex: number) => {
+    if (clickedIndex === 0) return;
+    setImages(prev => {
+      const newArr = [...prev];
+      const temp = newArr[0];
+      newArr[0] = newArr[clickedIndex];
+      newArr[clickedIndex] = temp;
+      return newArr;
+    });
+  };
 
   return (
     <section className="py-24 bg-ivory overflow-hidden">
@@ -23,32 +33,41 @@ export default function CustomCommissions() {
           
           {/* Left: Floating Gallery */}
           <div className="relative h-[400px] md:h-[500px] w-full flex items-center justify-center group perspective-1000 order-2">
-             {/* Secondary Portrait 1 */}
-             <motion.img 
-               src={galleryImages[1]} 
-               alt="House Portrait Feature 2" 
-               className="w-[75%] h-auto object-contain drop-shadow-xl absolute top-4 md:top-8 left-0 md:-left-4 z-10 opacity-70 blur-[1px] group-hover:blur-none hover:!opacity-100 hover:!z-30 transition-all duration-700 cursor-pointer"
-               animate={{ y: [10, -10, 10] }}
-               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-             />
-             
-             {/* Secondary Portrait 2 */}
-             <motion.img 
-               src={galleryImages[2]} 
-               alt="House Portrait Feature 3" 
-               className="w-[75%] h-auto object-contain drop-shadow-xl absolute bottom-4 md:bottom-8 right-0 md:-right-4 z-10 opacity-70 blur-[1px] group-hover:blur-none hover:!opacity-100 hover:!z-30 transition-all duration-700 cursor-pointer"
-               animate={{ y: [-8, 8, -8] }}
-               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-             />
+             {images.map((src, index) => {
+               const isMain = index === 0;
+               const isSec1 = index === 1;
+               
+               let className = "";
+               let animY = [];
+               let trans: any = {};
 
-             {/* Main Portrait */}
-             <motion.img 
-               src={galleryImages[0]} 
-               alt="House Portrait Main Feature" 
-               className="w-[80%] h-auto object-contain drop-shadow-2xl absolute z-20 hover:scale-105 transition-transform duration-500 cursor-pointer"
-               animate={{ y: [-15, 15, -15] }}
-               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-             />
+               if (isMain) {
+                 className = "w-[80%] h-auto object-contain drop-shadow-2xl absolute z-20 hover:scale-105 transition-transform duration-500 cursor-pointer";
+                 animY = [-15, 15, -15];
+                 trans = { duration: 8, repeat: Infinity, ease: "easeInOut", layout: { duration: 0.6, ease: "circOut" } };
+               } else if (isSec1) {
+                 className = "w-[75%] h-auto object-contain drop-shadow-xl absolute top-4 md:top-8 left-0 md:-left-4 z-10 opacity-70 blur-[1px] group-hover:blur-none hover:!opacity-100 hover:!z-30 transition-all duration-700 cursor-pointer";
+                 animY = [10, -10, 10];
+                 trans = { duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1, layout: { duration: 0.6, ease: "circOut" } };
+               } else {
+                 className = "w-[75%] h-auto object-contain drop-shadow-xl absolute bottom-4 md:bottom-8 right-0 md:-right-4 z-10 opacity-70 blur-[1px] group-hover:blur-none hover:!opacity-100 hover:!z-30 transition-all duration-700 cursor-pointer";
+                 animY = [-8, 8, -8];
+                 trans = { duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2, layout: { duration: 0.6, ease: "circOut" } };
+               }
+
+               return (
+                 <motion.img 
+                   key={src}
+                   layout
+                   onClick={() => handleImageSwap(index)}
+                   src={src} 
+                   alt={`House Portrait ${index}`} 
+                   className={className}
+                   animate={{ y: animY }}
+                   transition={trans}
+                 />
+               );
+             })}
           </div>
 
           {/* Right: Interactive Booking Visual */}
@@ -140,7 +159,7 @@ export default function CustomCommissions() {
                     className="text-center absolute w-full"
                   >
                     <div className="relative w-48 h-48 mx-auto mb-6">
-                      <img src={galleryImages[0]} alt="Completed Portrait" className="w-full h-full object-contain drop-shadow-xl" />
+                      <img src={images[0]} alt="Completed Portrait" className="w-full h-full object-contain drop-shadow-xl" />
                       <motion.div 
                         animate={{ rotate: [-5, 5, -5], scale: [1, 1.1, 1] }}
                         transition={{ repeat: Infinity, duration: 3 }}

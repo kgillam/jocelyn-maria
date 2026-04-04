@@ -52,12 +52,7 @@ export default function Hero() {
             style={{ opacity: textOpacity, y: textY }}
             className="max-w-md md:max-w-lg lg:max-w-xl flex flex-col items-center text-center space-y-4 md:space-y-6 mx-auto"
           >
-          <img 
-            src="/jocelynmarialogo.png" 
-            alt="Jocelyn Maria Logo" 
-            className="w-20 md:w-24 h-auto opacity-50 mb-2"
-          />
-          
+
           <motion.img 
             layoutId="signature"
             src="/jocelynmariasignature.png" 

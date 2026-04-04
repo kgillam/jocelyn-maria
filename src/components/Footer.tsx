@@ -4,25 +4,6 @@ import { Instagram, Facebook, ArrowRight } from 'lucide-react';
 export default function Footer() {
   return (
     <footer className="bg-cream pt-0 border-t border-sage/20">
-      {/* Newsletter Banner */}
-      <div className="bg-sage/10 py-16 px-4 text-center">
-        <div className="max-w-2xl mx-auto">
-          <h3 className="font-serif text-2xl md:text-3xl text-ink mb-4 uppercase tracking-widest">Letters From The Studio</h3>
-          <p className="font-sans text-ink/70 mb-8 text-sm">
-            Subscribe for 15% off your first purchase, early access to collections, and our freebie library.
-          </p>
-          <form className="flex flex-col sm:flex-row max-w-md mx-auto gap-2">
-            <input 
-              type="email" 
-              placeholder="Your email address" 
-              className="flex-1 bg-transparent border border-sage/40 px-4 py-3 font-sans text-sm focus:outline-none focus:border-olive placeholder-ink/40"
-            />
-            <button type="submit" className="bg-ink text-ivory px-6 py-3 font-serif uppercase tracking-widest text-xs hover:bg-olive transition-colors flex items-center justify-center">
-              Subscribe <ArrowRight className="w-4 h-4 ml-2" />
-            </button>
-          </form>
-        </div>
-      </div>
 
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
