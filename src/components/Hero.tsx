@@ -42,39 +42,48 @@ export default function Hero() {
     <div ref={containerRef} className="relative min-h-screen flex flex-col lg:flex-row lg:h-screen w-full overflow-hidden bg-cream">
       {/* Left Content Area (Static) */}
       <div className="w-full lg:w-1/2 min-h-[60vh] lg:min-h-0 lg:h-full flex flex-col justify-center px-4 sm:px-16 lg:px-24 pt-32 lg:pt-0 pb-16 lg:pb-0 relative z-10 text-ink bg-cream border-b lg:border-b-0 border-sage/10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
-          className="w-full flex justify-center"
-        >
+        <div className="w-full flex justify-center">
           <motion.div 
             style={{ opacity: textOpacity, y: textY }}
-            className="max-w-md md:max-w-lg lg:max-w-xl flex flex-col items-center text-center space-y-4 md:space-y-6 mx-auto"
+            className="max-w-md md:max-w-lg lg:max-w-xl flex flex-col items-center text-center mx-auto"
           >
 
           <motion.img 
-            layoutId="signature"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.1, ease: "easeOut" }}
             src="/jocelynmariasignature.png" 
             alt="Jocelyn Maria" 
             className="w-[75%] sm:w-[85%] md:w-[80%] h-auto object-contain opacity-90 my-2 origin-center"
           />
           
-          <div className="w-16 h-px bg-sage/60"></div>
-          
-          <p className="font-sans text-ink/70 text-sm md:text-base leading-relaxed px-4">
-            Exquisite watercolor paintings, custom family portrait commissions, and beautifully crafted greeting cards.
-          </p>
-          
-          <button className="mt-4 px-8 py-4 bg-ink text-ivory hover:bg-olive font-serif tracking-widest text-sm uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:scale-105">
-            EXPLORE ORIGINAL WORKS
-          </button>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0, delay: 1.5, ease: "easeOut" }}
+            className="flex flex-col items-center w-full space-y-4 md:space-y-6 mt-6"
+          >
+            <div className="w-16 h-px bg-sage/60"></div>
+            
+            <p className="font-sans text-ink/70 text-sm md:text-base leading-relaxed px-4">
+              Exquisite watercolor paintings, custom family portrait commissions, and beautifully crafted greeting cards.
+            </p>
+            
+            <button className="mt-4 px-8 py-4 bg-ink text-ivory hover:bg-olive font-serif tracking-widest text-sm uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:scale-105">
+              EXPLORE ORIGINAL WORKS
+            </button>
           </motion.div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
 
       {/* Right Carousel Area (Sliding) */}
-      <div className="w-full lg:w-1/2 h-[50vh] lg:h-full min-h-[400px] lg:min-h-0 relative overflow-hidden z-20 bg-cream">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.0, delay: 1.5, ease: "easeOut" }}
+        className="w-full lg:w-1/2 h-[50vh] lg:h-full min-h-[400px] lg:min-h-0 relative overflow-hidden z-20 bg-cream"
+      >
         <AnimatePresence initial={false}>
           <motion.div
             key={currentState}
@@ -104,7 +113,7 @@ export default function Hero() {
             />
           ))}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
