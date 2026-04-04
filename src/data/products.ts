@@ -1,16 +1,35 @@
 export const allProducts = [
   {
     id: 1,
-    title: "Cards Collection",
-    price: '$8.00+',
-    images: [
-      '/cardblueberry.png',
-      '/cardlavender.png',
-      '/cardmargaritas.png',
-      '/cardmothersday.png'
-    ],
+    title: "Blueberry Botanical Card",
+    price: '$8.00',
+    images: ['/cardblueberry.png'],
     category: 'Cards',
-    type: 'Cards (Multiple Variations)'
+    type: 'Notecard'
+  },
+  {
+    id: 101,
+    title: "Lavender Botanical Card",
+    price: '$8.00',
+    images: ['/cardlavender.png'],
+    category: 'Cards',
+    type: 'Notecard'
+  },
+  {
+    id: 102,
+    title: "Margaritas Card",
+    price: '$8.00',
+    images: ['/cardmargaritas.png'],
+    category: 'Cards',
+    type: 'Notecard'
+  },
+  {
+    id: 103,
+    title: "Mother's Day Card",
+    price: '$8.00',
+    images: ['/cardmothersday.png'],
+    category: 'Cards',
+    type: 'Notecard'
   },
   {
     id: 2,
