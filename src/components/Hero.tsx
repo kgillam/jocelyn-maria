@@ -41,7 +41,7 @@ export default function Hero() {
   return (
     <div ref={containerRef} className="relative min-h-screen flex flex-col lg:flex-row lg:h-screen w-full overflow-hidden bg-cream">
       {/* Left Content Area (Static) */}
-      <div className="w-full lg:w-1/2 min-h-[60vh] lg:min-h-0 lg:h-full flex flex-col justify-center px-4 sm:px-16 lg:px-24 pt-32 lg:pt-0 pb-16 lg:pb-0 relative z-10 text-ink bg-cream border-b lg:border-b-0 border-sage/10">
+      <div className="w-full lg:w-1/2 min-h-[60vh] lg:min-h-0 lg:h-full flex flex-col justify-center px-4 sm:px-16 lg:px-24 pt-32 lg:pt-0 pb-16 lg:pb-0 relative z-10 text-ink bg-cream">
         <div className="w-full flex justify-center">
           <motion.div 
             style={{ opacity: textOpacity, y: textY }}
@@ -51,7 +51,7 @@ export default function Hero() {
           <motion.img 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.1, ease: "easeOut" }}
+            transition={{ duration: 2.0, delay: 0.2, ease: "easeInOut" }}
             src="/jocelynmariasignature.png" 
             alt="Jocelyn Maria" 
             className="w-[75%] sm:w-[85%] md:w-[80%] h-auto object-contain opacity-90 my-2 origin-center"
@@ -60,7 +60,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.0, delay: 1.5, ease: "easeOut" }}
+            transition={{ duration: 1.5, delay: 2.2, ease: "easeInOut" }}
             className="flex flex-col items-center w-full space-y-4 md:space-y-6 mt-6"
           >
             <div className="w-16 h-px bg-sage/60"></div>
@@ -81,8 +81,8 @@ export default function Hero() {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.0, delay: 1.5, ease: "easeOut" }}
-        className="w-full lg:w-1/2 h-[50vh] lg:h-full min-h-[400px] lg:min-h-0 relative overflow-hidden z-20 bg-cream"
+        transition={{ duration: 1.5, delay: 2.2, ease: "easeInOut" }}
+        className="w-full lg:w-1/2 h-[50vh] lg:h-full min-h-[400px] lg:min-h-0 relative overflow-hidden z-20 bg-cream border-t lg:border-t-0 border-sage/10"
       >
         <AnimatePresence initial={false}>
           <motion.div
