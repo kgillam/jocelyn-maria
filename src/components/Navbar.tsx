@@ -25,82 +25,81 @@ export default function Navbar() {
 
   return (
     <>
-    <motion.header 
-      initial={{ opacity: 0, y: -100 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 2.0, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed w-full top-0 z-50 transition-colors duration-500 ${isScrolled ? 'bg-cream/95 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}
-    >
-      {/* Top Banner */}
-      <div className="bg-sage text-ivory text-center py-2 text-xs tracking-widest font-serif uppercase">
-        FREE SHIPPING ON ORDERS OVER $100+ & HOLIDAY COLLECTION PRE-SALE IS LIVE
-      </div>
+      <motion.header
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 2.0, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed w-full top-0 z-50 transition-colors duration-500 ${isScrolled ? 'bg-cream/95 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}
+      >
+        {/* Top Banner */}
+        <div className="bg-sage text-ivory text-center py-2 text-xs tracking-widest font-serif uppercase">
+          FREE SHIPPING ON ORDERS OVER $100+ & HOLIDAY COLLECTION PRE-SALE IS LIVE
+        </div>
 
-      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12">
-        <div className="flex justify-between items-center h-20 relative">
-          
-          {/* Left: Global Hamburger Menu */}
-          <div className="flex items-center w-1/4">
-            <button onClick={() => setMobileMenuOpen(true)} className="relative z-[60] hover:text-olive transition-colors text-ink cursor-pointer drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
-              <Menu className="w-6 h-6" />
-            </button>
-          </div>
+        <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12">
+          <div className="flex justify-between items-center h-20 relative">
 
-          {/* Center: Logo (Visible only when scrolled) */}
-          <div className="flex-shrink-0 flex items-center justify-center pointer-events-none">
-            <a 
-              href="#" 
-              className={`absolute top-1/2 left-1/2 z-50 transition-all duration-500 ease-out transform ${
-                isScrolled 
-                  ? 'opacity-100 -translate-x-1/2 -translate-y-1/2 pointer-events-auto' 
-                  : 'opacity-0 -translate-x-1/2 -translate-y-[80%] pointer-events-none'
-              }`}
-            >
-              <img 
-                src="/jocelynmariasignature.png" 
-                alt="Jocelyn Maria" 
-                className="h-10 md:h-12 mt-1 w-auto object-contain drop-shadow-sm opacity-90 hover:opacity-100 transition-opacity duration-300" 
-              />
-            </a>
-          </div>
+            {/* Left: Global Hamburger Menu */}
+            <div className="flex items-center w-1/4">
+              <button onClick={() => setMobileMenuOpen(true)} className="relative z-[60] hover:text-olive transition-colors text-ink cursor-pointer drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+                <Menu className="w-6 h-6" />
+              </button>
+            </div>
 
-          {/* Right: Icons */}
-          <div className="flex items-center justify-end w-1/4 space-x-4 lg:space-x-6 relative z-[60]">
+            {/* Center: Logo (Visible only when scrolled) */}
+            <div className="flex-shrink-0 flex items-center justify-center pointer-events-none">
+              <a
+                href="#"
+                className={`absolute top-1/2 left-1/2 z-50 transition-all duration-500 ease-out transform ${isScrolled
+                    ? 'opacity-100 -translate-x-1/2 -translate-y-1/2 pointer-events-auto'
+                    : 'opacity-0 -translate-x-1/2 -translate-y-[80%] pointer-events-none'
+                  }`}
+              >
+                <img
+                  src="/jocelynmariasignature.png"
+                  alt="Jocelyn Maria"
+                  className="h-10 md:h-12 mt-1 w-auto object-contain drop-shadow-sm opacity-90 hover:opacity-100 transition-opacity duration-300"
+                />
+              </a>
+            </div>
 
-            <button className="flex flex-col items-center group cursor-pointer drop-shadow-sm">
-              <User className={`w-5 h-5 group-hover:text-olive transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`} strokeWidth={1.5} />
-              <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`}>Account</span>
-            </button>
-            <button className="flex flex-col items-center group relative cursor-pointer drop-shadow-sm">
-              <div className="relative">
-                <ShoppingCart className={`w-5 h-5 group-hover:text-olive transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`} strokeWidth={1.5} />
-                <span className="absolute -top-1 -right-2 bg-blush text-ink text-[9px] font-bold px-1.5 py-0.5 rounded-full z-10">
-                  3
-                </span>
-              </div>
-              <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`}>Cart</span>
-            </button>
+            {/* Right: Icons */}
+            <div className="flex items-center justify-end w-1/4 space-x-4 lg:space-x-6 relative z-[60]">
+
+              <button className="flex flex-col items-center group cursor-pointer drop-shadow-sm">
+                <User className={`w-5 h-5 group-hover:text-olive transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`} strokeWidth={1.5} />
+                <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`}>Account</span>
+              </button>
+              <button className="flex flex-col items-center group relative cursor-pointer drop-shadow-sm">
+                <div className="relative">
+                  <ShoppingCart className={`w-5 h-5 group-hover:text-olive transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`} strokeWidth={1.5} />
+                  <span className="absolute -top-1 -right-2 bg-blush text-ink text-[9px] font-bold px-1.5 py-0.5 rounded-full z-10">
+                    3
+                  </span>
+                </div>
+                <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${isScrolled ? 'text-ink' : 'text-ink md:text-white'}`}>Cart</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-    </motion.header>
+      </motion.header>
 
       {/* Global Slide-Out Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
             {/* Backdrop */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
               className="fixed inset-0 bg-ink/40 backdrop-blur-sm z-[60]"
             />
-            
+
             {/* Drawer */}
-            <motion.div 
+            <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
