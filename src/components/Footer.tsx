@@ -8,13 +8,13 @@ export default function Footer() {
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          
+
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <img 
               src="/jocelynmariasignature.png" 
               alt="Jocelyn Maria Logo" 
-              className="h-10 md:h-12 w-auto object-contain mb-8 opacity-90 drop-shadow-sm"
+              className="h-14 md:h-16 w-auto object-contain mb-4 opacity-90 drop-shadow-sm"
             />
             <p className="font-sans text-sm text-ink/70 mb-6 leading-relaxed">
               Fine art originals, prints, and paper goods inspired by nature, created with care in our sunlit studio.

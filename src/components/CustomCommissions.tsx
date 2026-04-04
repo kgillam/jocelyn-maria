@@ -42,15 +42,15 @@ export default function CustomCommissions() {
                let trans: any = {};
 
                if (isMain) {
-                 className = "w-[80%] h-auto object-contain drop-shadow-2xl absolute z-20 hover:scale-105 transition-transform duration-500 cursor-pointer";
+                 className = "w-[80%] h-auto object-contain drop-shadow-2xl absolute z-20 hover:scale-105 transition-transform duration-500 cursor-pointer transform-gpu";
                  animY = [-15, 15, -15];
                  trans = { duration: 8, repeat: Infinity, ease: "easeInOut", layout: { duration: 0.6, ease: "circOut" } };
                } else if (isSec1) {
-                 className = "w-[75%] h-auto object-contain drop-shadow-xl absolute top-4 md:top-8 left-0 md:-left-4 z-10 opacity-70 blur-[1px] group-hover:blur-none hover:!opacity-100 hover:!z-30 transition-all duration-700 cursor-pointer";
+                 className = "w-[75%] h-auto object-contain drop-shadow-xl absolute top-4 md:top-8 left-0 md:-left-4 z-10 opacity-70 hover:!opacity-100 hover:!z-30 transition-all duration-700 cursor-pointer transform-gpu";
                  animY = [10, -10, 10];
                  trans = { duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1, layout: { duration: 0.6, ease: "circOut" } };
                } else {
-                 className = "w-[75%] h-auto object-contain drop-shadow-xl absolute bottom-4 md:bottom-8 right-0 md:-right-4 z-10 opacity-70 blur-[1px] group-hover:blur-none hover:!opacity-100 hover:!z-30 transition-all duration-700 cursor-pointer";
+                 className = "w-[75%] h-auto object-contain drop-shadow-xl absolute bottom-4 md:bottom-8 right-0 md:-right-4 z-10 opacity-70 hover:!opacity-100 hover:!z-30 transition-all duration-700 cursor-pointer transform-gpu";
                  animY = [-8, 8, -8];
                  trans = { duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2, layout: { duration: 0.6, ease: "circOut" } };
                }
