@@ -68,7 +68,7 @@ export default function Navbar() {
               }`}
             >
               <img 
-                src="/jocelynmarianame2.png" 
+                src="/jocelynmariasignature.png" 
                 alt="Jocelyn Maria" 
                 className="h-10 md:h-12 mt-1 w-auto object-contain drop-shadow-sm opacity-90 hover:opacity-100 transition-opacity duration-300" 
               />

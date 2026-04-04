@@ -59,9 +59,9 @@ export default function Hero() {
           />
           
           <img 
-            src="/jocelynmarianame2.png" 
+            src="/jocelynmariasignature.png" 
             alt="Jocelyn Maria" 
-            className="w-[90%] sm:w-full h-auto object-contain drop-shadow-sm opacity-90 my-2 scale-100 lg:scale-110 origin-center"
+            className="w-[75%] sm:w-[85%] md:w-[80%] h-auto object-contain opacity-90 my-2 origin-center"
           />
           
           <div className="w-16 h-px bg-sage/60"></div>

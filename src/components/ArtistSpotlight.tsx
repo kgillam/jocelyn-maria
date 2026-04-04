@@ -49,7 +49,7 @@ export default function ArtistSpotlight() {
           </span>
           
           <div className="mb-8 flex justify-center mt-2">
-            <img src="/jocelynmarianame2.png" alt="Jocelyn Maria" className="h-16 md:h-20 lg:h-24 w-auto object-contain drop-shadow-sm opacity-90" />
+            <img src="/jocelynmariasignature.png" alt="Jocelyn Maria" className="h-16 md:h-20 lg:h-24 w-auto object-contain drop-shadow-sm opacity-90" />
           </div>
 
           <div className="space-y-6 font-sans text-ink/70 leading-relaxed mb-10 text-sm md:text-base px-2">

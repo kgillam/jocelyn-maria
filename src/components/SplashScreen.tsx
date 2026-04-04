@@ -31,9 +31,9 @@ export default function SplashScreen() {
             className="w-10 md:w-14 mb-8 opacity-80" 
           />
           <img 
-            src="/jocelynmarianame2.png" 
+            src="/jocelynmariasignature.png" 
             alt="Jocelyn Maria" 
-            className="w-72 sm:w-80 md:w-[30rem] lg:w-[36rem] opacity-90 object-contain drop-shadow-md" 
+            className="w-56 sm:w-64 md:w-[22rem] lg:w-[26rem] opacity-90 object-contain" 
           />
         </motion.div>
       )}

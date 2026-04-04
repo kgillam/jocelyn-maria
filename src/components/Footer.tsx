@@ -31,7 +31,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <img 
-              src="/jocelynmarianame2.png" 
+              src="/jocelynmariasignature.png" 
               alt="Jocelyn Maria Logo" 
               className="h-10 md:h-12 w-auto object-contain mb-8 opacity-90 drop-shadow-sm"
             />
