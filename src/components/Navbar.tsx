@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, User, ShoppingCart, ChevronDown, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,12 +16,12 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'Meet The Artist', href: '#' },
-    { name: 'Shop', href: '#' },
-    { name: 'Custom Commissions', href: '#' },
-    { name: 'Gallery', href: '#' },
-    { name: 'Contact', href: '#' },
+    { name: 'Home', href: '/' },
+    { name: 'Meet The Artist', href: '/' },
+    { name: 'Shop', href: '/shop' },
+    { name: 'Custom Commissions', href: '/' },
+    { name: 'Gallery', href: '/' },
+    { name: 'Contact', href: '/' },
   ];
 
   return (
@@ -121,9 +122,9 @@ export default function Navbar() {
                 <div className="space-y-8 flex-grow">
                   {navLinks.map((link) => (
                     <div key={link.name}>
-                      <a href={link.href} className="block font-serif text-lg tracking-wider uppercase text-ink hover:text-olive transition-colors">
+                      <Link to={link.href} onClick={() => setMobileMenuOpen(false)} className="block font-serif text-lg tracking-wider uppercase text-ink hover:text-olive transition-colors">
                         {link.name}
-                      </a>
+                      </Link>
                     </div>
                   ))}
                 </div>
