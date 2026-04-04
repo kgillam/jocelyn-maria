@@ -21,9 +21,6 @@ export default function ProductGrid() {
         <div className="text-center mb-16 relative z-10 flex flex-col items-center">
           <h2 className="font-serif text-2xl md:text-4xl text-ink mb-4 uppercase tracking-[0.1em] md:tracking-[0.15em] font-light">Featured Collections</h2>
           <div className="w-16 h-px bg-olive mb-6"></div>
-          <p className="font-sans text-ink/70 max-w-2xl text-center mb-4">
-            A curated showcase of original art, premium prints, and custom commissions.
-          </p>
         </div>
 
         {/* 4-Item Side-by-Side Product Grid */}
