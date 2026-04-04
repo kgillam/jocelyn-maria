@@ -101,7 +101,7 @@ export default function CustomCommissions() {
               ))}
             </div>
 
-            <div className="h-64 relative flex items-center justify-center overflow-hidden">
+            <div className="h-80 relative flex items-center justify-center overflow-hidden">
               <AnimatePresence mode="sync">
                 {step === 1 && (
                   <motion.div
@@ -112,11 +112,16 @@ export default function CustomCommissions() {
                     transition={{ duration: 0.4 }}
                     className="text-center absolute w-full"
                   >
-                    <div className="w-24 h-24 bg-cream rounded-full flex items-center justify-center mx-auto mb-6 border border-dashed border-olive/50 shadow-inner">
-                      <Camera className="w-10 h-10 text-olive" />
-                    </div>
-                    <h4 className="font-serif text-xl text-ink mb-2">1. Upload Your Photo</h4>
-                    <p className="text-sm text-ink/70 font-sans px-4">Share a clear, well-lit photo of the home you'd like painted. Front-facing angles work best.</p>
+                    <label className="cursor-pointer group flex flex-col items-center">
+                      <div className="w-24 h-24 shrink-0 bg-cream rounded-full flex items-center justify-center mx-auto mb-6 border border-dashed border-olive/50 shadow-inner group-hover:bg-olive/10 group-hover:border-olive transition-all">
+                        <Camera className="w-10 h-10 text-olive group-hover:scale-110 transition-transform" />
+                      </div>
+                      <h4 className="font-serif text-xl text-ink mb-2 group-hover:text-olive transition-colors">1. Upload Your Photo</h4>
+                      <p className="text-sm text-ink/70 font-sans px-4">
+                        Please provide a clear, well-lit photo of your home. Kindly ensure the image is captured from the exact angle you wish to have painted.
+                      </p>
+                      <input type="file" className="hidden" accept="image/*" />
+                    </label>
                   </motion.div>
                 )}
                 
@@ -129,47 +134,53 @@ export default function CustomCommissions() {
                     transition={{ duration: 0.4 }}
                     className="w-full max-w-sm absolute"
                   >
-                    <div className="space-y-4">
-                      <div className="bg-cream p-4 rounded-lg border border-sage/20 flex items-center justify-between cursor-pointer hover:border-olive hover:shadow-md transition-all">
-                        <div className="flex items-center">
-                          <Maximize className="w-5 h-5 text-olive mr-3" />
-                          <span className="font-serif text-ink">Choose Canvas Size</span>
-                        </div>
-                        <span className="text-xs text-olive uppercase tracking-widest font-semibold">Select</span>
+                    <h4 className="font-serif text-xl text-ink mb-6 text-center">2. Details</h4>
+                    <div className="space-y-6 w-full px-2">
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <input type="text" placeholder="Your Name" className="w-full sm:w-1/2 bg-transparent border-b border-sage/40 py-2 font-sans text-ink placeholder-ink/40 focus:outline-none focus:border-olive transition-colors" />
+                        <input type="tel" placeholder="Phone Number" className="w-full sm:w-1/2 bg-transparent border-b border-sage/40 py-2 font-sans text-ink placeholder-ink/40 focus:outline-none focus:border-olive transition-colors" />
                       </div>
-                      <div className="bg-cream p-4 rounded-lg border border-sage/20 flex items-center justify-between cursor-pointer hover:border-olive hover:shadow-md transition-all">
-                        <div className="flex items-center">
-                          <User className="w-5 h-5 text-olive mr-3" />
-                          <span className="font-serif text-ink">Name & Phone Number</span>
+                      
+                      <div className="pt-2">
+                        <p className="text-left font-serif text-sm text-ink/80 mb-3">Select Canvas Size:</p>
+                        <div className="grid grid-cols-3 gap-2 sm:gap-4">
+                          {['8x10', '11x14', '16x20'].map(size => (
+                            <label key={size} className="cursor-pointer">
+                              <input type="radio" name="size" className="peer hidden" />
+                              <div className="bg-cream border border-sage/30 rounded-md py-2 text-center text-sm font-sans text-ink peer-checked:bg-olive peer-checked:text-white peer-checked:border-olive hover:border-olive transition-all">
+                                {size}"
+                              </div>
+                            </label>
+                          ))}
                         </div>
-                        <span className="text-xs text-olive uppercase tracking-widest font-semibold">Add</span>
                       </div>
                     </div>
-                    <h4 className="font-serif text-xl text-ink mt-8 text-center">2. Size & Details</h4>
                   </motion.div>
                 )}
 
                 {step === 3 && (
                   <motion.div
                     key="step3"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.1 }}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.4 }}
-                    className="text-center absolute w-full"
+                    className="w-full max-w-sm absolute"
                   >
-                    <div className="relative w-48 h-48 mx-auto mb-6">
-                      <img src={images[0]} alt="Completed Portrait" className="w-full h-full object-contain drop-shadow-xl" />
-                      <motion.div 
-                        animate={{ rotate: [-5, 5, -5], scale: [1, 1.1, 1] }}
-                        transition={{ repeat: Infinity, duration: 3 }}
-                        className="absolute -bottom-2 -right-2 bg-white p-3 rounded-full shadow-lg"
-                      >
-                        <Palette className="w-6 h-6 text-blush" />
-                      </motion.div>
+                    <h4 className="font-serif text-xl text-ink mb-4 text-center">3. Final Notes</h4>
+                    <div className="space-y-4 px-2">
+                      <textarea 
+                        placeholder="Any additional details or requests? (e.g. Include the family dog on the porch, remove power lines...)" 
+                        className="w-full bg-cream border border-sage/40 rounded-lg p-4 font-sans text-sm text-ink placeholder-ink/40 focus:outline-none focus:border-olive transition-all min-h-[100px] resize-none shadow-inner"
+                      />
+                      <div className="bg-sage/10 rounded-lg p-3 flex items-start text-left mt-2 border border-sage/20">
+                        <CheckCircle2 className="w-5 h-5 text-olive mt-0 mr-2 flex-shrink-0" />
+                        <p className="text-xs font-sans text-ink/80 leading-relaxed">
+                          <span className="font-semibold block mb-0.5">Current turnaround time: around 2 weeks</span>
+                          Once submitted, Jocelyn will review your details and reach out to confirm your commission.
+                        </p>
+                      </div>
                     </div>
-                    <h4 className="font-serif text-xl text-ink mb-2">3. The Final Piece</h4>
-                    <p className="text-sm text-ink/70 font-sans px-4">A hand-painted original watercolor, crafted with love and securely shipped to your door.</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -177,7 +188,7 @@ export default function CustomCommissions() {
 
             <div className="mt-8 text-center relative z-20">
               <button className="bg-ink text-ivory px-8 py-4 rounded-sm font-serif uppercase tracking-widest text-sm hover:bg-olive hover:scale-[1.02] transition-all duration-300 w-full shadow-lg hover:shadow-xl">
-                Book Your Custom Commission
+                Submit Custom Commission
               </button>
             </div>
           </div>
