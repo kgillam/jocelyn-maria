@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { Link } from 'react-router-dom';
 
 const heroStates = [
   {
@@ -69,9 +70,9 @@ export default function Hero() {
               Exquisite watercolor paintings, custom family portrait commissions, and beautifully crafted greeting cards.
             </p>
             
-            <button className="mt-4 px-8 py-4 bg-ink text-ivory hover:bg-olive font-serif tracking-widest text-sm uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:scale-105">
+            <Link to="/shop" className="mt-4 px-8 py-4 bg-ink text-ivory hover:bg-olive font-serif tracking-widest text-sm uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:scale-105 inline-block">
               EXPLORE ORIGINAL WORKS
-            </button>
+            </Link>
           </motion.div>
           </motion.div>
         </div>

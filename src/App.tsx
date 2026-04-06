@@ -7,6 +7,8 @@ import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
+import CustomCommissionsPage from './pages/CustomCommissionsPage';
+import MeetTheArtist from './pages/MeetTheArtist';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -26,6 +28,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/meet-the-artist" element={<MeetTheArtist />} />
+          <Route path="/custom-commissions" element={<CustomCommissionsPage />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
         <Footer />

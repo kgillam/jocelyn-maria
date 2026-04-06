@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Product } from '../data/products';
 
 export default function ProductCard({ product }: { product: Product; key?: React.Key }) {
@@ -82,10 +83,10 @@ export default function ProductCard({ product }: { product: Product; key?: React
 
         {/* Enhanced Quick View Button */}
         <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-20">
-          <button className="w-full bg-white/95 text-ink py-3 font-serif uppercase tracking-widest text-xs hover:bg-ink hover:text-white transition-colors flex items-center justify-center gap-2">
+          <Link to="/shop" className="w-full bg-white/95 text-ink py-3 font-serif uppercase tracking-widest text-xs hover:bg-ink hover:text-white transition-colors flex items-center justify-center gap-2">
             <ShoppingBag className="w-4 h-4" />
             Quick View
-          </button>
+          </Link>
         </div>
       </div>
       

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Camera, Palette, Maximize, CheckCircle2, User } from 'lucide-react';
+import { motion } from 'motion/react';
+import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function CustomCommissions() {
-  const [step, setStep] = useState(1);
   const [images, setImages] = useState([
     '/watercolorredbrickhome.png',
     '/watercolorbrickhome.png',
@@ -70,127 +70,19 @@ export default function CustomCommissions() {
              })}
           </div>
 
-          {/* Right: Interactive Booking Visual */}
-          <div className="bg-ivory p-8 md:p-12 rounded-2xl shadow-2xl relative border border-sage/10 ml-0 lg:ml-8 order-1">
-            <h3 className="font-serif text-2xl text-ink mb-10 text-center">As Easy As 1, 2, 3!</h3>
+          {/* Right: Promotional Link to Dedicated Page */}
+          <div className="bg-ivory p-8 md:p-16 rounded-2xl shadow-xl border border-sage/10 ml-0 lg:ml-8 order-1 flex flex-col justify-center items-center text-center">
             
-            {/* Connected Progress Tracker */}
-            <div className="flex justify-between mb-12 relative px-2">
-              {/* Background Track */}
-              <div className="absolute top-1/2 left-0 w-full h-1 bg-sage/20 -translate-y-1/2 rounded-full"></div>
-              
-              {/* Animated Progress Fill */}
-              <motion.div 
-                className="absolute top-1/2 left-0 h-1 bg-olive -translate-y-1/2 rounded-full"
-                initial={{ width: '0%' }}
-                animate={{ width: `${((step - 1) / 2) * 100}%` }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-              />
+            <h3 className="font-serif text-3xl md:text-4xl text-ink mb-6">Custom Commissions</h3>
+            
+            <p className="font-sans text-ink/70 leading-relaxed max-w-sm mb-10">
+              Transform your most cherished memories—from the family home to precious portraits—into timeless watercolor heirlooms.
+            </p>
 
-              {[1, 2, 3].map((num) => (
-                <button
-                  key={num}
-                  onClick={() => setStep(num)}
-                  className={`w-12 h-12 rounded-full flex items-center justify-center font-serif text-lg transition-all duration-500 relative z-10 ${
-                    step === num ? 'bg-olive text-white shadow-xl scale-110' : 
-                    step > num ? 'bg-olive text-white shadow-md' : 'bg-cream text-sage hover:bg-sage/20 border-2 border-sage/10'
-                  }`}
-                >
-                  {step > num ? <CheckCircle2 className="w-5 h-5" /> : num}
-                </button>
-              ))}
-            </div>
-
-            <div className="h-80 relative flex items-center justify-center overflow-hidden">
-              <AnimatePresence mode="sync">
-                {step === 1 && (
-                  <motion.div
-                    key="step1"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.4 }}
-                    className="text-center absolute w-full"
-                  >
-                    <label className="cursor-pointer group flex flex-col items-center">
-                      <div className="w-24 h-24 shrink-0 bg-cream rounded-full flex items-center justify-center mx-auto mb-6 border border-dashed border-olive/50 shadow-inner group-hover:bg-olive/10 group-hover:border-olive transition-all">
-                        <Camera className="w-10 h-10 text-olive group-hover:scale-110 transition-transform" />
-                      </div>
-                      <h4 className="font-serif text-xl text-ink mb-2 group-hover:text-olive transition-colors">1. Upload Your Photo</h4>
-                      <p className="text-sm text-ink/70 font-sans px-4">
-                        Please provide a clear, well-lit photo of your home. Kindly ensure the image is captured from the exact angle you wish to have painted.
-                      </p>
-                      <input type="file" className="hidden" accept="image/*" />
-                    </label>
-                  </motion.div>
-                )}
-                
-                {step === 2 && (
-                  <motion.div
-                    key="step2"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.4 }}
-                    className="w-full max-w-sm absolute"
-                  >
-                    <h4 className="font-serif text-xl text-ink mb-6 text-center">2. Details</h4>
-                    <div className="space-y-6 w-full px-2">
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        <input type="text" placeholder="Your Name" className="w-full sm:w-1/2 bg-transparent border-b border-sage/40 py-2 font-sans text-ink placeholder-ink/40 focus:outline-none focus:border-olive transition-colors" />
-                        <input type="tel" placeholder="Phone Number" className="w-full sm:w-1/2 bg-transparent border-b border-sage/40 py-2 font-sans text-ink placeholder-ink/40 focus:outline-none focus:border-olive transition-colors" />
-                      </div>
-                      
-                      <div className="pt-2">
-                        <p className="text-left font-serif text-sm text-ink/80 mb-3">Select Canvas Size:</p>
-                        <div className="grid grid-cols-3 gap-2 sm:gap-4">
-                          {['8x10', '11x14', '16x20'].map(size => (
-                            <label key={size} className="cursor-pointer">
-                              <input type="radio" name="size" className="peer hidden" />
-                              <div className="bg-cream border border-sage/30 rounded-md py-2 text-center text-sm font-sans text-ink peer-checked:bg-olive peer-checked:text-white peer-checked:border-olive hover:border-olive transition-all">
-                                {size}"
-                              </div>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {step === 3 && (
-                  <motion.div
-                    key="step3"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.4 }}
-                    className="w-full max-w-sm absolute"
-                  >
-                    <h4 className="font-serif text-xl text-ink mb-4 text-center">3. Final Notes</h4>
-                    <div className="space-y-4 px-2">
-                      <textarea 
-                        placeholder="Any additional details or requests? (e.g. Include the family dog on the porch, remove power lines...)" 
-                        className="w-full bg-cream border border-sage/40 rounded-lg p-4 font-sans text-sm text-ink placeholder-ink/40 focus:outline-none focus:border-olive transition-all min-h-[100px] resize-none shadow-inner"
-                      />
-                      <div className="bg-sage/10 rounded-lg p-3 flex items-start text-left mt-2 border border-sage/20">
-                        <CheckCircle2 className="w-5 h-5 text-olive mt-0 mr-2 flex-shrink-0" />
-                        <p className="text-xs font-sans text-ink/80 leading-relaxed">
-                          <span className="font-semibold block mb-0.5">Current turnaround time: around 2 weeks</span>
-                          Once submitted, Jocelyn will review your details and reach out to confirm your commission.
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            <div className="mt-8 text-center relative z-20">
-              <button className="bg-ink text-ivory px-8 py-4 rounded-sm font-serif uppercase tracking-widest text-sm hover:bg-olive hover:scale-[1.02] transition-all duration-300 w-full shadow-lg hover:shadow-xl">
-                Submit Custom Commission
-              </button>
-            </div>
+            <Link to="/custom-commissions" className="group px-8 py-4 border-2 border-olive text-ink font-serif tracking-widest text-xs uppercase hover:bg-olive hover:text-white transition-all duration-300 flex items-center shadow-sm">
+              Explore Commission Services
+              <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
       </div>

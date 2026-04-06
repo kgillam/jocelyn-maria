@@ -24,8 +24,8 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Shop', href: '/shop' },
-    { name: 'Custom Commissions', href: '/' },
-    { name: 'Meet The Artist', href: '/' },
+    { name: 'Custom Commissions', href: '/custom-commissions' },
+    { name: 'Meet The Artist', href: '/meet-the-artist' },
     { name: 'Gallery', href: '/gallery' },
     { name: 'Contact', href: '/contact' },
   ];

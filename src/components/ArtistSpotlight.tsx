@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
+import { Link } from 'react-router-dom';
 
 export default function ArtistSpotlight() {
   const containerRef = useRef<HTMLElement>(null);
@@ -57,10 +58,10 @@ export default function ArtistSpotlight() {
             </p>
           </div>
 
-          <div className="flex justify-center">
-             <button className="py-3 px-8 border-b-2 border-olive text-ink font-serif uppercase tracking-widest text-xs hover:text-olive hover:bg-olive/5 transition-all duration-300 pointer-events-auto">
+          <div className="flex justify-center mt-4">
+             <Link to="/meet-the-artist" className="py-3 px-8 border-b-2 border-olive text-ink font-serif uppercase tracking-widest text-xs hover:text-olive hover:bg-olive/5 transition-all duration-300 pointer-events-auto">
                Read The Full Story
-             </button>
+             </Link>
           </div>
         </motion.div>
       </motion.div>
