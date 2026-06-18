@@ -11,11 +11,17 @@ export default function Footer() {
 
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <img 
-              src="/jocelynmariasignature.png" 
-              alt="Jocelyn Maria Logo" 
-              className="h-14 md:h-16 w-auto object-contain mb-4 opacity-90 drop-shadow-sm"
-            />
+            <div 
+              className="relative mb-4 inline-block"
+              style={{ backgroundImage: 'url(/logo/byJocelynMaria-logo.png)', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundBlendMode: 'multiply' }}
+            >
+              <div className="absolute inset-0 bg-cream/85 pointer-events-none" />
+              <img 
+                src="/jocelynmariasignature.png" 
+                alt="Jocelyn Maria Logo" 
+                className="relative h-14 md:h-16 w-auto object-contain opacity-90 drop-shadow-sm"
+              />
+            </div>
             <p className="font-sans text-sm text-ink/70 mb-6 leading-relaxed">
               Fine art originals, prints, and paper goods inspired by nature, created with care in our sunlit studio.
             </p>

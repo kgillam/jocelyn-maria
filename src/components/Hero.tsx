@@ -5,15 +5,15 @@ import { Link } from 'react-router-dom';
 const heroStates = [
   {
     id: 1,
-    image: '/jocelynmariaheropic1.jpeg',
+    image: '/hero/houseportrait-inhome1.PNG',
   },
   {
     id: 2,
-    image: '/jocelynmariaheropic2.jpeg',
+    image: '/hero/houseportrait-inhome2.PNG',
   },
   {
     id: 3,
-    image: '/jocelynmariaheropic3.jpeg',
+    image: '/hero/houseportrait-inhome3.PNG',
   }
 ];
 
@@ -42,7 +42,12 @@ export default function Hero() {
   return (
     <div ref={containerRef} className="relative min-h-screen flex flex-col lg:flex-row lg:h-screen w-full overflow-hidden bg-cream">
       {/* Left Content Area (Static) */}
-      <div className="w-full lg:w-1/2 min-h-[60vh] lg:min-h-0 lg:h-full flex flex-col justify-center px-4 sm:px-16 lg:px-24 pt-32 lg:pt-0 pb-16 lg:pb-0 relative z-10 text-ink bg-cream">
+      <div 
+        className="w-full lg:w-1/2 min-h-[60vh] lg:min-h-0 lg:h-full flex flex-col justify-center px-4 sm:px-16 lg:px-24 pt-32 lg:pt-0 pb-16 lg:pb-0 relative z-10 text-ink bg-cream"
+        style={{ backgroundImage: 'url(/logo/byJocelynMaria-logo.png)', backgroundSize: '60%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundBlendMode: 'multiply' }}
+      >
+        {/* Faint logo overlay */}
+        <div className="absolute inset-0 bg-cream/95 pointer-events-none" />
         <div className="w-full flex justify-center">
           <motion.div 
             style={{ opacity: textOpacity, y: textY }}

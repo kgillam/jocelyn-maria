@@ -76,7 +76,13 @@ export default function MeetTheArtist() {
               When I'm not in the studio layering washes of color, you can often find me seeking inspiration in local architecture, curating cozy interior spaces, or enjoying time with my family. My ultimate goal with every commission or original painting is to invite you to pause, breathe, and appreciate the delicate beauty of the world around you.
             </p>
 
-            <img src="/jocelynmariasignature.png" alt="Signature" className="h-16 object-contain mt-10 opacity-80 mix-blend-multiply" />
+            <div 
+              className="relative mt-10 inline-block"
+              style={{ backgroundImage: 'url(/logo/byJocelynMaria-logo.png)', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundBlendMode: 'multiply' }}
+            >
+              <div className="absolute inset-0 bg-ivory/95 pointer-events-none" />
+              <img src="/jocelynmariasignature.png" alt="Signature" className="relative h-16 object-contain opacity-80 mix-blend-multiply" />
+            </div>
           </div>
         </div>
       </div>
