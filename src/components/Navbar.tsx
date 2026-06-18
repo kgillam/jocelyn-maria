@@ -62,15 +62,16 @@ export default function Navbar() {
                     : 'opacity-0 -translate-x-1/2 -translate-y-[80%] pointer-events-none'
                   }`}
               >
-                <div 
-                  className="relative"
-                  style={{ backgroundImage: 'url(/logo/byJocelynMaria-logo.png)', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}
-                >
-                  <div className="absolute inset-0 bg-cream/85 pointer-events-none" />
+                <div className="relative w-28 h-12 flex items-center justify-center">
+                  <img
+                    src="/logo/byJocelynMaria-logo.png"
+                    alt="Jocelyn Maria logo"
+                    className="absolute inset-0 w-full h-full object-contain opacity-30"
+                  />
                   <img
                     src="/jocelynmariasignature.png"
                     alt="Jocelyn Maria"
-                    className="relative h-10 md:h-12 mt-1 w-auto object-contain drop-shadow-sm opacity-90 hover:opacity-100 transition-opacity duration-300"
+                    className="relative h-10 md:h-12 w-auto object-contain drop-shadow-sm opacity-90 hover:opacity-100 transition-opacity duration-300"
                   />
                 </div>
               </a>

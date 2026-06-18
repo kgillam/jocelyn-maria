@@ -44,11 +44,10 @@ export default function Hero() {
       {/* Left Content Area (Static) */}
       <div 
         className="w-full lg:w-1/2 min-h-[60vh] lg:min-h-0 lg:h-full flex flex-col justify-center px-4 sm:px-16 lg:px-24 pt-32 lg:pt-0 pb-16 lg:pb-0 relative z-10 text-ink bg-cream"
-        style={{ backgroundImage: 'url(/logo/byJocelynMaria-logo.png)', backgroundSize: '60%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundBlendMode: 'multiply' }}
       >
-        {/* Faint logo overlay */}
         <div className="absolute inset-0 bg-cream/95 pointer-events-none" />
-        <div className="w-full flex justify-center">
+        <div className="absolute inset-0 bg-[url('/logo/byJocelynMaria-logo.png')] bg-[length:60%_auto] bg-center bg-no-repeat opacity-10 pointer-events-none" />
+        <div className="w-full flex justify-center relative">
           <motion.div 
             style={{ opacity: textOpacity, y: textY }}
             className="max-w-md md:max-w-lg lg:max-w-xl flex flex-col items-center text-center mx-auto"
@@ -97,11 +96,15 @@ export default function Hero() {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="absolute inset-0"
+            className="absolute inset-0 will-change-transform"
           >
             <div 
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${heroStates[currentState].image})` }}
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: `url(${heroStates[currentState].image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
             />
           </motion.div>
         </AnimatePresence>
