@@ -52,7 +52,7 @@ export default function MeetTheArtist() {
           <div className="w-full lg:w-7/12 flex flex-col justify-center relative z-10 pt-8 lg:pt-12">
             
             <h2 className="font-serif text-2xl md:text-3xl text-ink mb-8 leading-snug">
-              Finding the extraordinary in <br/><span className="italic text-olive">everyday simplicity.</span>
+              Art created to preserve memories and evoke feeling.
             </h2>
 
             <div className="space-y-6 font-sans text-ink/75 leading-relaxed text-sm md:text-base">
