@@ -55,8 +55,8 @@ export default function Navbar() {
 
             {/* Center: Logo (Visible only when scrolled) */}
             <div className="flex-shrink-0 flex items-center justify-center pointer-events-none">
-              <a
-                href="#"
+              <Link
+                to="/"
                 className={`absolute top-1/2 left-1/2 z-50 transition-all duration-500 ease-out transform ${isScrolled
                     ? 'opacity-100 -translate-x-1/2 -translate-y-1/2 pointer-events-auto'
                     : 'opacity-0 -translate-x-1/2 -translate-y-[80%] pointer-events-none'
@@ -74,7 +74,7 @@ export default function Navbar() {
                     className="relative h-10 md:h-12 w-auto object-contain drop-shadow-sm opacity-90 hover:opacity-100 transition-opacity duration-300"
                   />
                 </div>
-              </a>
+              </Link>
             </div>
 
             {/* Right: Icons */}
