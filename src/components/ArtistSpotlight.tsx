@@ -51,10 +51,10 @@ export default function ArtistSpotlight() {
 
           <div className="space-y-6 font-sans text-ink/70 leading-relaxed mb-10 text-sm md:text-base px-2">
             <p>
-              Based in the quiet warmth of Central Louisiana, Jocelyn transforms everyday moments into timeless watercolor and portrait art. Drawing upon an academic foundation with a degree in Ceramics and Fine Art from Louisiana Christian University, she blends classical technique with a distinctive love for feminine elegance.
+              Art created to preserve memories and evoke feeling.
             </p>
             <p>
-              Her minimalist approach emphasizes the raw emotion and subtle grace hidden within each subject. Every brushstroke is carefully nuanced to create pieces that feel intimate, personal, and effortlessly sophisticated—inviting you to pause and appreciate the delicate beauty of the world.
+              Based in the quiet warmth of Central Louisiana and shaped by my roots in Central California, I am a watercolor and mixed-media artist dedicated to capturing the beauty found in everyday life. Through my work, I seek to preserve not only moments, but the feelings attached to them. I hope to capture the comfort, nostalgia, and meaning often discovered in life’s quietest experiences.
             </p>
           </div>
 

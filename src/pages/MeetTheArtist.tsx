@@ -57,10 +57,19 @@ export default function MeetTheArtist() {
 
             <div className="space-y-6 font-sans text-ink/75 leading-relaxed text-sm md:text-base">
               <p>
-                Based in the quiet warmth of Central Louisiana, I am a watercolor and mixed-media artist dedicated to translating the fleeting beauty of life into tangible heirlooms. I have always believed that our most precious memories aren't held in grand gestures, but in the subtle grace of ordinary moments.
+                Art created to preserve memories and evoke feeling.
               </p>
+
               <p>
-                Drawing upon a formal academic foundation with a dual degree in Ceramics and Fine Art from Louisiana Christian University, I blend highly technical, classical methodologies with my distinctive love for feminine elegance and organic imperfection. 
+                Based in the quiet warmth of Central Louisiana and shaped by my roots in Central California, I am a watercolor and mixed-media artist dedicated to capturing the beauty found in everyday life. Through my work, I seek to preserve not only moments, but the feelings attached to them. I hope to capture the comfort, nostalgia, and meaning often discovered in life’s quietest experiences.
+              </p>
+
+              <p>
+                Drawing upon a formal academic foundation with a degree in Studio Art and a concentration in Ceramics from Louisiana Christian University, I blend classical techniques with my love for feminine elegance, thoughtful detail, and organic imperfection.
+              </p>
+
+              <p>
+                When I’m not in the studio layering washes of color, you can often find me seeking inspiration in local architecture, creating cozy and collected spaces at home, or spending time with family. Each piece is created with intention and care, with the hope that it becomes something meaningful. Whether displayed in a home, gifted to someone special, or treasured for years to come.
               </p>
             </div>
 
