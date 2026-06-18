@@ -51,10 +51,10 @@ export default function ArtistSpotlight() {
 
           <div className="space-y-6 font-sans text-ink/70 leading-relaxed mb-10 text-sm md:text-base px-2">
             <p>
-              Art created to preserve memories and evoke feeling.
+              Based in the quiet warmth of Central Louisiana and shaped by my roots in Central California, I am a watercolor and mixed-media artist dedicated to capturing the beauty found in everyday life. Through my work, I seek to preserve not only moments, but the feelings attached to them. I hope to capture the comfort, nostalgia, and meaning often discovered in life’s quietest experiences.
             </p>
             <p>
-              Based in the quiet warmth of Central Louisiana and shaped by my roots in Central California, I am a watercolor and mixed-media artist dedicated to capturing the beauty found in everyday life. Through my work, I seek to preserve not only moments, but the feelings attached to them. I hope to capture the comfort, nostalgia, and meaning often discovered in life’s quietest experiences.
+              Drawing upon a formal academic foundation with a degree in Studio Art and a concentration in Ceramics from Louisiana Christian University, I blend classical techniques with my love for feminine elegance, thoughtful detail, and organic imperfection.
             </p>
           </div>
 

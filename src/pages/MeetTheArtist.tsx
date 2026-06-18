@@ -57,10 +57,6 @@ export default function MeetTheArtist() {
 
             <div className="space-y-6 font-sans text-ink/75 leading-relaxed text-sm md:text-base">
               <p>
-                Art created to preserve memories and evoke feeling.
-              </p>
-
-              <p>
                 Based in the quiet warmth of Central Louisiana and shaped by my roots in Central California, I am a watercolor and mixed-media artist dedicated to capturing the beauty found in everyday life. Through my work, I seek to preserve not only moments, but the feelings attached to them. I hope to capture the comfort, nostalgia, and meaning often discovered in life’s quietest experiences.
               </p>
 
