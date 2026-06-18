@@ -83,16 +83,16 @@ export default function ProductCard({ product }: { product: Product; key?: React
 
         {/* Enhanced Quick View Button */}
         <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-20">
-          <Link to="/shop" className="w-full bg-white/95 text-ink py-3 font-serif uppercase tracking-widest text-xs hover:bg-ink hover:text-white transition-colors flex items-center justify-center gap-2">
+          <Link to={`/shop/${product.id}`} className="w-full bg-white/95 text-ink py-3 font-serif uppercase tracking-widest text-xs hover:bg-ink hover:text-white transition-colors flex items-center justify-center gap-2">
             <ShoppingBag className="w-4 h-4" />
-            Quick View
+            View Details
           </Link>
         </div>
       </div>
-      
+
       <div className="text-center mt-auto">
         <p className="text-[10px] font-sans text-ink/50 uppercase tracking-widest mb-1.5">{product.type}</p>
-        <h3 className="font-serif text-lg text-ink mb-1.5 group-hover:text-olive transition-colors">{product.title}</h3>
+        <Link to={`/shop/${product.id}`} className="block font-serif text-lg text-ink mb-1.5 group-hover:text-olive transition-colors">{product.title}</Link>
         <p className="font-sans text-sm text-ink/80">{product.price}</p>
       </div>
     </motion.div>

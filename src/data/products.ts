@@ -1,11 +1,34 @@
-export const allProducts = [
+export interface Product {
+  id: number;
+  title: string;
+  price: string;
+  images: string[];
+  category: string;
+  type: string;
+  description: string;
+  details: string[];
+  sizes?: SizeOption[];
+}
+
+export interface SizeOption {
+  label: string;
+  price: number;
+}
+
+export const allProducts: Product[] = [
   {
     id: 1,
     title: "Blueberry Botanical Card",
     price: '$8.00',
     images: ['/cardblueberryproduct.png?v=4'],
     category: 'Cards',
-    type: 'Greeting Card'
+    type: 'Greeting Card',
+    description: "A delicate hand-painted blueberry botanical, reproduced as a fine art greeting card. Blank inside for your own heartfelt message.",
+    details: [
+      'Printed on premium heavyweight matte cardstock',
+      'A2 size (4.25" x 5.5") with coordinating envelope',
+      'Blank interior for a personal note'
+    ]
   },
   {
     id: 101,
@@ -13,7 +36,13 @@ export const allProducts = [
     price: '$8.00',
     images: ['/cardlavenderproduct.png?v=4'],
     category: 'Cards',
-    type: 'Greeting Card'
+    type: 'Greeting Card',
+    description: "Soft sprigs of watercolor lavender on a fine art greeting card. A quiet, timeless way to send a little love.",
+    details: [
+      'Printed on premium heavyweight matte cardstock',
+      'A2 size (4.25" x 5.5") with coordinating envelope',
+      'Blank interior for a personal note'
+    ]
   },
   {
     id: 102,
@@ -21,7 +50,13 @@ export const allProducts = [
     price: '$8.00',
     images: ['/cardmargaritasproduct.png?v=4'],
     category: 'Cards',
-    type: 'Greeting Card'
+    type: 'Greeting Card',
+    description: "A cheerful watercolor margaritas card — perfect for celebrations, birthdays, and just-because greetings.",
+    details: [
+      'Printed on premium heavyweight matte cardstock',
+      'A2 size (4.25" x 5.5") with coordinating envelope',
+      'Blank interior for a personal note'
+    ]
   },
   {
     id: 103,
@@ -29,7 +64,13 @@ export const allProducts = [
     price: '$8.00',
     images: ['/cardmothersdayproduct.png?v=4'],
     category: 'Cards',
-    type: 'Greeting Card'
+    type: 'Greeting Card',
+    description: "A tender hand-painted card to honor the mothers in your life, finished with a signature watercolor touch.",
+    details: [
+      'Printed on premium heavyweight matte cardstock',
+      'A2 size (4.25" x 5.5") with coordinating envelope',
+      'Blank interior for a personal note'
+    ]
   },
   {
     id: 2,
@@ -41,7 +82,17 @@ export const allProducts = [
       '/watercolorwhitehome.png'
     ],
     category: 'Watercolor Houses',
-    type: 'Custom'
+    type: 'Custom',
+    description: "Commemorate your family home, childhood estate, wedding venue, or first apartment with a bespoke watercolor portrait. Each piece is hand-painted from your reference photos to capture the architectural charm and personal warmth of the places you love most.",
+    sizes: [
+      { label: '8x10"', price: 65 },
+      { label: '11x14"', price: 80 }
+    ],
+    details: [
+      'Hand-painted using premium archival-grade watercolors',
+      'Minor landscaping or structural alterations can be requested',
+      'Please allow a 2–3 week turnaround before shipping'
+    ]
   },
   {
     id: 3,
@@ -56,7 +107,14 @@ export const allProducts = [
       '/momandkidsreadingportrait.png'
     ],
     category: 'Portraits',
-    type: 'Custom'
+    type: 'Custom',
+    description: "Beautiful, stylized watercolor figures capturing precious family moments, wedding memories, and candid snapshots — designed with a signature, timeless artistic touch and painted from your favorite photographs.",
+    details: [
+      'Focuses on impressionistic emotion and posture',
+      'Available in 8x10", 11x14", or 16x20"',
+      'Can seamlessly composite multiple reference photos',
+      'Please allow a 2–3 week turnaround before shipping'
+    ]
   },
   {
     id: 4,
@@ -66,10 +124,44 @@ export const allProducts = [
       '/MistyMountains.png'
     ],
     category: 'Original Paintings',
-    type: 'Original Painting'
+    type: 'Original Painting',
+    description: "An original one-of-a-kind watercolor landscape of layered, misty peaks. Signed by the artist and ready to frame.",
+    details: [
+      'Original hand-painted watercolor (not a print)',
+      'Painted on archival watercolor paper',
+      'Signed by the artist',
+      'One available — once it sells, it is gone'
+    ]
   }
 ];
 
-export const categories = ['All Shop', 'Cards', 'Watercolor Houses', 'Portraits', 'Original Paintings'];
+// Categories temporarily hidden from the storefront. The client is currently
+// only marketing Custom Watercolor House Portraits & Custom Portraits.
+// Remove entries here to re-enable them in the Featured section and Shop page.
+export const hiddenCategories = ['Cards', 'Original Paintings'];
 
-export type Product = typeof allProducts[0];
+const allCategories = ['All Shop', 'Cards', 'Watercolor Houses', 'Portraits', 'Original Paintings'];
+
+// Products and category filters shown across the storefront (Featured + Shop).
+export const visibleProducts = allProducts.filter(p => !hiddenCategories.includes(p.category));
+export const categories = allCategories.filter(c => !hiddenCategories.includes(c));
+
+// Flat price per print when a customer adds prints alongside the original piece.
+export const PRINT_PRICE = 15;
+
+// Look up a single product by its id (used by the product detail page).
+export function getProductById(id: number | string): Product | undefined {
+  const numericId = typeof id === 'string' ? Number(id) : id;
+  return allProducts.find(p => p.id === numericId);
+}
+
+// Convert a display price like "$65.00" into a number for cart math.
+export function parsePrice(price: string): number {
+  if (typeof price !== 'string') return 0;
+  return Number(price.replace(/[^0-9.]/g, '')) || 0;
+}
+
+// Format a number back into the storefront's "$0.00" display style.
+export function formatPrice(amount: number): string {
+  return `$${amount.toFixed(2)}`;
+}

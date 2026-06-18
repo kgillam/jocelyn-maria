@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Search, User, ShoppingCart, ChevronDown, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { itemCount } = useCart();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   
+  // The centered signature/logo shows once scrolled on the homepage, but stays
+  // visible at the top on every other page.
+  const showLogo = isScrolled || !isHomePage;
   const iconColorClass = isHomePage ? (isScrolled ? 'text-ink' : 'text-ink md:text-white') : 'text-ink';
   const shadowClass = isHomePage ? 'drop-shadow-sm' : '';
   const menuShadowClass = isHomePage ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : '';
@@ -57,7 +62,7 @@ export default function Navbar() {
             <div className="flex-shrink-0 flex items-center justify-center pointer-events-none">
               <Link
                 to="/"
-                className={`absolute top-1/2 left-1/2 z-50 transition-all duration-500 ease-out transform ${isScrolled
+                className={`absolute top-1/2 left-1/2 z-50 transition-all duration-500 ease-out transform ${showLogo
                     ? 'opacity-100 -translate-x-1/2 -translate-y-1/2 pointer-events-auto'
                     : 'opacity-0 -translate-x-1/2 -translate-y-[80%] pointer-events-none'
                   }`}
@@ -84,15 +89,17 @@ export default function Navbar() {
                 <User className={`w-5 h-5 group-hover:text-olive transition-colors ${iconColorClass}`} strokeWidth={1.5} />
                 <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${iconColorClass}`}>Account</span>
               </button>
-              <button className={`flex flex-col items-center group relative cursor-pointer ${shadowClass}`}>
+              <Link to="/cart" className={`flex flex-col items-center group relative cursor-pointer ${shadowClass}`}>
                 <div className="relative">
                   <ShoppingCart className={`w-5 h-5 group-hover:text-olive transition-colors ${iconColorClass}`} strokeWidth={1.5} />
-                  <span className="absolute -top-1 -right-2 bg-blush text-ink text-[9px] font-bold px-1.5 py-0.5 rounded-full z-10">
-                    3
-                  </span>
+                  {itemCount > 0 && (
+                    <span className="absolute -top-1 -right-2 bg-blush text-ink text-[9px] font-bold px-1.5 py-0.5 rounded-full z-10">
+                      {itemCount}
+                    </span>
+                  )}
                 </div>
                 <span className={`text-[10px] font-serif uppercase mt-1 hidden md:block transition-colors ${iconColorClass}`}>Cart</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

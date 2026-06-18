@@ -1,17 +1,15 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { allProducts } from '../data/products';
+import { visibleProducts } from '../data/products';
 import ProductCard from './ProductCard';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 export default function ProductGrid() {
-  // Select one product from each category to create a 4-item showcase
+  // Show one product from each currently-marketed category.
   const featuredProducts = [
-    allProducts.find(p => p.category === 'Cards'),
-    allProducts.find(p => p.category === 'Watercolor Houses'),
-    allProducts.find(p => p.category === 'Portraits'),
-    allProducts.find(p => p.category === 'Original Paintings')
+    visibleProducts.find(p => p.category === 'Watercolor Houses'),
+    visibleProducts.find(p => p.category === 'Portraits')
   ].filter(Boolean);
 
   return (
@@ -19,13 +17,16 @@ export default function ProductGrid() {
       <div className="w-full px-4 sm:px-6 lg:px-12">
         {/* Section Header */}
         <div className="text-center mb-16 relative z-10 flex flex-col items-center">
-          <h2 className="font-serif text-2xl md:text-4xl text-ink mb-4 uppercase tracking-[0.1em] md:tracking-[0.15em] font-light">Featured Collections</h2>
+          <h2 className="font-serif text-3xl md:text-5xl text-ink mb-4 uppercase tracking-[0.1em] md:tracking-[0.15em] font-light">What I Create</h2>
           <div className="w-16 h-px bg-olive mb-6"></div>
+          <p className="font-sans text-ink/70 text-sm md:text-base max-w-2xl mx-auto">
+            Hand-painted, made-to-order watercolor pieces — created from your most cherished photos and places.
+          </p>
         </div>
 
-        {/* 4-Item Side-by-Side Product Grid */}
-        <div className="w-full">
-          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Featured Products — larger, with image carousel + view details */}
+        <div className="w-full max-w-5xl mx-auto">
+          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 gap-10 lg:gap-16">
             <AnimatePresence>
               {featuredProducts.map((product) => (
                 product ? <ProductCard key={product.id} product={product} /> : null

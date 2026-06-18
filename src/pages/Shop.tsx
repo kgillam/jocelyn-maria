@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Filter } from 'lucide-react';
-import { allProducts, categories } from '../data/products';
+import { visibleProducts, categories } from '../data/products';
 import ProductCard from '../components/ProductCard';
 
 export default function Shop() {
@@ -23,9 +23,9 @@ export default function Shop() {
     }
   };
 
-  const filteredProducts = selectedCategories.includes('All Shop') 
-    ? allProducts 
-    : allProducts.filter(p => selectedCategories.includes(p.category));
+  const filteredProducts = selectedCategories.includes('All Shop')
+    ? visibleProducts
+    : visibleProducts.filter(p => selectedCategories.includes(p.category));
 
   return (
     <main className="min-h-screen bg-cream pt-32 pb-24">
