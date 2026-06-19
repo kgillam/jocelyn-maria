@@ -91,7 +91,7 @@ export default function Navbar() {
       >
         {/* Top Banner */}
         <div className="bg-sage text-ivory text-center py-2 text-xs tracking-widest font-serif uppercase">
-          FREE SHIPPING ON ORDERS OVER $100+ & HOLIDAY COLLECTION PRE-SALE IS LIVE
+          HAND-PAINTED CUSTOM WATERCOLOR HOMES & PORTRAITS · MADE TO ORDER WITH CARE
         </div>
 
         <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12">

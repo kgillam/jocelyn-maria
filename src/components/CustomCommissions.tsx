@@ -40,7 +40,7 @@ export default function CustomCommissions() {
       <div className="absolute inset-0 bg-white/50 pointer-events-none" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 relative z-10">
-          <p className="font-sans text-xs md:text-sm uppercase tracking-[0.25em] text-olive mb-4">Made to Order</p>
+          <p className="font-sans text-xs md:text-sm uppercase tracking-[0.25em] text-olive mb-4">Capturing the Places You Love</p>
           <h2 className="font-serif text-2xl md:text-4xl text-ink mb-4 uppercase tracking-[0.1em] md:tracking-[0.15em] font-light">House Portraits: Custom Commissions</h2>
           <div className="w-16 h-px bg-olive mx-auto"></div>
         </div>

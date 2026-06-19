@@ -43,7 +43,7 @@ export default function Footer() {
               />
             </div>
             <p className="font-sans text-sm text-ivory/70 mb-6 leading-relaxed">
-              Fine art originals, prints, and paper goods inspired by nature, created with care in our sunlit studio.
+              Hand-painted custom watercolor home and family portraits — one-of-a-kind keepsakes created from your most cherished places and people.
             </p>
             <div className="flex space-x-4">
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-ivory/70 hover:text-blush transition-colors">

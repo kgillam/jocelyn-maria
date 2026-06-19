@@ -36,7 +36,7 @@ export default function BehindTheScenes() {
           transition={{ delay: 0.2 }}
           className="font-sans text-ink/80 text-center max-w-xl mx-auto mb-16 leading-relaxed"
         >
-          See the process behind the paintings, discover new techniques, and get early access to exclusive drops. Join our community of art lovers on Instagram and TikTok.
+          Follow along behind the brush — watch custom watercolor homes and portraits come to life, peek at pieces in progress, and stay tuned for special deals and discounts. Come say hello on Instagram and TikTok.
         </motion.p>
 
         <div className="flex items-center justify-center gap-12 w-full mt-4">
