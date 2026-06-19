@@ -94,6 +94,12 @@ export default function ProductCard({ product }: { product: Product; key?: React
         <p className="text-[10px] font-sans text-ink/50 uppercase tracking-widest mb-1.5">{product.type}</p>
         <Link to={`/shop/${product.id}`} className="block font-serif text-lg text-ink mb-1.5 group-hover:text-olive transition-colors">{product.title}</Link>
         <p className="font-sans text-sm text-ink/80">{product.price}</p>
+        <Link
+          to={`/shop/${product.id}`}
+          className="mt-4 inline-flex w-full justify-center rounded-sm bg-ink px-4 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-ivory transition-colors duration-300 hover:bg-olive md:hidden"
+        >
+          View Product
+        </Link>
       </div>
     </motion.div>
   );
