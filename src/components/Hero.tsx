@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { Link } from 'react-router-dom';
+import { useIntroOnce } from '../utils/useIntroOnce';
 
 const heroStates = [
   {
@@ -24,6 +25,8 @@ const heroStates = [
 export default function Hero() {
   const [currentState, setCurrentState] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  // Play the entrance animation on load/refresh, but not on in-app navigation.
+  const playIntro = useIntroOnce('hero');
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -45,12 +48,14 @@ export default function Hero() {
 
   return (
     <div ref={containerRef} className="relative min-h-screen flex flex-col lg:flex-row lg:h-screen w-full overflow-hidden bg-cream">
+      {/* Paper texture + overlay spanning the entire hero */}
+      <div className="absolute inset-0 z-0 bg-[url('/papertexture.png')] bg-cover bg-center pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-white/50 pointer-events-none" />
+
       {/* Left Content Area (Static) */}
-      <div 
-        className="w-full lg:w-1/2 min-h-[60vh] lg:min-h-0 lg:h-full flex flex-col justify-center px-4 sm:px-16 lg:px-24 pt-32 lg:pt-0 pb-16 lg:pb-0 relative z-10 text-ink bg-cream"
+      <div
+        className="w-full lg:w-1/2 min-h-[60vh] lg:min-h-0 lg:h-full flex flex-col justify-center px-4 sm:px-16 lg:px-24 pt-32 lg:pt-0 pb-16 lg:pb-0 relative z-10 text-ink"
       >
-        <div className="absolute inset-0 bg-[url('/papertexture.png')] bg-cover bg-center pointer-events-none" />
-        <div className="absolute inset-0 bg-white/50 pointer-events-none" />
         <div className="absolute inset-0 bg-[url('/logo/byJocelynMaria-logo.png')] bg-[length:60%_auto] bg-center bg-no-repeat opacity-10 pointer-events-none" />
         <div className="w-full flex justify-center relative">
           <motion.div 
@@ -58,17 +63,17 @@ export default function Hero() {
             className="max-w-md md:max-w-lg lg:max-w-xl flex flex-col items-center text-center mx-auto"
           >
 
-          <motion.img 
-            initial={{ opacity: 0 }}
+          <motion.img
+            initial={playIntro ? { opacity: 0 } : false}
             animate={{ opacity: 1 }}
             transition={{ duration: 2.0, delay: 0.2, ease: "easeInOut" }}
-            src="/jocelynmariasignature.png" 
+            src="/jocelynmariasignature.png"
             alt="Jocelyn Maria" 
             className="w-[75%] sm:w-[85%] md:w-[80%] h-auto object-contain opacity-90 my-2 origin-center"
           />
           
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={playIntro ? { opacity: 0, y: 20 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.5, delay: 2.2, ease: "easeInOut" }}
             className="flex flex-col items-center w-full space-y-4 md:space-y-6 mt-6"
@@ -88,11 +93,11 @@ export default function Hero() {
       </div>
 
       {/* Right Carousel Area (Sliding) */}
-      <motion.div 
-        initial={{ opacity: 0 }}
+      <motion.div
+        initial={playIntro ? { opacity: 0 } : false}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, delay: 2.2, ease: "easeInOut" }}
-        className="w-full lg:w-1/2 h-[50vh] lg:h-full min-h-[400px] lg:min-h-0 relative overflow-hidden z-20 bg-cream border-t lg:border-t-0 border-sage/10"
+        className="w-full lg:w-1/2 h-[50vh] lg:h-full min-h-[400px] lg:min-h-0 relative overflow-hidden z-20 border-t lg:border-t-0 border-sage/10"
       >
         <AnimatePresence initial={false}>
           <motion.div

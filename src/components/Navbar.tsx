@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
 import { visibleProducts } from '../data/products';
 import { InstagramIcon, TikTokIcon, INSTAGRAM_URL, TIKTOK_URL } from './SocialIcons';
+import { useIntroOnce } from '../utils/useIntroOnce';
 
 const searchablePages = [
   { name: 'Home', description: 'Return to the homepage', href: '/' },
@@ -22,6 +23,8 @@ export default function Navbar() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  // Play the header entrance on load/refresh only, not on in-app navigation.
+  const playIntro = useIntroOnce('header');
   
   // The centered signature/logo shows once scrolled on the homepage, but stays
   // visible at the top on every other page.
@@ -81,7 +84,7 @@ export default function Navbar() {
   return (
     <>
       <motion.header
-        initial={{ opacity: 0, y: -100 }}
+        initial={playIntro ? { opacity: 0, y: -100 } : false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 2.0, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed w-full top-0 z-50 transition-colors duration-500 ${isScrolled ? 'bg-cream/95 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}
