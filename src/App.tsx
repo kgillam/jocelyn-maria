@@ -12,6 +12,8 @@ import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
 import CustomCommissionsPage from './pages/CustomCommissionsPage';
 import MeetTheArtist from './pages/MeetTheArtist';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsConditions from './pages/TermsConditions';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -37,6 +39,8 @@ export default function App() {
           <Route path="/meet-the-artist" element={<MeetTheArtist />} />
           <Route path="/custom-commissions" element={<CustomCommissionsPage />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsConditions />} />
         </Routes>
         <Footer />
         <FloatingOrderButton />

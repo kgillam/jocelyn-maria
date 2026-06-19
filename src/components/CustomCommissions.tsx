@@ -87,7 +87,7 @@ export default function CustomCommissions() {
           </div>
 
           {/* Right: Quick Order Card */}
-          <div className="bg-ivory p-8 md:p-12 rounded-2xl shadow-xl border border-sage/10 ml-0 lg:ml-8 order-1 flex flex-col justify-center items-center text-center">
+          <div className="bg-transparent p-8 md:p-12 rounded-2xl border border-sage/30 ml-0 lg:ml-8 order-1 flex flex-col justify-center items-center text-center">
 
             <p className="font-sans text-xs uppercase tracking-[0.25em] text-olive mb-3">Quick Order</p>
             <h3 className="font-serif text-3xl md:text-4xl text-ink mb-2">Watercolor House Portrait</h3>

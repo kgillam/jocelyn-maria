@@ -18,8 +18,12 @@ export default function ArtistSpotlight() {
   const textY = useTransform(scrollYProgress, [0.5, 1], ["0px", "200px"]);
 
   return (
-    <section ref={containerRef} className="relative w-full flex flex-col-reverse lg:flex-row overflow-hidden bg-ivory texture-overlay min-h-[600px] lg:h-[800px]">
-      
+    <section ref={containerRef} className="relative w-full flex flex-col-reverse lg:flex-row overflow-hidden bg-cream min-h-[600px] lg:h-[800px]">
+
+      {/* Paper texture + overlay (matches the hero) */}
+      <div className="absolute inset-0 z-0 bg-[url('/papertexture.png')] bg-cover bg-center pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-white/50 pointer-events-none" />
+
       {/* Image Side (Left) */}
       <motion.div 
         initial={{ opacity: 0, x: -30 }}

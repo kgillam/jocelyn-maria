@@ -109,9 +109,12 @@ export const allProducts: Product[] = [
     category: 'Portraits',
     type: 'Custom',
     description: "Beautiful, stylized watercolor figures capturing precious family moments, wedding memories, and candid snapshots — designed with a signature, timeless artistic touch and painted from your favorite photographs.",
+    sizes: [
+      { label: '5x7"', price: 30 },
+      { label: '8x10"', price: 45 }
+    ],
     details: [
       'Focuses on impressionistic emotion and posture',
-      'Available in 8x10", 11x14", or 16x20"',
       'Can seamlessly composite multiple reference photos',
       'Please allow a 2–3 week turnaround before shipping'
     ]

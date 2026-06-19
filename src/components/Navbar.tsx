@@ -170,8 +170,8 @@ export default function Navbar() {
 
               {/* Desktop: primary nav links */}
               <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-                <Link to="/meet-the-artist" className={`font-serif text-xs lg:text-sm uppercase tracking-widest hover:text-olive transition-colors ${iconColorClass} ${shadowClass}`}>Meet The Artist</Link>
                 <Link to="/shop" className={`font-serif text-xs lg:text-sm uppercase tracking-widest hover:text-olive transition-colors ${iconColorClass} ${shadowClass}`}>Shop</Link>
+                <Link to="/meet-the-artist" className={`font-serif text-xs lg:text-sm uppercase tracking-widest hover:text-olive transition-colors ${iconColorClass} ${shadowClass}`}>Meet The Artist</Link>
                 <Link to="/gallery" className={`font-serif text-xs lg:text-sm uppercase tracking-widest hover:text-olive transition-colors ${iconColorClass} ${shadowClass}`}>Gallery</Link>
               </nav>
             </div>
@@ -320,6 +320,16 @@ export default function Navbar() {
                       </Link>
                     </div>
                   ))}
+                </div>
+
+                {/* Legal Links */}
+                <div className="mt-8 mb-6 space-y-3">
+                  <Link to="/privacy-policy" onClick={() => setMobileMenuOpen(false)} className="block font-sans text-sm tracking-wide text-ink/60 hover:text-olive transition-colors">
+                    Privacy Policy
+                  </Link>
+                  <Link to="/terms-and-conditions" onClick={() => setMobileMenuOpen(false)} className="block font-sans text-sm tracking-wide text-ink/60 hover:text-olive transition-colors">
+                    Terms &amp; Conditions
+                  </Link>
                 </div>
 
                 {/* Footer inside drawer */}

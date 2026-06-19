@@ -1,8 +1,8 @@
 import React from 'react';
 
-// Social profile links. TODO: replace with the client's actual handles.
-export const INSTAGRAM_URL = 'https://www.instagram.com/';
-export const TIKTOK_URL = 'https://www.tiktok.com/';
+// Social profile links.
+export const INSTAGRAM_URL = 'https://www.instagram.com/byjocelynmaria/';
+export const TIKTOK_URL = 'https://www.tiktok.com/@_jocelynmaria';
 
 // Custom Instagram SVG Icon (official brand shape)
 export function InstagramIcon({ className }: { className?: string }) {
