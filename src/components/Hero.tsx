@@ -5,15 +5,19 @@ import { Link } from 'react-router-dom';
 const heroStates = [
   {
     id: 1,
-    image: '/hero/houseportrait-inhome1.PNG',
+    image: '/hero/jocelynmariahero1.png',
+    position: 'center',
   },
   {
     id: 2,
-    image: '/hero/houseportrait-inhome2.PNG',
+    image: '/hero/jocelynmariahero2.png',
+    position: 'center',
   },
   {
     id: 3,
-    image: '/hero/houseportrait-inhome3.PNG',
+    image: '/hero/jocelynmariahero3.png',
+    // Painting sits right of center in this shot; nudge so it stays centered.
+    position: '60% center',
   }
 ];
 
@@ -45,7 +49,8 @@ export default function Hero() {
       <div 
         className="w-full lg:w-1/2 min-h-[60vh] lg:min-h-0 lg:h-full flex flex-col justify-center px-4 sm:px-16 lg:px-24 pt-32 lg:pt-0 pb-16 lg:pb-0 relative z-10 text-ink bg-cream"
       >
-        <div className="absolute inset-0 bg-cream/95 pointer-events-none" />
+        <div className="absolute inset-0 bg-[url('/papertexture.png')] bg-cover bg-center pointer-events-none" />
+        <div className="absolute inset-0 bg-white/50 pointer-events-none" />
         <div className="absolute inset-0 bg-[url('/logo/byJocelynMaria-logo.png')] bg-[length:60%_auto] bg-center bg-no-repeat opacity-10 pointer-events-none" />
         <div className="w-full flex justify-center relative">
           <motion.div 
@@ -71,7 +76,7 @@ export default function Hero() {
             <div className="w-16 h-px bg-sage/60"></div>
             
             <p className="font-sans text-ink/70 text-sm md:text-base leading-relaxed px-4">
-              Exquisite watercolor paintings, custom family portrait commissions, and beautifully crafted greeting cards.
+              One of a kind art work for the sentimental buyer. Specializing in Custom Watercolor Homes &amp; Custom Watercolor Portraits.
             </p>
             
             <Link to="/shop" className="mt-4 px-8 py-4 bg-ink text-ivory hover:bg-olive font-serif tracking-widest text-sm uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:scale-105 inline-block">
@@ -103,7 +108,7 @@ export default function Hero() {
               style={{
                 backgroundImage: `url(${heroStates[currentState].image})`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: heroStates[currentState].position,
               }}
             />
           </motion.div>

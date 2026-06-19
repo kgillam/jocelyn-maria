@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { visibleProducts, parsePrice, formatPrice } from '../data/products';
 
 export default function CustomCommissions() {
   const [images, setImages] = useState([
@@ -9,6 +10,19 @@ export default function CustomCommissions() {
     '/watercolorbrickhome.png',
     '/watercolorwhitehome.png'
   ]);
+
+  // Quick-order configuration for the house portrait.
+  const housePortrait = visibleProducts.find(p => p.category === 'Watercolor Houses');
+  const [quickSize, setQuickSize] = useState<string | undefined>(housePortrait?.sizes?.[0]?.label);
+  const selectedQuickSize = housePortrait?.sizes?.find(s => s.label === quickSize);
+  const quickPrice = selectedQuickSize
+    ? selectedQuickSize.price
+    : housePortrait
+      ? parsePrice(housePortrait.price)
+      : 0;
+  const quickOrderHref = housePortrait
+    ? `/shop/${housePortrait.id}${quickSize ? `?size=${encodeURIComponent(quickSize)}` : ''}`
+    : '/shop';
 
   const handleImageSwap = (clickedIndex: number) => {
     if (clickedIndex === 0) return;
@@ -22,9 +36,11 @@ export default function CustomCommissions() {
   };
 
   return (
-    <section className="py-24 bg-ivory overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 relative z-10">
+    <section className="relative py-24 bg-ivory bg-[url('/papertexture.png')] bg-cover bg-center overflow-hidden">
+      <div className="absolute inset-0 bg-white/50 pointer-events-none" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 relative z-10">
+          <p className="font-sans text-xs md:text-sm uppercase tracking-[0.25em] text-olive mb-4">Made to Order</p>
           <h2 className="font-serif text-2xl md:text-4xl text-ink mb-4 uppercase tracking-[0.1em] md:tracking-[0.15em] font-light">House Portraits: Custom Commissions</h2>
           <div className="w-16 h-px bg-olive mx-auto"></div>
         </div>
@@ -70,19 +86,47 @@ export default function CustomCommissions() {
              })}
           </div>
 
-          {/* Right: Promotional Link to Dedicated Page */}
-          <div className="bg-ivory p-8 md:p-16 rounded-2xl shadow-xl border border-sage/10 ml-0 lg:ml-8 order-1 flex flex-col justify-center items-center text-center">
-            
-            <h3 className="font-serif text-3xl md:text-4xl text-ink mb-6">Custom Commissions</h3>
-            
-            <p className="font-sans text-ink/70 leading-relaxed max-w-sm mb-10">
-              Transform your most cherished memories—from the family home to precious portraits—into timeless watercolor heirlooms.
-            </p>
+          {/* Right: Quick Order Card */}
+          <div className="bg-ivory p-8 md:p-12 rounded-2xl shadow-xl border border-sage/10 ml-0 lg:ml-8 order-1 flex flex-col justify-center items-center text-center">
 
-            <Link to="/custom-commissions" className="group px-8 py-4 border-2 border-olive text-ink font-serif tracking-widest text-xs uppercase hover:bg-olive hover:text-white transition-all duration-300 flex items-center shadow-sm">
-              Explore Commission Services
-              <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" />
+            <p className="font-sans text-xs uppercase tracking-[0.25em] text-olive mb-3">Quick Order</p>
+            <h3 className="font-serif text-3xl md:text-4xl text-ink mb-2">Watercolor House Portrait</h3>
+            <p className="font-sans text-2xl text-ink/90 mb-8">{formatPrice(quickPrice)}</p>
+
+            {housePortrait?.sizes && housePortrait.sizes.length > 0 && (
+              <div className="w-full max-w-xs mb-8">
+                <p className="font-serif text-sm tracking-widest uppercase text-ink/80 mb-3">Size</p>
+                <div className="flex justify-center gap-3">
+                  {housePortrait.sizes.map(s => (
+                    <button
+                      key={s.label}
+                      type="button"
+                      onClick={() => setQuickSize(s.label)}
+                      className={`px-5 py-2.5 border font-sans text-sm transition-colors ${
+                        quickSize === s.label
+                          ? 'border-olive bg-olive/5 text-ink'
+                          : 'border-sage/40 text-ink/70 hover:border-sage/70'
+                      }`}
+                    >
+                      {s.label} — {formatPrice(s.price)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <Link
+              to={quickOrderHref}
+              className="group w-full max-w-xs px-8 py-4 bg-ink text-cream font-serif tracking-widest text-xs uppercase hover:bg-olive transition-all duration-300 flex items-center justify-center gap-2 shadow-sm"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              Start Your Order
+              <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
             </Link>
+
+            <p className="font-sans text-xs text-ink/50 mt-4 max-w-xs">
+              Choose your options and add your reference photo on the next step.
+            </p>
           </div>
         </div>
       </div>

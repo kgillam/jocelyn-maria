@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, Minus, Plus, ShoppingBag, Check, ArrowLeft, Upload, X, ImageIcon } from 'lucide-react';
 import { getProductById, visibleProducts, parsePrice, formatPrice, PRINT_PRICE } from '../data/products';
@@ -10,12 +10,18 @@ import ProductCard from '../components/ProductCard';
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { addItem } = useCart();
 
   const product = getProductById(id ?? '');
 
+  // Honor a ?size= param (e.g. from the homepage quick-order card) when valid.
+  const requestedSize = searchParams.get('size') ?? undefined;
+  const defaultSize =
+    product?.sizes?.find(s => s.label === requestedSize)?.label ?? product?.sizes?.[0]?.label;
+
   const [activeImage, setActiveImage] = useState(0);
-  const [size, setSize] = useState<string | undefined>(product?.sizes?.[0]);
+  const [size, setSize] = useState<string | undefined>(defaultSize);
   const [option, setOption] = useState<PurchaseOption>('original');
   const [printCount, setPrintCount] = useState(1);
   const [reference, setReference] = useState<ProcessedImage | null>(null);
