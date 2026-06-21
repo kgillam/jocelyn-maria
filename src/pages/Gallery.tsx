@@ -5,9 +5,9 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 // Unified gallery images — only watercolor house portraits and watercolor portraits
 const galleryItems = [
   // Homepage hero house portraits
-  { src: '/hero/houseportrait-inhome1.PNG', alt: 'House Portrait 1' },
-  { src: '/hero/houseportrait-inhome2.PNG', alt: 'House Portrait 2' },
-  { src: '/hero/houseportrait-inhome3.PNG', alt: 'House Portrait 3' },
+  { src: '/hero/jocelynmariahero1.png', alt: 'House Portrait 1' },
+  { src: '/hero/jocelynmariahero2.png', alt: 'House Portrait 2' },
+  { src: '/hero/jocelynmariahero3.png', alt: 'House Portrait 3' },
 
   // Watercolor house portraits
   { src: '/watercolorbrickhome.png', alt: 'Watercolor Brick Home' },
