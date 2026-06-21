@@ -2,20 +2,27 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Unified gallery images — we will render them with a consistent aspect ratio
+// Unified gallery images — only watercolor house portraits and watercolor portraits
 const galleryItems = [
-  { src: '/jocelynmariaheropic1.jpeg', alt: 'Artist Painting' },
-  { src: '/MistyMountains.png', alt: 'Misty Mountains' },
+  // Homepage hero house portraits
+  { src: '/hero/houseportrait-inhome1.PNG', alt: 'House Portrait 1' },
+  { src: '/hero/houseportrait-inhome2.PNG', alt: 'House Portrait 2' },
+  { src: '/hero/houseportrait-inhome3.PNG', alt: 'House Portrait 3' },
+
+  // Watercolor house portraits
   { src: '/watercolorbrickhome.png', alt: 'Watercolor Brick Home' },
+  { src: '/watercolorredbrickhome.png', alt: 'Watercolor Red Brick Home' },
+  { src: '/watercolorwhitehome.png', alt: 'Watercolor White Home' },
+
+  // Watercolor portraits
   { src: '/momandgirlsportrait.png', alt: 'Mom and Girls Portrait' },
-  { src: '/jocelynmariaheropic2.jpeg', alt: 'Painting Process' },
-  { src: '/cardblueberryproduct.png?v=4', alt: 'Blueberry Greeting Card' },
-  { src: '/girlsatpromportrait.png', alt: 'Girls at Prom' },
-  { src: '/watercolorredbrickhome.png', alt: 'Red Brick Home' },
-  { src: '/girlsontripportrait.png', alt: 'Girls on Trip' },
-  { src: '/cardlavenderproduct.png?v=4', alt: 'Lavender Greeting Card' },
-  { src: '/momanddaughterportrait.png', alt: 'Mom and Daughter' },
-  { src: '/jocelynmariaheropic3.jpeg', alt: 'Studio Detail' },
+  { src: '/girlsatpromportrait.png', alt: 'Girls at Prom Portrait' },
+  { src: '/girlsontripportrait.png', alt: 'Girls on Trip Portrait' },
+  { src: '/momanddaughterportrait.png', alt: 'Mom and Daughter Portrait' },
+
+  // Additional artwork / portraits
+  { src: '/jocelynmariaheropic1.jpeg', alt: 'Artist Painting' },
+  { src: '/jocelynmariaheropic2.jpeg', alt: 'Artist Painting 2' },
 ];
 
 export default function Gallery() {
