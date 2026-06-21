@@ -20,12 +20,20 @@ const galleryItems = [
   { src: '/girlsontripportrait.png', alt: 'Girls on Trip Portrait' },
   { src: '/momanddaughterportrait.png', alt: 'Mom and Daughter Portrait' },
 
-  // Additional artwork / portraits
-  { src: '/jocelynmariaheropic1.jpeg', alt: 'Artist Painting' },
-  { src: '/jocelynmariaheropic2.jpeg', alt: 'Artist Painting 2' },
+  // New portrait
+  { src: '/momandkidsreadingportrait.png', alt: 'Mom and Kids Reading Portrait' },
 ];
 
 export default function Gallery() {
+  const [shuffledItems] = useState(() => {
+    const arr = [...galleryItems];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  });
+
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -39,12 +47,12 @@ export default function Gallery() {
   }, []);
 
   const showPrev = useCallback(() => {
-    setCurrentIndex((i) => (i - 1 + galleryItems.length) % galleryItems.length);
-  }, []);
+    setCurrentIndex((i) => (i - 1 + shuffledItems.length) % shuffledItems.length);
+  }, [shuffledItems.length]);
 
   const showNext = useCallback(() => {
-    setCurrentIndex((i) => (i + 1) % galleryItems.length);
-  }, []);
+    setCurrentIndex((i) => (i + 1) % shuffledItems.length);
+  }, [shuffledItems.length]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -81,7 +89,7 @@ export default function Gallery() {
             </button>
 
             <div className="relative bg-black rounded-md overflow-hidden">
-              <img src={galleryItems[currentIndex].src} alt={galleryItems[currentIndex].alt} className="w-full max-h-[80vh] object-contain mx-auto block" />
+              <img src={shuffledItems[currentIndex].src} alt={shuffledItems[currentIndex].alt} className="w-full max-h-[80vh] object-contain mx-auto block" />
 
               <button onClick={(e) => { e.stopPropagation(); showPrev(); }} aria-label="Previous" className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 text-white hover:bg-black/60">
                 <ChevronLeft className="w-6 h-6" />
@@ -92,7 +100,7 @@ export default function Gallery() {
               </button>
 
               <div className="absolute left-1/2 -translate-x-1/2 bottom-3 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-                {currentIndex + 1} / {galleryItems.length}
+                {currentIndex + 1} / {shuffledItems.length}
               </div>
             </div>
           </motion.div>
@@ -104,7 +112,7 @@ export default function Gallery() {
         {/* We use grid-cols-2 on mobile and grid-cols-6 on desktop. 
             auto-rows creates dynamic height chunks combined with row-span */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0 overflow-hidden">
-          {galleryItems.map((item, index) => (
+          {shuffledItems.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.95 }}
