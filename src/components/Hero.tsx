@@ -85,7 +85,7 @@ export default function Hero() {
             </p>
             
             <Link to="/shop" className="mt-4 px-8 py-4 bg-ink text-ivory hover:bg-olive font-serif tracking-widest text-sm uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:scale-105 inline-block">
-              EXPLORE ORIGINAL WORKS
+              Explore My Shop
             </Link>
           </motion.div>
           </motion.div>
