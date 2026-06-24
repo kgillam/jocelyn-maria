@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Product, parsePrice, PRINT_PRICE } from '../data/products';
+import { Product, parsePrice } from '../data/products';
 
 export type PurchaseOption = 'original' | 'original-prints';
 
@@ -8,7 +8,7 @@ export interface CartItem {
   productId: number;
   title: string;
   basePrice: string; // display price of the original piece, e.g. "$65.00"
-  printPrice?: number; // price per print for this line (falls back to PRINT_PRICE)
+  printPrice?: number; // price per print for this line (absent = not sold as prints)
   image: string;
   type: string;
   option: PurchaseOption;
@@ -81,9 +81,11 @@ function makeLineId(): string {
   return `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
 }
 
-// Price of a single line: one original piece plus any prints.
+// Price of a single line: one original piece plus any prints. A prints line is
+// only ever created with a real per-print price, so a missing one means $0 —
+// never a phantom default.
 function computeLineTotal(item: CartItem): number {
-  const unit = item.printPrice ?? PRINT_PRICE;
+  const unit = item.printPrice ?? 0;
   return parsePrice(item.basePrice) + unit * item.printQuantity;
 }
 

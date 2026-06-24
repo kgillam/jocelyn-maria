@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, Minus, Plus, ShoppingBag, Check, ArrowLeft, Upload, X, ImageIcon } from 'lucide-react';
-import { parsePrice, formatPrice, PRINT_PRICE } from '../data/products';
+import { parsePrice, formatPrice } from '../data/products';
 import { useProducts } from '../context/ProductContext';
 import { useCart, PurchaseOption } from '../context/CartContext';
 import { processReferenceImage, ProcessedImage } from '../utils/image';
@@ -58,11 +58,13 @@ export default function ProductDetail() {
   // The original's price follows the selected size when the product is sized.
   const selectedSize = product.sizes?.find(s => s.label === size);
   const basePrice = selectedSize ? selectedSize.price : parsePrice(product.price);
-  // Per-print price follows the selected size, then the product, then the
-  // sitewide default.
-  const printUnit = selectedSize?.printPrice ?? product.printPrice ?? PRINT_PRICE;
+  // Prints are offered ONLY when an explicit per-size or per-product print price
+  // exists. There is no sitewide fallback, so a card or original painting never
+  // charges a phantom print fee the admin never set.
+  const printUnit = selectedSize?.printPrice ?? product.printPrice;
+  const offersPrints = printUnit != null;
   const displayedTotal =
-    basePrice + (option === 'original-prints' ? printUnit * printCount : 0);
+    basePrice + (offersPrints && option === 'original-prints' ? (printUnit ?? 0) * printCount : 0);
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -198,7 +200,7 @@ export default function ProductDetail() {
 
             <div className="w-16 h-px bg-olive mb-6"></div>
 
-            <p className="font-sans text-ink/70 leading-relaxed mb-8">{product.description}</p>
+            <p className="font-sans text-ink/70 leading-relaxed mb-8 whitespace-pre-line">{product.description}</p>
 
             {product.details && (
               <ul className="space-y-2 mb-8">
@@ -232,7 +234,8 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Purchase option selector */}
+            {/* Purchase option selector — shown only when this piece is sold as prints */}
+            {offersPrints && (
             <div className="mb-8">
               <p className="font-serif text-sm tracking-widest uppercase text-ink/80 mb-3">Choose Your Order</p>
               <div className="space-y-3">
@@ -247,7 +250,7 @@ export default function ProductDetail() {
                 <button type="button" onClick={() => setOption('original-prints')} className={optionButtonClass(option === 'original-prints')}>
                   <div className="flex items-center justify-between">
                     <span className="font-serif text-base text-ink">Original + Prints</span>
-                    <span className="font-sans text-sm text-ink/80">{formatPrice(basePrice)} + {formatPrice(printUnit)}/print</span>
+                    <span className="font-sans text-sm text-ink/80">{formatPrice(basePrice)} + {formatPrice(printUnit ?? 0)}/print</span>
                   </div>
                   <p className="font-sans text-xs text-ink/50 mt-1">The original piece plus additional prints to share.</p>
 
@@ -281,6 +284,7 @@ export default function ProductDetail() {
                 </button>
               </div>
             </div>
+            )}
 
             {/* Reference photo upload (required for custom pieces) */}
             {needsReference && (

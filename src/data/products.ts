@@ -3,8 +3,8 @@ export interface Product {
   title: string;
   price: string;
   // Per-print price for Custom pieces that are NOT sold by size. When a product
-  // has sizes, each size carries its own printPrice instead. Falls back to the
-  // sitewide PRINT_PRICE when unset.
+  // has sizes, each size carries its own printPrice instead. When unset, the
+  // piece simply isn't offered as prints.
   printPrice?: number;
   images: string[];
   // Doubles as the descriptor shown on cards/detail: 'Custom' | 'Greeting Card'
@@ -158,22 +158,21 @@ const allCategories = ['All Shop', 'Cards', 'Watercolor Houses', 'Portraits', 'O
 export const visibleProducts = allProducts.filter(p => !hiddenCategories.includes(p.category));
 export const categories = allCategories.filter(c => !hiddenCategories.includes(c));
 
-// Flat price per print when a customer adds prints alongside the original piece.
-export const PRINT_PRICE = 15;
-
 // Look up a single product by its id (used by the product detail page).
 export function getProductById(id: number | string): Product | undefined {
   const numericId = typeof id === 'string' ? Number(id) : id;
   return allProducts.find(p => p.id === numericId);
 }
 
-// Convert a display price like "$65.00" into a number for cart math.
+// Convert a display price like "$65.00" into a number for cart math. Reads only
+// the first valid numeric token so a malformed string can't silently zero out.
 export function parsePrice(price: string): number {
   if (typeof price !== 'string') return 0;
-  return Number(price.replace(/[^0-9.]/g, '')) || 0;
+  const match = price.replace(/[^0-9.]/g, '').match(/^\d*(?:\.\d+)?/);
+  return match ? Number(match[0]) || 0 : 0;
 }
 
 // Format a number back into the storefront's "$0.00" display style.
 export function formatPrice(amount: number): string {
-  return `$${amount.toFixed(2)}`;
+  return `$${(Math.round(amount * 100) / 100).toFixed(2)}`;
 }

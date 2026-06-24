@@ -174,7 +174,10 @@ export default function AdminDashboard() {
         ...(f.category === 'Custom' && s.printPrice !== ''
           ? { printPrice: Number(s.printPrice) }
           : {}),
-      }));
+      }))
+      // Cheapest first so the shop card "from" price matches the product page's
+      // default selected size.
+      .sort((a, b) => a.price - b.price);
 
     const sized = cleanSizes.length > 0;
     const basePrice = sized
@@ -188,7 +191,7 @@ export default function AdminDashboard() {
       type: f.category, // mirror for backward-compatible storefront reads
       description: f.description.trim(),
       images: f.images,
-      details: f.details,
+      details: f.details.map(s => s.trim()).filter(Boolean),
       price: formatPrice(basePrice),
       ...(f.category === 'Custom' && !sized && f.printPrice !== ''
         ? { printPrice: Number(f.printPrice) }
@@ -200,6 +203,7 @@ export default function AdminDashboard() {
   const validate = (f: FormState): string | null => {
     if (!f.title.trim()) return 'Please enter a title.';
     if (!f.description.trim()) return 'Please enter a description.';
+    if (f.images.length === 0) return 'Please upload at least one image.';
     if (!hasSizes) {
       if (f.price === '' || Number(f.price) <= 0) return 'Please enter a price.';
       if (f.category === 'Custom' && (f.printPrice === '' || Number(f.printPrice) < 0))
@@ -459,6 +463,20 @@ export default function AdminDashboard() {
                   rows={3}
                   value={form.description}
                   onChange={e => updateForm({ description: e.target.value })}
+                  className="w-full border border-sage/40 p-3 bg-transparent focus:outline-none focus:border-olive resize-y"
+                />
+              </div>
+
+              {/* Details */}
+              <div>
+                <label className={labelClass}>Details (optional)</label>
+                <p className="text-xs text-ink/50 -mt-1 mb-2">
+                  One per line — shown as a checklist on the product page.
+                </p>
+                <textarea
+                  rows={4}
+                  value={form.details.join('\n')}
+                  onChange={e => updateForm({ details: e.target.value.split('\n') })}
                   className="w-full border border-sage/40 p-3 bg-transparent focus:outline-none focus:border-olive resize-y"
                 />
               </div>

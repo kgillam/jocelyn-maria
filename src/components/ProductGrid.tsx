@@ -8,11 +8,16 @@ import { ArrowRight } from 'lucide-react';
 export default function ProductGrid() {
   const { visibleProducts } = useProducts();
   
-  // Show one product from each currently-marketed category.
-  const featuredProducts = [
-    visibleProducts.find(p => p.category === 'Watercolor Houses'),
-    visibleProducts.find(p => p.category === 'Portraits')
-  ].filter(Boolean);
+  // Feature the house portrait and a people portrait. Matched by title first so
+  // this survives the category change (legacy 'Watercolor Houses'/'Portraits' or
+  // the new 'Custom'), with a legacy-category fallback.
+  const houseProduct =
+    visibleProducts.find(p => /house/i.test(p.title)) ??
+    visibleProducts.find(p => p.category === 'Watercolor Houses');
+  const portraitProduct =
+    visibleProducts.find(p => /portrait/i.test(p.title) && !/house/i.test(p.title)) ??
+    visibleProducts.find(p => p.category === 'Portraits');
+  const featuredProducts = [houseProduct, portraitProduct].filter(Boolean);
 
   return (
     <section className="py-24 bg-cream" id="collection">
