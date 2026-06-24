@@ -15,63 +15,63 @@ const inputClass =
   'w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors';
 const labelClass = 'font-serif text-sm tracking-widest uppercase text-ink/80 block mb-1';
 
-function CheckoutFormContent() {
+// Friendly, first-person confirmation shown after a successful order. Kept in
+// the OUTER component (below) so clearing the cart doesn't bounce the customer
+// to the empty-cart screen.
+function OrderConfirmation({ email }: { email: string }) {
+  return (
+    <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center">
+      <div className="text-center px-6 max-w-xl">
+        <div className="w-16 h-16 rounded-full bg-olive/10 flex items-center justify-center mx-auto mb-8">
+          <Check className="w-8 h-8 text-olive" strokeWidth={2} />
+        </div>
+        <h1 className="font-serif text-3xl md:text-4xl text-ink mb-4 uppercase tracking-[0.12em] font-light">
+          Thank You So Much!
+        </h1>
+        <div className="w-16 h-px bg-olive mx-auto mb-8"></div>
+        <p className="font-sans text-ink/80 leading-relaxed mb-4 text-lg">
+          I'm absolutely thrilled — and so grateful — that you've chosen a piece of my hand-painted
+          art to treasure. Thank you for supporting my little studio; it truly means the world to me!
+        </p>
+        <p className="font-sans text-ink/70 leading-relaxed mb-4">
+          A confirmation and receipt {email
+            ? <>are on their way to <span className="text-ink">{email}</span></>
+            : 'are on their way to your email'}.
+          If your piece is made-to-order, I'll personally reach out to gather your reference photos
+          and any details so I can get started.
+        </p>
+        <p className="font-sans text-ink/70 leading-relaxed mb-10">
+          Have any questions about your order? I'd love to hear from you — just reach out anytime at{' '}
+          <a href="mailto:hello@jocelynmaria.com" className="text-olive underline hover:text-ink transition-colors">
+            hello@jocelynmaria.com
+          </a>.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            to="/shop"
+            className="inline-flex items-center justify-center w-full sm:w-auto bg-ink text-cream px-8 py-4 font-serif uppercase tracking-[0.15em] text-sm hover:bg-olive transition-colors"
+          >
+            Continue Shopping
+          </Link>
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center w-full sm:w-auto border border-ink text-ink px-8 py-4 font-serif uppercase tracking-[0.15em] text-sm hover:bg-ink hover:text-cream transition-colors"
+          >
+            Back to Home
+          </Link>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function CheckoutFormContent({ onSuccess }: { onSuccess: (email: string) => void }) {
   const stripe = useStripe();
   const elements = useElements();
-  const { items, subtotal, shipping, total, lineTotal, clearCart } = useCart();
+  const { items, subtotal, shipping, total, lineTotal } = useCart();
 
-  const [placed, setPlaced] = useState(false);
-  const [orderEmail, setOrderEmail] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  // Order confirmation view
-  if (placed) {
-    return (
-      <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center">
-        <div className="text-center px-6 max-w-xl">
-          <div className="w-16 h-16 rounded-full bg-olive/10 flex items-center justify-center mx-auto mb-8">
-            <Check className="w-8 h-8 text-olive" strokeWidth={2} />
-          </div>
-          <h1 className="font-serif text-3xl md:text-4xl text-ink mb-4 uppercase tracking-[0.12em] font-light">
-            Thank You So Much!
-          </h1>
-          <div className="w-16 h-px bg-olive mx-auto mb-8"></div>
-          <p className="font-sans text-ink/80 leading-relaxed mb-4 text-lg">
-            Your order is confirmed — we are absolutely thrilled and so grateful you chose a piece of
-            hand-painted art to treasure!
-          </p>
-          <p className="font-sans text-ink/70 leading-relaxed mb-4">
-            A confirmation and receipt {orderEmail
-              ? <>are on their way to <span className="text-ink">{orderEmail}</span></>
-              : 'are on their way to your email'}.
-            For any made-to-order pieces, Jocelyn will personally reach out to gather your reference
-            photos and details.
-          </p>
-          <p className="font-sans text-ink/70 leading-relaxed mb-10">
-            Have any questions about your order? We'd love to hear from you — reach out anytime at{' '}
-            <a href="mailto:hello@jocelynmaria.com" className="text-olive underline hover:text-ink transition-colors">
-              hello@jocelynmaria.com
-            </a>.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/shop"
-              className="inline-flex items-center justify-center w-full sm:w-auto bg-ink text-cream px-8 py-4 font-serif uppercase tracking-[0.15em] text-sm hover:bg-olive transition-colors"
-            >
-              Continue Shopping
-            </Link>
-            <Link
-              to="/"
-              className="inline-flex items-center justify-center w-full sm:w-auto border border-ink text-ink px-8 py-4 font-serif uppercase tracking-[0.15em] text-sm hover:bg-ink hover:text-cream transition-colors"
-            >
-              Back to Home
-            </Link>
-          </div>
-        </div>
-      </main>
-    );
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -147,10 +147,7 @@ function CheckoutFormContent() {
       setErrorMessage(error.message ?? 'An unexpected error occurred.');
       setIsProcessing(false);
     } else {
-      setOrderEmail(customer.email);
-      clearCart();
-      setPlaced(true);
-      window.scrollTo(0, 0);
+      onSuccess(customer.email);
     }
   };
 
@@ -319,7 +316,15 @@ function CheckoutFormContent() {
 }
 
 export default function Checkout() {
-  const { items, total } = useCart();
+  const { items, total, clearCart } = useCart();
+  const [placed, setPlaced] = useState(false);
+  const [orderEmail, setOrderEmail] = useState('');
+
+  // Success view is checked FIRST — so clearing the cart after a successful
+  // order doesn't bounce the customer to the empty-cart screen.
+  if (placed) {
+    return <OrderConfirmation email={orderEmail} />;
+  }
 
   // Guard: nothing to check out.
   if (items.length === 0) {
@@ -359,7 +364,14 @@ export default function Checkout() {
         appearance: { theme: 'stripe' },
       }}
     >
-      <CheckoutFormContent />
+      <CheckoutFormContent
+        onSuccess={(email) => {
+          setOrderEmail(email);
+          clearCart();
+          setPlaced(true);
+          window.scrollTo(0, 0);
+        }}
+      />
     </Elements>
   );
 }
