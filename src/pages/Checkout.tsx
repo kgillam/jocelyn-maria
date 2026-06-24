@@ -29,22 +29,45 @@ function CheckoutFormContent({ clientSecret }: { clientSecret: string }) {
   if (placed) {
     return (
       <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center">
-        <div className="text-center px-6 max-w-lg">
+        <div className="text-center px-6 max-w-xl">
           <div className="w-16 h-16 rounded-full bg-olive/10 flex items-center justify-center mx-auto mb-8">
             <Check className="w-8 h-8 text-olive" strokeWidth={2} />
           </div>
-          <h1 className="font-serif text-3xl md:text-4xl text-ink mb-4 uppercase tracking-[0.12em] font-light">Thank You</h1>
+          <h1 className="font-serif text-3xl md:text-4xl text-ink mb-4 uppercase tracking-[0.12em] font-light">
+            Thank You So Much!
+          </h1>
           <div className="w-16 h-px bg-olive mx-auto mb-8"></div>
-          <p className="font-sans text-ink/70 leading-relaxed mb-2">
-            Your order has been received. A confirmation has been sent
-            {orderEmail ? <> to <span className="text-ink">{orderEmail}</span></> : ''}.
+          <p className="font-sans text-ink/80 leading-relaxed mb-4 text-lg">
+            Your order is confirmed — we are absolutely thrilled and so grateful you chose a piece of
+            hand-painted art to treasure!
+          </p>
+          <p className="font-sans text-ink/70 leading-relaxed mb-4">
+            A confirmation and receipt {orderEmail
+              ? <>are on their way to <span className="text-ink">{orderEmail}</span></>
+              : 'are on their way to your email'}.
+            For any made-to-order pieces, Jocelyn will personally reach out to gather your reference
+            photos and details.
           </p>
           <p className="font-sans text-ink/70 leading-relaxed mb-10">
-            For any made-to-order pieces, Jocelyn will be in touch to gather your reference photos and details.
+            Have any questions about your order? We'd love to hear from you — reach out anytime at{' '}
+            <a href="mailto:hello@jocelynmaria.com" className="text-olive underline hover:text-ink transition-colors">
+              hello@jocelynmaria.com
+            </a>.
           </p>
-          <Link to="/shop" className="inline-flex items-center bg-ink text-cream px-8 py-4 font-serif uppercase tracking-[0.15em] text-sm hover:bg-olive transition-colors">
-            Continue Shopping
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              to="/shop"
+              className="inline-flex items-center justify-center w-full sm:w-auto bg-ink text-cream px-8 py-4 font-serif uppercase tracking-[0.15em] text-sm hover:bg-olive transition-colors"
+            >
+              Continue Shopping
+            </Link>
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center w-full sm:w-auto border border-ink text-ink px-8 py-4 font-serif uppercase tracking-[0.15em] text-sm hover:bg-ink hover:text-cream transition-colors"
+            >
+              Back to Home
+            </Link>
+          </div>
         </div>
       </main>
     );
