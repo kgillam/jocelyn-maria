@@ -105,6 +105,20 @@ function CheckoutFormContent({ clientSecret }: { clientSecret: string }) {
           {/* Form fields */}
           <div className="w-full lg:w-7/12 space-y-12">
             
+            {/* Payment via Stripe */}
+            <section>
+              <h2 className="font-serif text-xl text-ink uppercase tracking-widest mb-2">Payment</h2>
+              <p className="font-sans text-xs text-ink/50 mb-6 flex items-center gap-2">
+                <Lock className="w-3.5 h-3.5" /> All transactions are secure and encrypted via Stripe.
+              </p>
+              <div className="space-y-6">
+                <PaymentElement />
+                {errorMessage && (
+                  <div className="text-red-600 text-sm mt-4 font-sans">{errorMessage}</div>
+                )}
+              </div>
+            </section>
+
             {/* Contact */}
             <section>
               <h2 className="font-serif text-xl text-ink uppercase tracking-widest mb-6">Contact</h2>
@@ -156,20 +170,6 @@ function CheckoutFormContent({ clientSecret }: { clientSecret: string }) {
                     <input name="zip" type="text" required className={inputClass} />
                   </div>
                 </div>
-              </div>
-            </section>
-
-            {/* Payment via Stripe */}
-            <section>
-              <h2 className="font-serif text-xl text-ink uppercase tracking-widest mb-2">Payment</h2>
-              <p className="font-sans text-xs text-ink/50 mb-6 flex items-center gap-2">
-                <Lock className="w-3.5 h-3.5" /> All transactions are secure and encrypted via Stripe.
-              </p>
-              <div className="space-y-6">
-                <PaymentElement />
-                {errorMessage && (
-                  <div className="text-red-600 text-sm mt-4 font-sans">{errorMessage}</div>
-                )}
               </div>
             </section>
 
