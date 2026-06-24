@@ -4,8 +4,12 @@ import { neon } from '@neondatabase/serverless';
 import { allProducts } from '../../src/data/products';
 
 function getDb() {
-  const url = process.env.DATABASE_URL || process.env.POSTGRES_URL;
-  if (!url) throw new Error('No database URL configured (DATABASE_URL or POSTGRES_URL)');
+  // neon() HTTP transport requires the direct (unpooled) Neon endpoint URL
+  const url = process.env.DATABASE_URL_UNPOOLED
+    || process.env.POSTGRES_URL_NON_POOLING
+    || process.env.DATABASE_URL
+    || process.env.POSTGRES_URL;
+  if (!url) throw new Error('No database URL configured');
   return neon(url);
 }
 
