@@ -131,7 +131,7 @@ async function loadProducts(): Promise<any[]> {
     const { blobs } = await list({ prefix: 'catalog/', limit: 10 });
     const blob = blobs.find(b => b.pathname === PRODUCTS_PATH);
     if (!blob) return defaultProducts;
-    const resp = await fetch(blob.url);
+    const resp = await fetch(blob.url, { cache: 'no-store' });
     if (!resp.ok) return defaultProducts;
     return await resp.json();
   } catch {

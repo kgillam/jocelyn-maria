@@ -43,7 +43,7 @@ export default function AdminDashboard() {
     if (!editingProduct) return;
 
     const method = editingProduct.id ? 'PUT' : 'POST';
-    
+
     try {
       const res = await fetch('/api/admin/products', {
         method,
@@ -55,8 +55,9 @@ export default function AdminDashboard() {
       });
 
       if (res.ok) {
+        const data = await res.json();
+        setProducts(data.products);
         setEditingProduct(null);
-        fetchProducts();
       } else {
         const text = await res.text().catch(() => '');
         let msg = `HTTP ${res.status}`;
@@ -76,7 +77,10 @@ export default function AdminDashboard() {
 
   const handleDelete = async (id: number) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
-    
+
+    const snapshot = products;
+    setProducts(prev => prev.filter(p => p.id !== id));
+
     try {
       const res = await fetch(`/api/admin/products?id=${id}`, {
         method: 'DELETE',
@@ -84,13 +88,16 @@ export default function AdminDashboard() {
       });
 
       if (res.ok) {
-        fetchProducts();
+        const data = await res.json();
+        setProducts(data.products);
       } else {
-        alert('Failed to delete');
+        setProducts(snapshot);
+        alert('Failed to delete product');
       }
     } catch (error) {
+      setProducts(snapshot);
       console.error(error);
-      alert('Error deleting');
+      alert('Error deleting product');
     }
   };
 
