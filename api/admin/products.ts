@@ -210,6 +210,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
+  // One-time maintenance: restore the canonical catalog after the store was
+  // corrupted by earlier testing. Removed in a follow-up deploy.
+  if (req.method === 'POST' && req.query.action === 'reset-defaults') {
+    try {
+      await saveProducts(defaultProducts);
+      return res.status(200).json({ success: true, products: defaultProducts });
+    } catch (e: any) {
+      return res.status(500).json({ error: e.message || 'Reset failed' });
+    }
+  }
+
   try {
     let products = await loadForWrite();
 
