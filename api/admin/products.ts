@@ -1,24 +1,42 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { put, list } from '@vercel/blob';
+import { neon } from '@neondatabase/serverless';
 
-// We fallback to the hardcoded products if the blob doesn't exist yet
 import { allProducts } from '../../src/data/products';
 
-const BLOB_PATH = 'database/products.json';
+function getDb() {
+  const url = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+  if (!url) throw new Error('No database URL configured (DATABASE_URL or POSTGRES_URL)');
+  return neon(url);
+}
+
+async function ensureTable(sql: ReturnType<typeof neon>) {
+  await sql`
+    CREATE TABLE IF NOT EXISTS products (
+      id        SERIAL PRIMARY KEY,
+      data      JSONB NOT NULL
+    )
+  `;
+}
 
 async function getProducts() {
   try {
-    const { blobs } = await list({ prefix: BLOB_PATH });
-    if (blobs.length > 0) {
-      const response = await fetch(blobs[0].url);
-      if (response.ok) {
-        return await response.json();
-      }
+    const sql = getDb();
+    await ensureTable(sql);
+    const rows = await sql`SELECT data FROM products ORDER BY (data->>'id')::int ASC`;
+    if (rows.length > 0) {
+      return rows.map((r: any) => r.data);
     }
   } catch (e) {
-    console.error('Error fetching products from blob:', e);
+    console.error('Error fetching products from DB:', e);
   }
   return allProducts;
+}
+
+async function saveProducts(sql: ReturnType<typeof neon>, productsData: any[]) {
+  await sql`DELETE FROM products`;
+  for (const product of productsData) {
+    await sql`INSERT INTO products (data) VALUES (${JSON.stringify(product)})`;
+  }
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -33,18 +51,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  // Diagnose missing blob credentials before attempting any write
-  const hasStoreId = !!process.env.BLOB_STORE_ID;
-  const hasToken = !!process.env.BLOB_READ_WRITE_TOKEN;
-  const hasOidc = !!process.env.VERCEL_OIDC_TOKEN;
-  if (!hasStoreId && !hasToken) {
-    return res.status(500).json({
-      error: `Blob not configured: BLOB_STORE_ID=${hasStoreId} BLOB_READ_WRITE_TOKEN=${hasToken} VERCEL_OIDC_TOKEN=${hasOidc}`
-    });
-  }
-
   try {
-    let productsData = JSON.parse(JSON.stringify(await getProducts()));
+    const sql = getDb();
+    await ensureTable(sql);
+
+    let productsData: any[] = await getProducts();
 
     if (req.method === 'POST') {
       const newProduct = req.body;
@@ -58,23 +69,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     } else if (req.method === 'DELETE') {
       const { id } = req.query;
-      const index = productsData.findIndex((p: any) => p.id === Number(id));
-      if (index !== -1) {
-        productsData.splice(index, 1);
-      }
+      productsData = productsData.filter((p: any) => p.id !== Number(id));
     } else {
       res.setHeader('Allow', 'GET, POST, PUT, DELETE');
       return res.status(405).end('Method Not Allowed');
     }
 
-    // Save back to Blob
-    await put(BLOB_PATH, JSON.stringify(productsData), {
-      access: 'public',
-      contentType: 'application/json',
-      addRandomSuffix: false,
-      allowOverwrite: true,
-    });
-
+    await saveProducts(sql, productsData);
     return res.status(200).json({ success: true, products: productsData });
   } catch (error: any) {
     const message = error?.message || error?.name || String(error) || 'Database operation failed';
