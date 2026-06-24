@@ -221,7 +221,7 @@ function CheckoutFormContent({ clientSecret }: { clientSecret: string }) {
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>{shipping === 0 ? 'Free' : formatPrice(shipping)}</span>
+                  <span>{formatPrice(shipping)}</span>
                 </div>
                 <div className="border-t border-sage/20 pt-3 flex justify-between font-serif text-lg text-ink">
                   <span>Total</span>

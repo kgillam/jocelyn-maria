@@ -2,13 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Minus, Plus, X, ShoppingBag, ArrowLeft } from 'lucide-react';
-import { useCart, FREE_SHIPPING_THRESHOLD } from '../context/CartContext';
+import { useCart } from '../context/CartContext';
 import { formatPrice } from '../data/products';
 
 export default function Cart() {
   const { items, setPrintQuantity, removeItem, lineTotal, subtotal, shipping, total } = useCart();
-
-  const amountToFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
 
   if (items.length === 0) {
     return (
@@ -145,14 +143,8 @@ export default function Cart() {
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>{shipping === 0 ? 'Free' : formatPrice(shipping)}</span>
+                  <span>{formatPrice(shipping)}</span>
                 </div>
-
-                {amountToFreeShipping > 0 && (
-                  <p className="text-xs text-olive bg-olive/5 border border-olive/20 p-3">
-                    Add {formatPrice(amountToFreeShipping)} more to unlock free shipping.
-                  </p>
-                )}
 
                 <div className="border-t border-sage/20 pt-4 flex justify-between font-serif text-lg text-ink">
                   <span>Total</span>

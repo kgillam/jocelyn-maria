@@ -42,8 +42,7 @@ interface CartContextValue {
   total: number;
 }
 
-// Free shipping threshold advertised in the site banner.
-const FREE_SHIPPING_THRESHOLD = 100;
+// Flat shipping rate applied to every order.
 const FLAT_SHIPPING_RATE = 8;
 const STORAGE_KEY = 'jocelyn-maria-cart';
 
@@ -141,8 +140,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const itemCount = items.length;
   const subtotal = items.reduce((sum, item) => sum + computeLineTotal(item), 0);
-  const shipping =
-    subtotal === 0 || subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_RATE;
+  const shipping = items.length === 0 ? 0 : FLAT_SHIPPING_RATE;
   const total = subtotal + shipping;
 
   return (
@@ -172,5 +170,3 @@ export function useCart() {
   }
   return context;
 }
-
-export { FREE_SHIPPING_THRESHOLD };
