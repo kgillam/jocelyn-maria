@@ -58,11 +58,12 @@ export default function AdminDashboard() {
         setEditingProduct(null);
         fetchProducts();
       } else {
-        alert('Failed to save product');
+        const data = await res.json().catch(() => ({}));
+        alert('Failed to save product: ' + (data.error || res.statusText));
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Error saving product');
+      alert('Error saving product: ' + error.message);
     }
   };
 

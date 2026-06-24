@@ -34,24 +34,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const products = await getProducts();
+    let productsData = JSON.parse(JSON.stringify(await getProducts()));
 
     if (req.method === 'POST') {
       const newProduct = req.body;
-      // Generate a simple ID
-      newProduct.id = Math.max(0, ...products.map((p: any) => p.id)) + 1;
-      products.push(newProduct);
+      newProduct.id = Math.max(0, ...productsData.map((p: any) => p.id)) + 1;
+      productsData.push(newProduct);
     } else if (req.method === 'PUT') {
       const updatedProduct = req.body;
-      const index = products.findIndex((p: any) => p.id === updatedProduct.id);
+      const index = productsData.findIndex((p: any) => p.id === updatedProduct.id);
       if (index !== -1) {
-        products[index] = updatedProduct;
+        productsData[index] = updatedProduct;
       }
     } else if (req.method === 'DELETE') {
       const { id } = req.query;
-      const index = products.findIndex((p: any) => p.id === Number(id));
+      const index = productsData.findIndex((p: any) => p.id === Number(id));
       if (index !== -1) {
-        products.splice(index, 1);
+        productsData.splice(index, 1);
       }
     } else {
       res.setHeader('Allow', 'GET, POST, PUT, DELETE');
@@ -59,15 +58,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // Save back to Blob
-    await put(BLOB_PATH, JSON.stringify(products), {
+    await put(BLOB_PATH, JSON.stringify(productsData), {
       access: 'public',
       contentType: 'application/json',
       addRandomSuffix: false, // Override the file
     });
 
-    return res.status(200).json({ success: true, products });
-  } catch (error) {
+    return res.status(200).json({ success: true, products: productsData });
+  } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ error: 'Database operation failed' });
+    return res.status(500).json({ error: error.message || 'Database operation failed' });
   }
 }
