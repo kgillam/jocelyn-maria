@@ -33,6 +33,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
+  // Diagnose missing blob credentials before attempting any write
+  const hasStoreId = !!process.env.BLOB_STORE_ID;
+  const hasToken = !!process.env.BLOB_READ_WRITE_TOKEN;
+  const hasOidc = !!process.env.VERCEL_OIDC_TOKEN;
+  if (!hasStoreId && !hasToken) {
+    return res.status(500).json({
+      error: `Blob not configured: BLOB_STORE_ID=${hasStoreId} BLOB_READ_WRITE_TOKEN=${hasToken} VERCEL_OIDC_TOKEN=${hasOidc}`
+    });
+  }
+
   try {
     let productsData = JSON.parse(JSON.stringify(await getProducts()));
 
