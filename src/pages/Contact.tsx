@@ -31,7 +31,14 @@ export default function Contact() {
         body: JSON.stringify(data),
       });
 
-      const result = await response.json();
+      const text = await response.text();
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch (e) {
+        // If it's not JSON, it's likely a Vercel crash page (e.g. 500 error)
+        throw new Error(`Server Error (${response.status}): ${text.substring(0, 40)}... Please check Vercel logs.`);
+      }
 
       if (!response.ok) {
         throw new Error(result.error?.message || result.error || 'Failed to send message.');
