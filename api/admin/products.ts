@@ -1,7 +1,12 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { put, list } from '@vercel/blob';
+import { put, list, del } from '@vercel/blob';
 
-const PRODUCTS_PATH = 'catalog/products.json';
+// All product-catalog blobs live under this prefix. Each save writes a brand
+// new immutable file (catalog/products-<random>.json) so reads always target a
+// URL the CDN has never cached — this is what prevents deleted products from
+// reappearing due to stale edge-cached content.
+const CATALOG_PREFIX = 'catalog/';
+const CATALOG_BASENAME = 'catalog/products.json';
 
 const defaultProducts = [
   {
@@ -126,32 +131,75 @@ const defaultProducts = [
   }
 ];
 
-async function loadProducts(): Promise<any[]> {
+// --- In-memory write-through bridge -----------------------------------------
+// Vercel Blob's content CDN is eventually consistent: after a write it can take
+// up to ~60s for a read of the same URL to reflect the change. Back-to-back
+// admin mutations on the same warm serverless instance would otherwise re-read
+// a stale list and resurrect just-deleted products. To prevent that, after a
+// write we keep the exact array we just persisted in memory and let the next
+// mutation on this instance read it directly instead of re-reading storage.
+let writeBridge: { products: any[]; expires: number } | null = null;
+const BRIDGE_TTL_MS = 90_000; // safely exceeds the ~60s CDN propagation window
+
+// Read the latest catalog from Blob. We always read the NEWEST blob (by upload
+// time). Because every save writes to a brand-new unique pathname, that URL has
+// no cached predecessor, so its first read is served fresh from origin — this
+// is what sidesteps the CDN staleness entirely.
+async function loadFromStore(): Promise<any[]> {
   try {
-    const { blobs } = await list({ prefix: 'catalog/', limit: 10 });
-    const blob = blobs.find(b => b.pathname === PRODUCTS_PATH);
-    if (!blob) return defaultProducts;
-    const resp = await fetch(blob.url, { cache: 'no-store' });
+    const { blobs } = await list({ prefix: CATALOG_PREFIX, limit: 100 });
+    if (blobs.length === 0) return defaultProducts;
+    const newest = blobs.reduce((a, b) =>
+      new Date(b.uploadedAt).getTime() > new Date(a.uploadedAt).getTime() ? b : a
+    );
+    const resp = await fetch(newest.url, { cache: 'no-store' });
     if (!resp.ok) return defaultProducts;
-    return await resp.json();
-  } catch {
+    const data = await resp.json();
+    return Array.isArray(data) ? data : defaultProducts;
+  } catch (e) {
+    console.error('loadFromStore failed:', e);
     return defaultProducts;
   }
 }
 
+// Used by mutations: prefer the freshly-written in-memory array if this warm
+// instance wrote recently, so rapid sequential edits never see stale storage.
+async function loadForWrite(): Promise<any[]> {
+  if (writeBridge && Date.now() < writeBridge.expires) {
+    return writeBridge.products.map((p) => ({ ...p }));
+  }
+  return loadFromStore();
+}
+
 async function saveProducts(products: any[]): Promise<void> {
-  await put(PRODUCTS_PATH, JSON.stringify(products), {
+  // Write an immutable, uniquely-named blob (catalog/products-<random>.json).
+  const { url } = await put(CATALOG_BASENAME, JSON.stringify(products), {
     access: 'public',
     contentType: 'application/json',
-    addRandomSuffix: false,
-    allowOverwrite: true,
+    addRandomSuffix: true,
   });
+
+  // Update the in-memory bridge immediately so this instance's next mutation
+  // reads the just-written state, regardless of CDN/list propagation lag.
+  writeBridge = { products: products.map((p) => ({ ...p })), expires: Date.now() + BRIDGE_TTL_MS };
+
+  // Best-effort cleanup of superseded versions so the store doesn't accumulate
+  // and reads stay unambiguous. Never let cleanup failure fail the request.
+  try {
+    const { blobs } = await list({ prefix: CATALOG_PREFIX, limit: 100 });
+    const stale = blobs.filter((b) => b.url !== url).map((b) => b.url);
+    if (stale.length) await del(stale);
+  } catch (e) {
+    console.error('catalog cleanup failed (non-fatal):', e);
+  }
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'GET') {
     try {
-      const products = await loadProducts();
+      // Shop + dashboard load: always read from storage (never the write
+      // bridge) so a warm read-instance can't pin stale in-memory data.
+      const products = await loadFromStore();
       return res.status(200).json(products);
     } catch (e: any) {
       return res.status(500).json({ error: e.message || 'Failed to load products' });
@@ -163,7 +211,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    let products = await loadProducts();
+    let products = await loadForWrite();
 
     if (req.method === 'POST') {
       const product = { ...req.body };
