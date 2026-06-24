@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Lock, Check, ArrowLeft } from 'lucide-react';
+import { Lock, Check, ArrowLeft, Loader2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../data/products';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
+// Initialize Stripe outside component
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const inputClass =
   'w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors';
 const labelClass = 'font-serif text-sm tracking-widest uppercase text-ink/80 block mb-1';
 
-export default function Checkout() {
-  const navigate = useNavigate();
+function CheckoutFormContent({ clientSecret }: { clientSecret: string }) {
+  const stripe = useStripe();
+  const elements = useElements();
   const { items, subtotal, shipping, total, lineTotal, clearCart } = useCart();
+  
   const [placed, setPlaced] = useState(false);
   const [orderEmail, setOrderEmail] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Order confirmation view (shown after placing the order).
+  // Order confirmation view
   if (placed) {
     return (
       <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center">
@@ -39,45 +48,61 @@ export default function Checkout() {
     );
   }
 
-  // Guard: nothing to check out.
-  if (items.length === 0) {
-    return (
-      <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center">
-        <div className="text-center px-6">
-          <h1 className="font-serif text-3xl text-ink mb-4 uppercase tracking-[0.15em] font-light">Your Cart Is Empty</h1>
-          <div className="w-16 h-px bg-olive mx-auto mb-8"></div>
-          <p className="font-sans text-ink/70 mb-8">Add a piece to your cart before checking out.</p>
-          <Link to="/shop" className="inline-flex items-center text-sm font-serif uppercase tracking-widest text-olive hover:text-ink transition-colors">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Shop
-          </Link>
-        </div>
-      </main>
-    );
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setIsProcessing(true);
+    setErrorMessage(null);
+
     const data = new FormData(e.currentTarget);
-    setOrderEmail((data.get('email') as string) || '');
-    clearCart();
-    setPlaced(true);
-    window.scrollTo(0, 0);
+    const email = (data.get('email') as string) || '';
+
+    // Trigger form validation and wallet collection
+    const { error: submitError } = await elements.submit();
+    if (submitError) {
+      setErrorMessage(submitError.message ?? 'Validation failed.');
+      setIsProcessing(false);
+      return;
+    }
+
+    // Confirm the payment
+    const { error } = await stripe.confirmPayment({
+      elements,
+      clientSecret,
+      confirmParams: {
+        receipt_email: email,
+        // We handle redirect manually
+      },
+      redirect: 'if_required',
+    });
+
+    if (error) {
+      setErrorMessage(error.message ?? 'An unexpected error occurred.');
+      setIsProcessing(false);
+    } else {
+      setOrderEmail(email);
+      clearCart();
+      setPlaced(true);
+      window.scrollTo(0, 0);
+    }
   };
 
   return (
     <main className="min-h-screen bg-cream pt-32 pb-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
         <div className="text-center mb-12">
           <h1 className="font-serif text-4xl md:text-5xl text-ink mb-6 uppercase tracking-[0.1em] md:tracking-[0.15em] font-light">Checkout</h1>
           <div className="w-16 h-px bg-olive mx-auto"></div>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-12">
-
           {/* Form fields */}
           <div className="w-full lg:w-7/12 space-y-12">
-
+            
             {/* Contact */}
             <section>
               <h2 className="font-serif text-xl text-ink uppercase tracking-widest mb-6">Contact</h2>
@@ -132,27 +157,17 @@ export default function Checkout() {
               </div>
             </section>
 
-            {/* Payment */}
+            {/* Payment via Stripe */}
             <section>
               <h2 className="font-serif text-xl text-ink uppercase tracking-widest mb-2">Payment</h2>
               <p className="font-sans text-xs text-ink/50 mb-6 flex items-center gap-2">
-                <Lock className="w-3.5 h-3.5" /> All transactions are secure and encrypted.
+                <Lock className="w-3.5 h-3.5" /> All transactions are secure and encrypted via Stripe.
               </p>
               <div className="space-y-6">
-                <div>
-                  <label className={labelClass}>Card Number</label>
-                  <input name="card" type="text" inputMode="numeric" placeholder="1234 5678 9012 3456" required className={inputClass} />
-                </div>
-                <div className="flex flex-col sm:flex-row gap-6">
-                  <div className="w-full sm:w-1/2">
-                    <label className={labelClass}>Expiration (MM/YY)</label>
-                    <input name="expiry" type="text" placeholder="MM/YY" required className={inputClass} />
-                  </div>
-                  <div className="w-full sm:w-1/2">
-                    <label className={labelClass}>CVC</label>
-                    <input name="cvc" type="text" inputMode="numeric" placeholder="123" required className={inputClass} />
-                  </div>
-                </div>
+                <PaymentElement />
+                {errorMessage && (
+                  <div className="text-red-600 text-sm mt-4 font-sans">{errorMessage}</div>
+                )}
               </div>
             </section>
 
@@ -187,7 +202,7 @@ export default function Checkout() {
                       <p className="font-sans text-xs text-ink/50">
                         {item.size ? `${item.size} · ` : ''}
                         {item.option === 'original-prints'
-                          ? `Original + ${item.printQuantity} print${item.printQuantity > 1 ? 's' : ''}`
+                          ? `Original + ${item.printQuantity} print${(item.printQuantity ?? 0) > 1 ? 's' : ''}`
                           : 'Original only'}
                         {item.referenceImageName ? ' · Photo attached' : ''}
                       </p>
@@ -214,9 +229,18 @@ export default function Checkout() {
 
               <button
                 type="submit"
-                className="mt-8 w-full bg-ink text-cream py-4 font-serif uppercase tracking-[0.15em] text-sm hover:bg-olive transition-colors flex items-center justify-center gap-2"
+                disabled={!stripe || isProcessing}
+                className="mt-8 w-full bg-ink text-cream py-4 font-serif uppercase tracking-[0.15em] text-sm hover:bg-olive transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Lock className="w-4 h-4" /> Place Order
+                {isProcessing ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Processing...
+                  </>
+                ) : (
+                  <>
+                    <Lock className="w-4 h-4" /> Place Order
+                  </>
+                )}
               </button>
 
               <Link to="/cart" className="mt-4 inline-flex items-center justify-center w-full text-xs font-serif uppercase tracking-widest text-olive hover:text-ink transition-colors">
@@ -227,5 +251,80 @@ export default function Checkout() {
         </form>
       </div>
     </main>
+  );
+}
+
+export default function Checkout() {
+  const { items, total } = useCart();
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (items.length === 0) return;
+
+    // Fetch client secret from serverless function
+    fetch('/api/create-payment-intent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ items, total }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to initialize payment');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setClientSecret(data.clientSecret);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError('Failed to load payment options. Please try again later.');
+      });
+  }, [items, total]);
+
+  // Guard: nothing to check out.
+  if (items.length === 0) {
+    return (
+      <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center">
+        <div className="text-center px-6">
+          <h1 className="font-serif text-3xl text-ink mb-4 uppercase tracking-[0.15em] font-light">Your Cart Is Empty</h1>
+          <div className="w-16 h-px bg-olive mx-auto mb-8"></div>
+          <p className="font-sans text-ink/70 mb-8">Add a piece to your cart before checking out.</p>
+          <Link to="/shop" className="inline-flex items-center text-sm font-serif uppercase tracking-widest text-olive hover:text-ink transition-colors">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Shop
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center">
+        <div className="text-center px-6">
+          <p className="text-red-500 font-sans">{error}</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!clientSecret) {
+    return (
+      <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-8 h-8 text-olive animate-spin" />
+          <p className="font-sans text-ink/70">Securely loading payment options...</p>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
+      <CheckoutFormContent clientSecret={clientSecret} />
+    </Elements>
   );
 }
