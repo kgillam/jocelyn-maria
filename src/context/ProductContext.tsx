@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Product, allProducts as fallbackProducts, hiddenCategories } from '../data/products';
+import { Product, allProducts as fallbackProducts } from '../data/products';
 
 interface ProductContextType {
   products: Product[];
@@ -33,10 +33,9 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     fetchProducts();
   }, []);
 
-  const visibleProducts = products.filter(p => !hiddenCategories.includes(p.category));
-  
-  // Get unique visible categories
-  const categorySet = new Set(visibleProducts.map(p => p.category));
+  const visibleProducts = products;
+
+  const categorySet = new Set(products.map(p => p.category));
   const categories = ['All Shop', ...Array.from(categorySet)];
 
   const getProductById = (id: number | string) => {
