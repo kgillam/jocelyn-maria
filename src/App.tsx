@@ -8,7 +8,6 @@ import Shop from './pages/Shop';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
-import CheckoutSuccess from './pages/CheckoutSuccess';
 import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
 import CustomCommissionsPage from './pages/CustomCommissionsPage';
@@ -38,7 +37,6 @@ export default function App() {
           <Route path="/shop/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/meet-the-artist" element={<MeetTheArtist />} />
           <Route path="/custom-commissions" element={<CustomCommissionsPage />} />
