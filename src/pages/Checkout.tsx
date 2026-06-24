@@ -6,8 +6,10 @@ import { formatPrice } from '../data/products';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-// Initialize Stripe outside component
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+// Initialize Stripe outside the component. Guard against a missing publishable
+// key so checkout shows a clear message instead of hanging on "loading".
+const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string | undefined;
+const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null;
 
 const inputClass =
   'w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors';
@@ -260,7 +262,7 @@ export default function Checkout() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (items.length === 0) return;
+    if (items.length === 0 || !stripePromise) return;
 
     // Fetch client secret from serverless function
     fetch('/api/create-payment-intent', {
@@ -296,6 +298,16 @@ export default function Checkout() {
           <Link to="/shop" className="inline-flex items-center text-sm font-serif uppercase tracking-widest text-olive hover:text-ink transition-colors">
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Shop
           </Link>
+        </div>
+      </main>
+    );
+  }
+
+  if (!stripePromise) {
+    return (
+      <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center">
+        <div className="text-center px-6">
+          <p className="text-red-500 font-sans">Payment is not configured yet. Please try again later.</p>
         </div>
       </main>
     );
