@@ -61,12 +61,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await put(BLOB_PATH, JSON.stringify(productsData), {
       access: 'public',
       contentType: 'application/json',
-      addRandomSuffix: false, // Override the file
+      addRandomSuffix: false,
+      allowOverwrite: true,
     });
 
     return res.status(200).json({ success: true, products: productsData });
   } catch (error: any) {
+    const message = error?.message || error?.name || String(error) || 'Database operation failed';
     console.error('Product operation failed:', error);
-    return res.status(500).json({ error: error.message || String(error) || 'Database operation failed' });
+    return res.status(500).json({ error: message });
   }
 }
