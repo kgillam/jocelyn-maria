@@ -66,7 +66,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     return res.status(200).json({ success: true, products: productsData });
   } catch (error: any) {
-    console.error(error);
-    return res.status(500).json({ error: error.message || 'Database operation failed' });
+    console.error('Product operation failed:', error);
+    return res.status(500).json({ error: error.message || String(error) || 'Database operation failed' });
   }
 }
