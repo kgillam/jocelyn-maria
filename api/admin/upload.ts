@@ -14,9 +14,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         access: 'public',
       });
       return res.status(200).json(blob);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      return res.status(500).json({ error: 'Upload failed' });
+      return res.status(500).json({ error: error.message || 'Upload failed' });
     }
   }
 
