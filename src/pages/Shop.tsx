@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Filter } from 'lucide-react';
-import { visibleProducts, categories } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import ProductCard from '../components/ProductCard';
 
 export default function Shop() {
+  const { visibleProducts, categories, loading } = useProducts();
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['All Shop']);
 
   const toggleCategory = (item: string) => {

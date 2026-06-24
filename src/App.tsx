@@ -14,6 +14,8 @@ import CustomCommissionsPage from './pages/CustomCommissionsPage';
 import MeetTheArtist from './pages/MeetTheArtist';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -40,7 +42,8 @@ export default function App() {
           <Route path="/custom-commissions" element={<CustomCommissionsPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-and-conditions" element={<TermsConditions />} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Routes>
         <Footer />
         <FloatingOrderButton />

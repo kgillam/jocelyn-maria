@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { visibleProducts, parsePrice, formatPrice } from '../data/products';
+import { parsePrice, formatPrice } from '../data/products';
+import { useProducts } from '../context/ProductContext';
+import { useCart, PurchaseOption } from '../context/CartContext';
 
 export default function CustomCommissions() {
   const [images, setImages] = useState([
@@ -12,6 +14,9 @@ export default function CustomCommissions() {
   ]);
 
   // Quick-order configuration for the house portrait.
+  const [isProcessing, setIsProcessing] = useState(false);
+  
+  const { visibleProducts } = useProducts();
   const housePortrait = visibleProducts.find(p => p.category === 'Watercolor Houses');
   const [quickSize, setQuickSize] = useState<string | undefined>(housePortrait?.sizes?.[0]?.label);
   const selectedQuickSize = housePortrait?.sizes?.find(s => s.label === quickSize);

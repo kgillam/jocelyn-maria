@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, Minus, Plus, ShoppingBag, Check, ArrowLeft, Upload, X, ImageIcon } from 'lucide-react';
-import { getProductById, visibleProducts, parsePrice, formatPrice, PRINT_PRICE } from '../data/products';
+import { parsePrice, formatPrice, PRINT_PRICE } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { useCart, PurchaseOption } from '../context/CartContext';
 import { processReferenceImage, ProcessedImage } from '../utils/image';
 import ProductCard from '../components/ProductCard';
@@ -12,6 +13,7 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { addItem } = useCart();
+  const { getProductById, visibleProducts, loading } = useProducts();
 
   const product = getProductById(id ?? '');
 
@@ -28,6 +30,10 @@ export default function ProductDetail() {
   const [uploadError, setUploadError] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+
+  if (loading) {
+    return <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center"><div className="w-8 h-8 border-2 border-olive border-t-transparent rounded-full animate-spin"></div></main>;
+  }
 
   if (!product) {
     return (

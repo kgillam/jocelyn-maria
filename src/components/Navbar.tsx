@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
-import { visibleProducts } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { InstagramIcon, TikTokIcon, INSTAGRAM_URL, TIKTOK_URL } from './SocialIcons';
 import { useIntroOnce } from '../utils/useIntroOnce';
 
@@ -23,6 +23,7 @@ export default function Navbar() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const { visibleProducts } = useProducts();
   // Play the header entrance on load/refresh only, not on in-app navigation.
   const playIntro = useIntroOnce('header');
   

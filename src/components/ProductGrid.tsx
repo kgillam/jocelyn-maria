@@ -1,11 +1,13 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { visibleProducts } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import ProductCard from './ProductCard';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 export default function ProductGrid() {
+  const { visibleProducts } = useProducts();
+  
   // Show one product from each currently-marketed category.
   const featuredProducts = [
     visibleProducts.find(p => p.category === 'Watercolor Houses'),

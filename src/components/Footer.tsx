@@ -96,7 +96,9 @@ export default function Footer() {
       <div className="border-t border-ivory/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex space-x-4 font-sans text-xs text-ivory/60">
-            <span>&copy; {new Date().getFullYear()} Jocelyn Maria. All rights reserved.</span>
+            <Link to="/admin" className="hover:text-ivory transition-colors">
+              &copy; {new Date().getFullYear()} Jocelyn Maria. All rights reserved.
+            </Link>
           </div>
           <div className="flex space-x-6 font-sans text-xs text-ivory/60">
             <Link to="/privacy-policy" className="hover:text-blush transition-colors">Privacy Policy</Link>
