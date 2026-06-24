@@ -17,7 +17,11 @@ export default function CustomCommissions() {
   const [isProcessing, setIsProcessing] = useState(false);
   
   const { visibleProducts } = useProducts();
-  const housePortrait = visibleProducts.find(p => p.category === 'Watercolor Houses');
+  // Find the house-portrait product by title so this keeps working regardless
+  // of how it's categorized (legacy 'Watercolor Houses' or the new 'Custom').
+  const housePortrait =
+    visibleProducts.find(p => /house/i.test(p.title)) ??
+    visibleProducts.find(p => p.category === 'Watercolor Houses');
   const [quickSize, setQuickSize] = useState<string | undefined>(housePortrait?.sizes?.[0]?.label);
   const selectedQuickSize = housePortrait?.sizes?.find(s => s.label === quickSize);
   const quickPrice = selectedQuickSize

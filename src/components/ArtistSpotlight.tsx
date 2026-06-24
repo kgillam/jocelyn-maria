@@ -34,7 +34,7 @@ export default function ArtistSpotlight() {
       >
         <motion.img 
           src="/Jocelyn%20Maria%20Headshot1.jpg" 
-          alt="Jocelyn Maria" 
+          alt="JocelynMaria" 
           style={{ y: imageY, scale: 1.25 }}
           className="absolute inset-0 w-full h-full object-cover object-[center_30%]" 
         />

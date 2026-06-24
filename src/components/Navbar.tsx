@@ -9,7 +9,7 @@ import { useIntroOnce } from '../utils/useIntroOnce';
 const searchablePages = [
   { name: 'Home', description: 'Return to the homepage', href: '/' },
   { name: 'Shop', description: 'Browse the full collection', href: '/shop' },
-  { name: 'Meet The Artist', description: 'About Jocelyn Maria', href: '/meet-the-artist' },
+  { name: 'Meet The Artist', description: 'About JocelynMaria', href: '/meet-the-artist' },
   { name: 'Gallery', description: 'View past work', href: '/gallery' },
   { name: 'Contact', description: 'Get in touch', href: '/contact' },
   { name: 'Cart', description: 'Review your order', href: '/cart' },
@@ -145,12 +145,12 @@ export default function Navbar() {
                 <div className="relative w-28 h-12 flex items-center justify-center">
                   <img
                     src="/logo/byJocelynMaria-logo.png"
-                    alt="Jocelyn Maria logo"
+                    alt="JocelynMaria logo"
                     className="absolute inset-0 w-full h-full object-contain opacity-30"
                   />
                   <img
                     src="/jocelynmariasignature.png"
-                    alt="Jocelyn Maria"
+                    alt="JocelynMaria"
                     className="relative h-10 md:h-12 w-auto object-contain drop-shadow-sm opacity-90 hover:opacity-100 transition-opacity duration-300"
                   />
                 </div>

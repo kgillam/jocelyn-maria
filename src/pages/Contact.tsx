@@ -105,7 +105,7 @@ export default function Contact() {
                 </a>
                 <a href="#" className="flex items-center space-x-3 group w-fit">
                   <LinkIcon className="w-5 h-5 text-olive group-hover:scale-110 transition-transform" />
-                  <span className="hover:text-olive transition-colors">Pinterest: Jocelyn Maria</span>
+                  <span className="hover:text-olive transition-colors">Pinterest: JocelynMaria</span>
                 </a>
               </div>
             </div>

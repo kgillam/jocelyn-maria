@@ -40,7 +40,7 @@ export default function MeetTheArtist() {
               transition={{ duration: 1 }}
               className="relative rounded-t-full overflow-hidden shadow-2xl border-x-4 border-t-4 border-white aspect-[3/4]"
             >
-              <img src="/jocelynpic1.JPG" alt="Jocelyn Maria Portrait" className="w-full h-full object-cover" />
+              <img src="/jocelynpic1.JPG" alt="JocelynMaria Portrait" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-sage/5 mix-blend-multiply pointer-events-none" />
             </motion.div>
             

@@ -16,7 +16,7 @@ export default function PrivacyPolicy() {
         <div className="space-y-10 font-sans text-ink/70 leading-relaxed text-sm md:text-base">
           <section>
             <p>
-              This Privacy Policy describes how Jocelyn Maria ("we," "us," or "our") collects, uses, and protects your
+              This Privacy Policy describes how JocelynMaria ("we," "us," or "our") collects, uses, and protects your
               information when you visit or make a purchase through this website. By using the site, you agree to the
               practices described below.
             </p>

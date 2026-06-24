@@ -38,7 +38,7 @@ export default function Footer() {
               />
               <img
                 src="/jocelynmariasignature.png"
-                alt="Jocelyn Maria Logo"
+                alt="JocelynMaria Logo"
                 className="relative h-14 md:h-16 w-auto object-contain opacity-90 [filter:brightness(0)_invert(1)]"
               />
             </div>
@@ -97,7 +97,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex space-x-4 font-sans text-xs text-ivory/60">
             <Link to="/admin" className="hover:text-ivory transition-colors">
-              &copy; {new Date().getFullYear()} Jocelyn Maria. All rights reserved.
+              &copy; {new Date().getFullYear()} JocelynMaria. All rights reserved.
             </Link>
           </div>
           <div className="flex space-x-6 font-sans text-xs text-ivory/60">

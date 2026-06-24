@@ -68,7 +68,7 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 2.0, delay: 0.2, ease: "easeInOut" }}
             src="/jocelynmariasignature.png"
-            alt="Jocelyn Maria" 
+            alt="JocelynMaria" 
             className="w-[75%] sm:w-[85%] md:w-[80%] h-auto object-contain opacity-90 my-2 origin-center"
           />
           

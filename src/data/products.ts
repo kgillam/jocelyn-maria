@@ -2,9 +2,17 @@ export interface Product {
   id: number;
   title: string;
   price: string;
+  // Per-print price for Custom pieces that are NOT sold by size. When a product
+  // has sizes, each size carries its own printPrice instead. Falls back to the
+  // sitewide PRINT_PRICE when unset.
+  printPrice?: number;
   images: string[];
+  // Doubles as the descriptor shown on cards/detail: 'Custom' | 'Greeting Card'
+  // | 'Original Painting'. Older entries may use legacy values.
   category: string;
-  type: string;
+  // Legacy descriptor. Kept for backward-compatibility; the admin now mirrors
+  // it from `category` on save so existing reads keep working.
+  type?: string;
   description: string;
   details: string[];
   sizes?: SizeOption[];
@@ -12,7 +20,8 @@ export interface Product {
 
 export interface SizeOption {
   label: string;
-  price: number;
+  price: number;        // price of the original piece at this size
+  printPrice?: number;  // price per print at this size (Custom pieces)
 }
 
 export const allProducts: Product[] = [

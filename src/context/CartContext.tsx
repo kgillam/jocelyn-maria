@@ -8,6 +8,7 @@ export interface CartItem {
   productId: number;
   title: string;
   basePrice: string; // display price of the original piece, e.g. "$65.00"
+  printPrice?: number; // price per print for this line (falls back to PRINT_PRICE)
   image: string;
   type: string;
   option: PurchaseOption;
@@ -23,6 +24,7 @@ export interface AddItemInput {
   printQuantity: number;
   size?: string;
   basePrice?: string; // overrides product.price (e.g. a size-specific price)
+  printPrice?: number; // per-print price for this configuration
   referenceImageName?: string;
   referenceImagePreview?: string;
 }
@@ -81,7 +83,8 @@ function makeLineId(): string {
 
 // Price of a single line: one original piece plus any prints.
 function computeLineTotal(item: CartItem): number {
-  return parsePrice(item.basePrice) + PRINT_PRICE * item.printQuantity;
+  const unit = item.printPrice ?? PRINT_PRICE;
+  return parsePrice(item.basePrice) + unit * item.printQuantity;
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
@@ -97,7 +100,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items]);
 
   const addItem = (input: AddItemInput) => {
-    const { product, option, printQuantity, size, basePrice, referenceImageName, referenceImagePreview } = input;
+    const { product, option, printQuantity, size, basePrice, printPrice, referenceImageName, referenceImagePreview } = input;
     // Each add is its own line item — custom pieces carry a unique reference photo.
     setItems(prev => [
       ...prev,
@@ -106,8 +109,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         productId: product.id,
         title: product.title,
         basePrice: basePrice ?? product.price,
+        printPrice,
         image: product.images[0],
-        type: product.type,
+        type: product.type ?? product.category,
         option,
         printQuantity: option === 'original-prints' ? Math.max(1, printQuantity) : 0,
         size,

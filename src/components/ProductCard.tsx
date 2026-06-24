@@ -91,7 +91,7 @@ export default function ProductCard({ product }: { product: Product; key?: React
       </div>
 
       <div className="text-center mt-auto">
-        <p className="text-[10px] font-sans text-ink/50 uppercase tracking-widest mb-1.5">{product.type}</p>
+        <p className="text-[10px] font-sans text-ink/50 uppercase tracking-widest mb-1.5">{product.type || product.category}</p>
         <Link to={`/shop/${product.id}`} className="block font-serif text-lg text-ink mb-1.5 group-hover:text-olive transition-colors">{product.title}</Link>
         <p className="font-sans text-sm text-ink/80">{product.price}</p>
         <Link

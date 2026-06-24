@@ -16,7 +16,7 @@ export default function TermsConditions() {
         <div className="space-y-10 font-sans text-ink/70 leading-relaxed text-sm md:text-base">
           <section>
             <p>
-              Welcome to Jocelyn Maria. By accessing or using this website and placing an order, you agree to these
+              Welcome to JocelynMaria. By accessing or using this website and placing an order, you agree to these
               Terms &amp; Conditions. Please read them carefully before making a purchase.
             </p>
           </section>
@@ -67,7 +67,7 @@ export default function TermsConditions() {
           <section>
             <h2 className="font-serif text-xl text-ink uppercase tracking-wider mb-3">Intellectual Property</h2>
             <p>
-              All artwork, images, and content on this site are the property of Jocelyn Maria and may not be reproduced,
+              All artwork, images, and content on this site are the property of JocelynMaria and may not be reproduced,
               distributed, or used without prior written permission.
             </p>
           </section>

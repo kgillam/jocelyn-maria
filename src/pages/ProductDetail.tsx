@@ -50,7 +50,7 @@ export default function ProductDetail() {
     );
   }
 
-  const isCustom = product.type === 'Custom';
+  const isCustom = product.category === 'Custom' || product.type === 'Custom';
   // A reference photo is required for made-to-order (custom) pieces.
   const needsReference = isCustom;
   const canAddToCart = !needsReference || reference !== null;
@@ -58,8 +58,11 @@ export default function ProductDetail() {
   // The original's price follows the selected size when the product is sized.
   const selectedSize = product.sizes?.find(s => s.label === size);
   const basePrice = selectedSize ? selectedSize.price : parsePrice(product.price);
+  // Per-print price follows the selected size, then the product, then the
+  // sitewide default.
+  const printUnit = selectedSize?.printPrice ?? product.printPrice ?? PRINT_PRICE;
   const displayedTotal =
-    basePrice + (option === 'original-prints' ? PRINT_PRICE * printCount : 0);
+    basePrice + (option === 'original-prints' ? printUnit * printCount : 0);
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -88,6 +91,7 @@ export default function ProductDetail() {
       printQuantity: option === 'original-prints' ? printCount : 0,
       size,
       basePrice: formatPrice(basePrice),
+      printPrice: printUnit,
       referenceImageName: reference?.name,
       referenceImagePreview: reference?.dataUrl
     });
@@ -188,7 +192,7 @@ export default function ProductDetail() {
 
           {/* Right: Product Info */}
           <div className="w-full lg:w-5/12 flex flex-col">
-            <p className="text-[11px] font-sans text-ink/50 uppercase tracking-widest mb-3">{product.type}</p>
+            <p className="text-[11px] font-sans text-ink/50 uppercase tracking-widest mb-3">{product.type || product.category}</p>
             <h1 className="font-serif text-3xl md:text-4xl text-ink mb-4 font-light">{product.title}</h1>
             <p className="font-sans text-2xl text-ink/90 mb-6">{formatPrice(basePrice)}</p>
 
@@ -243,7 +247,7 @@ export default function ProductDetail() {
                 <button type="button" onClick={() => setOption('original-prints')} className={optionButtonClass(option === 'original-prints')}>
                   <div className="flex items-center justify-between">
                     <span className="font-serif text-base text-ink">Original + Prints</span>
-                    <span className="font-sans text-sm text-ink/80">{formatPrice(basePrice)} + {formatPrice(PRINT_PRICE)}/print</span>
+                    <span className="font-sans text-sm text-ink/80">{formatPrice(basePrice)} + {formatPrice(printUnit)}/print</span>
                   </div>
                   <p className="font-sans text-xs text-ink/50 mt-1">The original piece plus additional prints to share.</p>
 
