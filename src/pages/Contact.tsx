@@ -1,9 +1,56 @@
-import React, { useState } from 'react';
-import { Camera, Mail, MapPin, Instagram, Link as LinkIcon, Send } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Camera, Mail, MapPin, Instagram, Link as LinkIcon, Send, Loader2, Check } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function Contact() {
   const [isHoveringImage, setIsHoveringImage] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus('loading');
+    setErrorMessage('');
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      email: formData.get('email'),
+      inquiryType: formData.get('inquiryType'),
+      message: formData.get('message'),
+    };
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error?.message || result.error || 'Failed to send message.');
+      }
+
+      setStatus('success');
+      formRef.current?.reset();
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setStatus('idle');
+      }, 5000);
+      
+    } catch (error: any) {
+      console.error(error);
+      setStatus('error');
+      setErrorMessage(error.message);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-ivory pt-32 pb-24 texture-overlay">
@@ -67,30 +114,29 @@ export default function Contact() {
 
           {/* Right Column: Detailed Contact Form */}
           <div className="w-full lg:w-7/12">
-            <form className="bg-white/60 backdrop-blur-sm p-8 sm:p-10 shadow-sm border border-sage/20 space-y-8" onSubmit={(e) => e.preventDefault()}>
+            <form ref={formRef} className="bg-white/60 backdrop-blur-sm p-8 sm:p-10 shadow-sm border border-sage/20 space-y-8" onSubmit={handleSubmit}>
               
               <div className="flex flex-col sm:flex-row gap-6">
                 <div className="w-full sm:w-1/2 space-y-2">
                   <label className="font-serif text-sm tracking-widest uppercase text-ink/80 block">First Name</label>
-                  <input type="text" className="w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors" />
+                  <input name="firstName" type="text" required className="w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors" />
                 </div>
                 <div className="w-full sm:w-1/2 space-y-2">
                   <label className="font-serif text-sm tracking-widest uppercase text-ink/80 block">Last Name</label>
-                  <input type="text" className="w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors" />
+                  <input name="lastName" type="text" required className="w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors" />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="font-serif text-sm tracking-widest uppercase text-ink/80 block">Email Address</label>
-                <input type="email" className="w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors" />
+                <input name="email" type="email" required className="w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors" />
               </div>
 
               <div className="space-y-2">
                 <label className="font-serif text-sm tracking-widest uppercase text-ink/80 block">Inquiry Type</label>
-                <select className="w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors cursor-pointer appearance-none rounded-none">
+                <select name="inquiryType" className="w-full bg-transparent border-b border-sage/40 py-2 font-sans text-ink focus:outline-none focus:border-olive transition-colors cursor-pointer appearance-none rounded-none">
                   <option>Custom Commission Quote</option>
                   <option>Order Support</option>
-
                   <option>General Question</option>
                 </select>
               </div>
@@ -108,22 +154,58 @@ export default function Contact() {
                   <span className="font-sans text-sm text-ink/60 group-hover:text-ink/80 transition-colors">
                     Click to upload your home or portrait reference image
                   </span>
-                  <input type="file" className="hidden" accept="image/*" />
+                  <input name="attachment" type="file" className="hidden" accept="image/*" />
                 </label>
+                <p className="text-xs text-ink/50 mt-2 font-sans">
+                  * Note: File attachments are currently disabled for this form. Please email photos directly if needed.
+                </p>
               </div>
 
               <div className="space-y-2">
                 <label className="font-serif text-sm tracking-widest uppercase text-ink/80 block">Your Message</label>
                 <textarea 
+                  name="message"
+                  required
                   rows={4}
                   className="w-full bg-cream/50 border border-sage/40 p-4 font-sans text-sm text-ink focus:outline-none focus:border-olive transition-colors resize-y min-h-[120px]"
                   placeholder="Share the details of your project or your question..."
                 />
               </div>
 
-              <button type="submit" className="w-full bg-ink text-cream py-4 font-serif uppercase tracking-[0.2em] text-sm hover:bg-olive transition-colors flex items-center justify-center space-x-2 group mt-4">
-                <span>Send Message</span>
-                <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              {status === 'error' && (
+                <div className="text-red-500 text-sm font-sans">
+                  {errorMessage}
+                </div>
+              )}
+
+              {status === 'success' && (
+                <div className="text-olive bg-olive/10 p-4 flex items-center gap-3 text-sm font-sans border border-olive/20">
+                  <Check className="w-5 h-5" />
+                  Your message has been sent successfully. We will be in touch soon!
+                </div>
+              )}
+
+              <button 
+                type="submit" 
+                disabled={status === 'loading' || status === 'success'}
+                className="w-full bg-ink text-cream py-4 font-serif uppercase tracking-[0.2em] text-sm hover:bg-olive transition-colors flex items-center justify-center space-x-2 group mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {status === 'loading' ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                    <span>Sending...</span>
+                  </>
+                ) : status === 'success' ? (
+                  <>
+                    <Check className="w-4 h-4 mr-2" />
+                    <span>Sent</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send Message</span>
+                    <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </button>
 
             </form>
