@@ -83,6 +83,21 @@ async function sendOrderEmail(pi: Stripe.PaymentIntent) {
         .join('<br />')
     : esc(m.shipping_address || '—');
 
+  // Reference photo(s): clickable link + embedded preview for each URL.
+  const referenceUrls = String(m.reference_image || '')
+    .split('\n')
+    .map((u) => u.trim())
+    .filter(Boolean);
+  const referenceHtml = referenceUrls.length
+    ? referenceUrls
+        .map(
+          (u) =>
+            `<p><a href="${esc(u)}">${esc(u)}</a></p>` +
+            `<img src="${esc(u)}" alt="Customer reference photo" style="max-width:340px;width:100%;border:1px solid #ddd;border-radius:6px;margin:6px 0" />`
+        )
+        .join('')
+    : '<p>None provided.</p>';
+
   const html = `
     <h2>New Order Received</h2>
     <p style="font-size:18px"><strong>Total Paid: $${amount.toFixed(2)}</strong></p>
@@ -99,6 +114,12 @@ async function sendOrderEmail(pi: Stripe.PaymentIntent) {
 
     <h3>Items (${esc(m.item_count) || '0'})</h3>
     <p>${esc(m.items) || '—'}</p>
+
+    <h3>Print Selections</h3>
+    <p>${esc(m.prints) || 'None'}</p>
+
+    <h3>Reference Photo${referenceUrls.length > 1 ? 's' : ''}</h3>
+    ${referenceHtml}
 
     <h3>Note for the Artist</h3>
     <p>${m.artist_note ? esc(m.artist_note).replace(/\n/g, '<br />') : '—'}</p>

@@ -44,6 +44,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       })
       .join('; ');
 
+    // Clear, dedicated print-selection summary.
+    const printsSummary =
+      itemList
+        .filter((i) => i.option === 'original-prints' && Number(i.printQuantity) > 0)
+        .map(
+          (i) =>
+            `${i.title}${i.size ? ` (${i.size})` : ''}: ${i.printQuantity} print${
+              Number(i.printQuantity) > 1 ? 's' : ''
+            }`
+        )
+        .join('; ') || 'None';
+
+    // Reference photo URL(s) uploaded to Blob (newline-separated if multiple).
+    const referenceImages = itemList
+      .map((i) => i.referenceImageUrl)
+      .filter(Boolean)
+      .join('\n');
+
     const shippingLine = [
       cust.address,
       cust.address2,
@@ -63,6 +81,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       shipping_address: truncate(shippingLine),
       items: truncate(itemSummary),
       item_count: String(itemList.length),
+      prints: truncate(printsSummary),
+      reference_image: truncate(referenceImages),
       artist_note: truncate(artistNote),
     };
 

@@ -102,7 +102,39 @@ function CheckoutFormContent({ onSuccess }: { onSuccess: (email: string) => void
       return;
     }
 
-    // 2) Create the PaymentIntent server-side WITH full order details, then
+    // 2) Upload any reference photos to Blob so a small URL (not a bulky data
+    //    URL) can travel in the order metadata. Non-fatal if an upload fails.
+    const lineItems = await Promise.all(
+      items.map(async (i) => {
+        let referenceImageUrl = '';
+        if (i.referenceImagePreview) {
+          try {
+            const up = await fetch('/api/upload-reference', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                dataUrl: i.referenceImagePreview,
+                filename: i.referenceImageName || 'reference.jpg',
+              }),
+            });
+            const upData = await up.json().catch(() => ({}));
+            if (up.ok && upData.url) referenceImageUrl = upData.url;
+          } catch {
+            /* non-fatal — proceed without the reference URL */
+          }
+        }
+        return {
+          title: i.title,
+          size: i.size,
+          option: i.option,
+          printQuantity: i.printQuantity,
+          referenceImageName: i.referenceImageName,
+          referenceImageUrl,
+        };
+      })
+    );
+
+    // 3) Create the PaymentIntent server-side WITH full order details, then
     //    confirm it — deferred-intent flow, so we capture the customer's info
     //    before the intent exists.
     let clientSecret: string;
@@ -110,17 +142,7 @@ function CheckoutFormContent({ onSuccess }: { onSuccess: (email: string) => void
       const res = await fetch('/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: items.map((i) => ({
-            title: i.title,
-            size: i.size,
-            option: i.option,
-            printQuantity: i.printQuantity,
-          })),
-          total,
-          customer,
-          artistNote,
-        }),
+        body: JSON.stringify({ items: lineItems, total, customer, artistNote }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.clientSecret) {
@@ -135,7 +157,7 @@ function CheckoutFormContent({ onSuccess }: { onSuccess: (email: string) => void
       return;
     }
 
-    // 3) Confirm on-page (no redirect for cards).
+    // 4) Confirm on-page (no redirect for cards).
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
