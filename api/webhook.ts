@@ -129,7 +129,7 @@ async function sendOrderEmail(pi: Stripe.PaymentIntent) {
   `;
 
   await resend.emails.send({
-    from: 'hello@jocelynmaria.com',
+    from: 'JocelynMaria <hello@jocelynmaria.com>',
     to: 'byjocelynmaria@gmail.com',
     replyTo: m.customer_email || undefined,
     subject: `New Order — ${m.customer_name || 'Customer'} ($${amount.toFixed(2)})`,
