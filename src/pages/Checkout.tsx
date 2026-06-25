@@ -42,8 +42,8 @@ function OrderConfirmation({ email }: { email: string }) {
         </p>
         <p className="font-sans text-ink/70 leading-relaxed mb-10">
           Have any questions about your order? I'd love to hear from you — just reach out anytime at{' '}
-          <a href="mailto:hello@jocelynmaria.com" className="text-olive underline hover:text-ink transition-colors">
-            hello@jocelynmaria.com
+          <a href="mailto:byjocelynmaria@gmail.com" className="text-olive underline hover:text-ink transition-colors">
+            byjocelynmaria@gmail.com
           </a>.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

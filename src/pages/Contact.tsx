@@ -83,7 +83,7 @@ export default function Contact() {
                   <Mail className="w-5 h-5 text-olive mt-0.5 group-hover:scale-110 transition-transform" />
                   <div>
                     <span className="block text-sm uppercase tracking-wider mb-1 font-semibold">Email</span>
-                    <a href="mailto:hello@jocelynmaria.com" className="hover:text-olive transition-colors">hello@jocelynmaria.com</a>
+                    <a href="mailto:byjocelynmaria@gmail.com" className="hover:text-olive transition-colors">byjocelynmaria@gmail.com</a>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3 group pt-2">
