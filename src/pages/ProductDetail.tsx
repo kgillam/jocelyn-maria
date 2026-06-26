@@ -30,6 +30,7 @@ export default function ProductDetail() {
   const [uploadError, setUploadError] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
 
   if (loading) {
     return <main className="min-h-screen bg-cream pt-32 pb-24 flex items-center justify-center"><div className="w-8 h-8 border-2 border-olive border-t-transparent rounded-full animate-spin"></div></main>;
@@ -94,6 +95,7 @@ export default function ProductDetail() {
       size,
       basePrice: formatPrice(basePrice),
       printPrice: printUnit,
+      selectedOptions: Object.keys(selectedOptions).length > 0 ? selectedOptions : undefined,
       referenceImageName: reference?.name,
       referenceImagePreview: reference?.dataUrl
     });
@@ -231,6 +233,33 @@ export default function ProductDetail() {
                     </button>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Product options selector (e.g., Background type) */}
+            {product.options && product.options.length > 0 && (
+              <div className="mb-8 space-y-5">
+                {product.options.map(opt => (
+                  <div key={opt.name}>
+                    <p className="font-serif text-sm tracking-widest uppercase text-ink/80 mb-3">{opt.name}</p>
+                    <div className="flex flex-wrap gap-3">
+                      {opt.choices.map(choice => (
+                        <button
+                          key={choice}
+                          type="button"
+                          onClick={() => setSelectedOptions(prev => ({ ...prev, [opt.name]: choice }))}
+                          className={`px-5 py-2.5 border font-sans text-sm transition-colors ${
+                            selectedOptions[opt.name] === choice
+                              ? 'border-olive bg-olive/5 text-ink'
+                              : 'border-sage/40 text-ink/70 hover:border-sage/70'
+                          }`}
+                        >
+                          {choice}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
 

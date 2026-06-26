@@ -111,6 +111,11 @@ function formFromProduct(p: Product): FormState {
       price: s.price,
       printPrice: s.printPrice ?? '',
     })),
+    options: (p.options ?? []).map(o => ({
+      name: o.name,
+      choices: o.choices.join(', '),
+    })),
+    active: p.active ?? true,
   };
 }
 
@@ -174,6 +179,41 @@ export default function AdminDashboard() {
   const removeSizeRow = (index: number) =>
     setForm(prev => (prev ? { ...prev, sizes: prev.sizes.filter((_, i) => i !== index) } : prev));
 
+  const updateOption = (index: number, patch: Partial<OptionRow>) =>
+    setForm(prev =>
+      prev
+        ? { ...prev, options: prev.options.map((o, i) => (i === index ? { ...o, ...patch } : o)) }
+        : prev
+    );
+
+  const addOptionRow = () =>
+    setForm(prev =>
+      prev ? { ...prev, options: [...prev.options, { name: '', choices: '' }] } : prev
+    );
+
+  const removeOptionRow = (index: number) =>
+    setForm(prev => (prev ? { ...prev, options: prev.options.filter((_, i) => i !== index) } : prev));
+
+  const moveImageUp = (index: number) => {
+    if (index <= 0) return;
+    setForm(prev => {
+      if (!prev) return prev;
+      const newImages = [...prev.images];
+      [newImages[index - 1], newImages[index]] = [newImages[index], newImages[index - 1]];
+      return { ...prev, images: newImages };
+    });
+  };
+
+  const moveImageDown = (index: number) => {
+    if (!form || index >= form.images.length - 1) return;
+    setForm(prev => {
+      if (!prev) return prev;
+      const newImages = [...prev.images];
+      [newImages[index], newImages[index + 1]] = [newImages[index + 1], newImages[index]];
+      return { ...prev, images: newImages };
+    });
+  };
+
   const buildProduct = (f: FormState): Product => {
     const cleanSizes = f.sizes
       .filter(s => s.label.trim() && s.price !== '')
@@ -193,6 +233,17 @@ export default function AdminDashboard() {
       ? Math.min(...cleanSizes.map(s => s.price))
       : Number(f.price || 0);
 
+    // Parse options: split comma-separated choices and filter empty rows
+    const cleanOptions = f.options
+      .filter(o => o.name.trim() && o.choices.trim())
+      .map(o => ({
+        name: o.name.trim(),
+        choices: o.choices
+          .split(',')
+          .map(c => c.trim())
+          .filter(Boolean),
+      }));
+
     return {
       id: f.id as number, // ignored by the API on create
       title: f.title.trim(),
@@ -202,6 +253,8 @@ export default function AdminDashboard() {
       images: f.images,
       details: f.details.map(s => s.trim()).filter(Boolean),
       price: formatPrice(basePrice),
+      active: f.active,
+      ...(cleanOptions.length > 0 ? { options: cleanOptions } : {}),
       ...(f.category === 'Custom' && !sized && f.printPrice !== ''
         ? { printPrice: Number(f.printPrice) }
         : {}),
@@ -490,19 +543,117 @@ export default function AdminDashboard() {
                 />
               </div>
 
+              {/* Options (e.g., Background type, Size variant) */}
+              <div>
+                <label className={labelClass}>Product Options (optional)</label>
+                <p className="text-xs text-ink/50 -mt-1 mb-3">
+                  Add custom selectable options (e.g., Background type). Customers will choose from these on the product page.
+                </p>
+
+                {form.options.length > 0 && (
+                  <div className="space-y-3 mb-3">
+                    {form.options.map((o, i) => (
+                      <div key={i} className="flex flex-wrap items-end gap-3">
+                        <div className="flex-1 min-w-[180px]">
+                          <span className="block text-[11px] uppercase tracking-widest text-ink/50 mb-1">
+                            Option Name
+                          </span>
+                          <input
+                            type="text"
+                            placeholder='e.g. Background'
+                            value={o.name}
+                            onChange={e => updateOption(i, { name: e.target.value })}
+                            className={inputClass}
+                          />
+                        </div>
+                        <div className="flex-1 min-w-[180px]">
+                          <span className="block text-[11px] uppercase tracking-widest text-ink/50 mb-1">
+                            Choices (comma-separated)
+                          </span>
+                          <input
+                            type="text"
+                            placeholder='e.g. White, Cream, Sage Green'
+                            value={o.choices}
+                            onChange={e => updateOption(i, { choices: e.target.value })}
+                            className={inputClass}
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => removeOptionRow(i)}
+                          aria-label="Remove option"
+                          className="text-red-400 hover:text-red-600 transition-colors p-2"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={addOptionRow}
+                  className="inline-flex items-center text-sm text-olive hover:text-ink transition-colors"
+                >
+                  <Plus className="w-4 h-4 mr-1" /> Add option
+                </button>
+              </div>
+
+              {/* Visibility Toggle */}
+              <div className="flex items-center gap-3 p-4 bg-cream border border-sage/20">
+                <input
+                  type="checkbox"
+                  id="active"
+                  checked={form.active}
+                  onChange={e => updateForm({ active: e.target.checked })}
+                  className="w-5 h-5 cursor-pointer"
+                />
+                <label htmlFor="active" className="flex-1 cursor-pointer font-sans text-sm text-ink/80">
+                  {form.active ? '✓ Product is active' : '✗ Product is hidden'} — Show this product in the shop
+                </label>
+              </div>
+
               {/* Images */}
               <div>
                 <label className={labelClass}>Images</label>
+                <p className="text-xs text-ink/50 -mt-1 mb-3">
+                  The first image is shown as the product thumbnail in the shop. Use arrow buttons to reorder.
+                </p>
                 <div className="flex flex-wrap gap-4 mb-4">
                   {form.images.map((img, i) => (
-                    <div key={i} className="relative w-24 h-24 border border-sage/20 bg-cream group">
-                      <img src={img} alt="Product" className="w-full h-full object-contain" />
+                    <div key={i} className="relative group">
+                      <div className="w-24 h-24 border border-sage/20 bg-cream">
+                        <img src={img} alt="Product" className="w-full h-full object-contain" />
+                      </div>
+                      {/* Reorder and delete buttons */}
+                      <div className="absolute top-0 right-0 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          type="button"
+                          onClick={() => moveImageUp(i)}
+                          disabled={i === 0}
+                          aria-label="Move image up"
+                          className="bg-white rounded-full p-1 shadow-sm hover:bg-olive disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                        >
+                          <ChevronUp className="w-3.5 h-3.5 text-ink" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => moveImageDown(i)}
+                          disabled={i === form.images.length - 1}
+                          aria-label="Move image down"
+                          className="bg-white rounded-full p-1 shadow-sm hover:bg-olive disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                        >
+                          <ChevronDown className="w-3.5 h-3.5 text-ink" />
+                        </button>
+                      </div>
+                      {/* Delete button */}
                       <button
                         type="button"
                         onClick={() =>
                           updateForm({ images: form.images.filter((_, index) => index !== i) })
                         }
-                        className="absolute top-1 right-1 bg-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                        className="absolute bottom-1 right-1 bg-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
                       >
                         <Trash2 className="w-3 h-3 text-red-500" />
                       </button>
@@ -565,6 +716,7 @@ export default function AdminDashboard() {
                     <th className="px-6 py-4">Title</th>
                     <th className="px-6 py-4">Category</th>
                     <th className="px-6 py-4">Price</th>
+                    <th className="px-6 py-4 text-center">Status</th>
                     <th className="px-6 py-4 text-right">Actions</th>
                   </tr>
                 </thead>
@@ -572,10 +724,12 @@ export default function AdminDashboard() {
                   {products.map(product => (
                     <tr
                       key={product.id}
-                      className="border-b border-sage/10 hover:bg-ivory/50 transition-colors"
+                      className={`border-b border-sage/10 transition-colors ${
+                        product.active === false ? 'bg-ivory/30 opacity-60' : 'hover:bg-ivory/50'
+                      }`}
                     >
                       <td className="px-6 py-3">
-                        <div className="w-12 h-12 bg-cream border border-sage/20">
+                        <div className={`w-12 h-12 bg-cream border border-sage/20 ${product.active === false ? 'opacity-50' : ''}`}>
                           {product.images && product.images.length > 0 && (
                             <img
                               src={product.images[0]}
@@ -585,12 +739,41 @@ export default function AdminDashboard() {
                           )}
                         </div>
                       </td>
-                      <td className="px-6 py-3 font-medium text-ink">{product.title}</td>
+                      <td className="px-6 py-3 font-medium text-ink">
+                        {product.title}
+                        {product.active === false && (
+                          <span className="ml-2 inline-block px-2 py-0.5 bg-olive/20 text-olive text-[10px] font-sans uppercase tracking-wider rounded">
+                            Hidden
+                          </span>
+                        )}
+                      </td>
                       <td className="px-6 py-3">{product.category}</td>
                       <td className="px-6 py-3">
                         {product.sizes && product.sizes.length > 0
                           ? `from ${product.price}`
                           : product.price}
+                      </td>
+                      <td className="px-6 py-3 text-center">
+                        <button
+                          onClick={() => {
+                            const updated = { ...product, active: !product.active };
+                            fetch('/api/admin/products', {
+                              method: 'PUT',
+                              headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                              body: JSON.stringify(updated),
+                            }).then(res => {
+                              if (res.ok) fetchProducts();
+                            });
+                          }}
+                          aria-label={product.active === false ? 'Show product' : 'Hide product'}
+                          className="text-olive hover:text-ink transition-colors"
+                        >
+                          {product.active === false ? (
+                            <EyeOff className="w-4 h-4" />
+                          ) : (
+                            <Eye className="w-4 h-4" />
+                          )}
+                        </button>
                       </td>
                       <td className="px-6 py-3 text-right">
                         <button
@@ -617,8 +800,8 @@ export default function AdminDashboard() {
             {/* Mobile: stacked cards — no horizontal scroll */}
             <div className="md:hidden divide-y divide-sage/10">
               {products.map(product => (
-                <div key={product.id} className="flex items-center gap-3 p-4">
-                  <div className="w-16 h-16 flex-shrink-0 bg-cream border border-sage/20">
+                <div key={product.id} className={`flex items-center gap-3 p-4 transition-colors ${product.active === false ? 'bg-ivory/30 opacity-60' : ''}`}>
+                  <div className={`w-16 h-16 flex-shrink-0 bg-cream border border-sage/20 ${product.active === false ? 'opacity-50' : ''}`}>
                     {product.images && product.images.length > 0 && (
                       <img
                         src={product.images[0]}
@@ -628,7 +811,14 @@ export default function AdminDashboard() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-ink truncate">{product.title}</p>
+                    <p className="font-medium text-ink truncate">
+                      {product.title}
+                      {product.active === false && (
+                        <span className="ml-2 inline-block px-1.5 py-0.5 bg-olive/20 text-olive text-[9px] font-sans uppercase tracking-wider rounded">
+                          Hidden
+                        </span>
+                      )}
+                    </p>
                     <p className="text-xs text-ink/60">{product.category}</p>
                     <p className="text-sm text-ink/80">
                       {product.sizes && product.sizes.length > 0
@@ -636,7 +826,27 @@ export default function AdminDashboard() {
                         : product.price}
                     </p>
                   </div>
-                  <div className="flex items-center flex-shrink-0">
+                  <div className="flex items-center flex-shrink-0 gap-1">
+                    <button
+                      onClick={() => {
+                        const updated = { ...product, active: !product.active };
+                        fetch('/api/admin/products', {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                          body: JSON.stringify(updated),
+                        }).then(res => {
+                          if (res.ok) fetchProducts();
+                        });
+                      }}
+                      aria-label={product.active === false ? 'Show product' : 'Hide product'}
+                      className="text-olive hover:text-ink p-2.5 transition-colors"
+                    >
+                      {product.active === false ? (
+                        <EyeOff className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
+                    </button>
                     <button
                       onClick={() => setForm(formFromProduct(product))}
                       aria-label="Edit product"
