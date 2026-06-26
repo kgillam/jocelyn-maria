@@ -68,6 +68,15 @@ export default function Cart() {
                               ? `Original + ${item.printQuantity} print${item.printQuantity > 1 ? 's' : ''}`
                               : 'Original piece only'}
                           </p>
+                          {item.selectedOptions && Object.keys(item.selectedOptions).length > 0 && (
+                            <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1">
+                              {Object.entries(item.selectedOptions).map(([name, choice]) => (
+                                <span key={name} className="font-sans text-xs text-ink/50">
+                                  {name}: <span className="text-ink/70">{choice}</span>
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                         <button
                           onClick={() => removeItem(item.lineId)}

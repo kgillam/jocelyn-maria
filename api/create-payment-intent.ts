@@ -40,7 +40,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           i.option === 'original-prints' && Number(i.printQuantity) > 0
             ? ` + ${i.printQuantity} print${Number(i.printQuantity) > 1 ? 's' : ''}`
             : '';
-        return `${i.title}${size}${prints}`;
+        const opts = i.selectedOptions && typeof i.selectedOptions === 'object'
+          ? Object.entries(i.selectedOptions as Record<string, string>)
+              .map(([k, v]) => `${k}: ${v}`)
+              .join(', ')
+          : '';
+        const optStr = opts ? ` (${opts})` : '';
+        return `${i.title}${size}${prints}${optStr}`;
       })
       .join('; ');
 

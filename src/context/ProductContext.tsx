@@ -33,7 +33,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     fetchProducts();
   }, []);
 
-  const visibleProducts = products;
+  const visibleProducts = products.filter(p => p.active !== false);
 
   const categorySet = new Set(products.map(p => p.category));
   const categories = ['All Shop', ...Array.from(categorySet)];

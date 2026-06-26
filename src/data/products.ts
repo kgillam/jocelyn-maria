@@ -1,3 +1,8 @@
+export interface ProductOption {
+  name: string;      // e.g. "Background"
+  choices: string[];  // e.g. ["White", "Cream", "Sage Green"]
+}
+
 export interface Product {
   id: number;
   title: string;
@@ -16,6 +21,12 @@ export interface Product {
   description: string;
   details: string[];
   sizes?: SizeOption[];
+  // Whether this product is visible on the storefront. Defaults to true when
+  // omitted, so all existing products remain visible without a migration.
+  active?: boolean;
+  // Custom selectable options (e.g. background type). Each option has a name
+  // and a list of choices the customer picks from on the product detail page.
+  options?: ProductOption[];
 }
 
 export interface SizeOption {

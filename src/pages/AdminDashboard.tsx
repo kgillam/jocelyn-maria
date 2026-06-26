@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Plus, Edit2, Trash2, Image as ImageIcon, Loader2 } from 'lucide-react';
-import { Product, parsePrice, formatPrice } from '../data/products';
+import { LogOut, Plus, Edit2, Trash2, Image as ImageIcon, Loader2, ChevronUp, ChevronDown, Eye, EyeOff } from 'lucide-react';
+import { Product, ProductOption, parsePrice, formatPrice } from '../data/products';
 
 const CATEGORIES = ['Custom', 'Greeting Card', 'Original Painting'] as const;
 
@@ -14,6 +14,11 @@ interface SizeRow {
   printPrice: Num;
 }
 
+interface OptionRow {
+  name: string;
+  choices: string; // comma-separated in the form, split on save
+}
+
 interface FormState {
   id?: number;
   title: string;
@@ -24,6 +29,8 @@ interface FormState {
   price: Num;        // base price, used when there are no sizes
   printPrice: Num;   // base per-print price (Custom, no sizes)
   sizes: SizeRow[];
+  options: OptionRow[];
+  active: boolean;
 }
 
 // Map any stored category/type onto the current three-option taxonomy.
@@ -52,6 +59,8 @@ function blankForm(): FormState {
     price: '',
     printPrice: '',
     sizes: [],
+    options: [],
+    active: true,
   };
 }
 

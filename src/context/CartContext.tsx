@@ -14,6 +14,7 @@ export interface CartItem {
   option: PurchaseOption;
   printQuantity: number; // number of prints (0 when option === 'original')
   size?: string;
+  selectedOptions?: Record<string, string>; // e.g. { "Background": "Cream" }
   referenceImageName?: string;
   referenceImagePreview?: string; // downscaled data URL
 }
@@ -25,6 +26,7 @@ export interface AddItemInput {
   size?: string;
   basePrice?: string; // overrides product.price (e.g. a size-specific price)
   printPrice?: number; // per-print price for this configuration
+  selectedOptions?: Record<string, string>;
   referenceImageName?: string;
   referenceImagePreview?: string;
 }
@@ -101,7 +103,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items]);
 
   const addItem = (input: AddItemInput) => {
-    const { product, option, printQuantity, size, basePrice, printPrice, referenceImageName, referenceImagePreview } = input;
+    const { product, option, printQuantity, size, basePrice, printPrice, selectedOptions, referenceImageName, referenceImagePreview } = input;
     // Each add is its own line item — custom pieces carry a unique reference photo.
     setItems(prev => [
       ...prev,
@@ -116,6 +118,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         option,
         printQuantity: option === 'original-prints' ? Math.max(1, printQuantity) : 0,
         size,
+        selectedOptions,
         referenceImageName,
         referenceImagePreview
       }
