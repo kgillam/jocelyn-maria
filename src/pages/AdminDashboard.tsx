@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { LogOut, Plus, Edit2, Trash2, Image as ImageIcon, Loader2, ChevronUp, ChevronDown, Eye, EyeOff } from 'lucide-react';
 import { Product, ProductOption, parsePrice, formatPrice } from '../data/products';
 
-const CATEGORIES = ['Custom', 'Greeting Card', 'Original Painting'] as const;
+const CATEGORIES = ['Custom', 'Greeting Card', 'Art Print'] as const;
 
 // Number-or-empty so the price inputs can be cleared while editing.
 type Num = number | '';
@@ -44,7 +44,7 @@ function resolveCategory(product: Partial<Product>): string {
     Cards: 'Greeting Card',
     'Watercolor Houses': 'Custom',
     Portraits: 'Custom',
-    'Original Paintings': 'Original Painting',
+    'Original Paintings': 'Art Print',
   };
   return legacy[product.category ?? ''] ?? 'Custom';
 }

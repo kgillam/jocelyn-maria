@@ -119,8 +119,8 @@ const defaultProducts = [
     images: [
       '/MistyMountains.png'
     ],
-    category: 'Original Paintings',
-    type: 'Original Painting',
+    category: 'Art Prints',
+    type: 'Art Print',
     description: "An original one-of-a-kind watercolor landscape of layered, misty peaks. Signed by the artist and ready to frame.",
     details: [
       'Original hand-painted watercolor (not a print)',

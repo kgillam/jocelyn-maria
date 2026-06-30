@@ -146,8 +146,8 @@ export const allProducts: Product[] = [
     images: [
       '/MistyMountains.png'
     ],
-    category: 'Original Paintings',
-    type: 'Original Painting',
+    category: 'Art Prints',
+    type: 'Art Print',
     description: "An original one-of-a-kind watercolor landscape of layered, misty peaks. Signed by the artist and ready to frame.",
     details: [
       'Original hand-painted watercolor (not a print)',
@@ -161,9 +161,9 @@ export const allProducts: Product[] = [
 // Categories temporarily hidden from the storefront. The client is currently
 // only marketing Custom Watercolor House Portraits & Custom Portraits.
 // Remove entries here to re-enable them in the Featured section and Shop page.
-export const hiddenCategories = ['Cards', 'Original Paintings'];
+export const hiddenCategories = ['Cards', 'Art Prints'];
 
-const allCategories = ['All Shop', 'Cards', 'Watercolor Houses', 'Portraits', 'Original Paintings'];
+const allCategories = ['All Shop', 'Cards', 'Watercolor Houses', 'Portraits', 'Art Prints'];
 
 // Products and category filters shown across the storefront (Featured + Shop).
 export const visibleProducts = allProducts.filter(p => !hiddenCategories.includes(p.category));
